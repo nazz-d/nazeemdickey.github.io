@@ -1,43 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Nazeem Dickey - IT Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nazeem Dickey | IT Portfolio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <p class="tagline">IT Support • Networking • Cybersecurity Homelab</p>
+  <header class="nav">
+    <a href="index.html" class="brand">ND</a>
 
-    <h1>Nazeem Dickey</h1>
-    <h2>Entry-Level IT Support / Network Technician</h2>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <p>
-      I build and maintain a Proxmox-based homelab with an OPNsense edge firewall,
-      managing DHCP, DNS, subnetting, and secure remote access. I deploy Linux
-      containers, Docker services, and internal applications while focusing on
-      network security, access control, and system reliability.
-    </p>
+  <main class="page">
 
-    <div class="buttons">
-      <a href="homelab.html" class="button">View Homelab Project</a>
-      <a href="https://github.com/nazz-d" class="button secondary">GitHub</a>
-    </div>
+    <section class="hero card">
+      <p class="tagline">IT Support • Networking • Cybersecurity Homelab</p>
 
-    <h3>Featured Project</h3>
-    <div class="project-card">
-      <h4>Proxmox + OPNsense Homelab</h4>
-      <p>
-        A virtualized infrastructure lab using Proxmox VE, OPNsense, Docker,
-        Linux containers, secure remote access, and network segmentation.
+      <h1>Nazeem Dickey</h1>
+      <h2>Entry-Level IT Support / Network Technician</h2>
+
+      <p class="hero-text">
+        I build and maintain a Proxmox-based homelab with an OPNsense edge firewall,
+        managing DHCP, DNS, subnetting, secure remote access, and virtualized services.
+        My focus is practical IT support, network troubleshooting, infrastructure
+        documentation, and security-minded system administration.
       </p>
-      <a href="homelab.html">Read project breakdown →</a>
-    </div>
 
-    <h3>Contact</h3>
-    <p>Email: your email</p>
-    <p>GitHub: <a href="https://github.com/nazz-d">github.com/nazz-d</a></p>
-  </div>
+      <div class="buttons">
+        <a href="homelab.html" class="button">View Homelab Project</a>
+        <a href="resume.html" class="button secondary">View Resume</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+
+      <div class="quick-stats">
+        <div class="stat">
+          <span>Certifications</span>
+          <strong>A+ • Net+ • Sec+ • CySA+</strong>
+        </div>
+
+        <div class="stat">
+          <span>Core Focus</span>
+          <strong>Networking • Virtualization • Security</strong>
+        </div>
+
+        <div class="stat">
+          <span>Homelab Stack</span>
+          <strong>Proxmox • OPNsense • Wazuh</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-header">
+        <h2>Featured Projects</h2>
+        <p>Hands-on infrastructure work documented like real IT projects.</p>
+      </div>
+
+      <div class="project-grid">
+
+        <a href="homelab.html" class="project-card">
+          <div class="project-top">
+            <span class="project-icon">▣</span>
+            <span class="project-type">Infrastructure</span>
+          </div>
+
+          <h3>Proxmox + OPNsense Homelab</h3>
+          <p>
+            Designed a virtualized homelab with OPNsense edge routing, Cisco switching,
+            Proxmox hosts, NAS storage, backup services, VLAN-aware segmentation, and
+            internal applications.
+          </p>
+
+          <div class="chip-row">
+            <span class="chip">Proxmox</span>
+            <span class="chip">OPNsense</span>
+            <span class="chip">DHCP/DNS</span>
+            <span class="chip">Networking</span>
+          </div>
+
+          <span class="card-link">Read project breakdown →</span>
+        </a>
+
+        <a href="wazuh.html" class="project-card">
+          <div class="project-top">
+            <span class="project-icon">◇</span>
+            <span class="project-type">Security Monitoring</span>
+          </div>
+
+          <h3>Wazuh Monitoring Lab</h3>
+          <p>
+            Built a security monitoring lab to practice log collection, endpoint visibility,
+            alert review, authentication monitoring, and basic incident investigation
+            workflows.
+          </p>
+
+          <div class="chip-row">
+            <span class="chip">Wazuh</span>
+            <span class="chip">Linux</span>
+            <span class="chip">Windows</span>
+            <span class="chip">Logs</span>
+          </div>
+
+          <span class="card-link">Read project breakdown →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="section card">
+      <div class="section-header">
+        <h2>Technical Skills</h2>
+        <p>Skills I am actively building through school, certifications, freelance support, and homelab work.</p>
+      </div>
+
+      <div class="skill-grid">
+        <div class="skill-box">
+          <h3>Networking</h3>
+          <p>TCP/IP, subnetting, DHCP, DNS, routing, firewall rules, VLAN concepts, remote access, and troubleshooting.</p>
+        </div>
+
+        <div class="skill-box">
+          <h3>Systems</h3>
+          <p>Proxmox VE, Linux, Windows, LXC containers, Docker services, NAS storage, backups, and hardware support.</p>
+        </div>
+
+        <div class="skill-box">
+          <h3>Security</h3>
+          <p>OPNsense, Wazuh, access control, authentication monitoring, secure remote access, and basic incident analysis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section card contact-card">
+      <div>
+        <h2>Contact</h2>
+        <p>
+          I am looking for entry-level IT support, network technician, junior infrastructure,
+          help desk, MSP, NOC, or SOC internship opportunities.
+        </p>
+      </div>
+
+      <div class="contact-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="resume.html" class="button secondary">Resume</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Built with HTML, CSS, GitHub Pages, and a lot of homelab troubleshooting.</p>
+  </footer>
 
 </body>
 </html>
