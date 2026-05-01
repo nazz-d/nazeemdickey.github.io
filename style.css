@@ -177,6 +177,21 @@ p {
   border-color: rgba(56, 189, 248, 0.5);
 }
 
+.contact-line {
+  margin-top: 22px;
+  color: #cbd5e1;
+  font-size: 1rem;
+}
+
+.contact-line a {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.contact-line a:hover {
+  text-decoration: underline;
+}
+
 .quick-stats {
   margin-top: 34px;
   display: grid;
@@ -380,12 +395,6 @@ p {
 
 .list-clean li {
   margin-bottom: 6px;
-}
-
-.small-note {
-  margin-top: 18px;
-  color: #94a3b8;
-  font-size: 0.95rem;
 }
 
 .back-link {
