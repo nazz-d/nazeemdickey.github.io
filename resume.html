@@ -11,9 +11,10 @@
   <header class="nav">
     <a href="index.html" class="brand">ND</a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
       <a href="resume.html">Resume</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -25,21 +26,23 @@
       <p class="tagline">Resume</p>
 
       <h1>Nazeem Dickey</h1>
-      <h2>Entry-Level IT Support / Network Technician</h2>
+      <h2>IT &amp; Cybersecurity Professional</h2>
 
       <p class="hero-text">
-        Hands-on IT student focused on networking, infrastructure, security monitoring,
-        virtualization, remote support, and system troubleshooting.
+        Highly motivated IT professional and homelab engineer with hands-on experience
+        in virtualization, network security, physical infrastructure, subnetting, and
+        system administration.
       </p>
 
       <div class="buttons">
         <a href="resume.pdf" class="button">Download Resume PDF</a>
         <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
 
       <p class="contact-line" id="emailText" aria-live="polite">
-        Email: NazeemDickey@gmail.com
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
       </p>
     </section>
 
@@ -49,112 +52,216 @@
         <h2>Target Roles</h2>
 
         <ul class="list-clean">
-          <li>IT Support Technician</li>
-          <li>Help Desk Technician</li>
+          <li>Junior Network Administrator</li>
+          <li>SOC Analyst / SOC Intern</li>
           <li>Network Technician</li>
-          <li>MSP Technician</li>
           <li>NOC Technician</li>
-          <li>SOC Intern / Junior SOC Analyst</li>
+          <li>IT Support / Help Desk Technician</li>
+          <li>MSP Technician</li>
         </ul>
       </div>
 
       <div class="card">
-        <h2>Core Certifications</h2>
+        <h2>Professional Summary</h2>
 
-        <ul class="list-clean">
-          <li>CompTIA A+</li>
-          <li>CompTIA Network+</li>
-          <li>CompTIA Security+</li>
-          <li>CompTIA CySA+</li>
-          <li>CCST IT Support / Networking / Cybersecurity</li>
-          <li>Microsoft Azure Fundamentals certifications</li>
-        </ul>
+        <p>
+          I bring practical expertise in bare-metal deployments, subnetting, virtualization,
+          and support communication, with a portfolio centered on turning lab work into
+          job-ready infrastructure skills.
+        </p>
       </div>
 
     </section>
 
-    <section class="section card">
+    <section class="section achievements">
+      <div class="section-header">
+        <h2>Achievements</h2>
+        <p>Competitive and certification milestones from the resume.</p>
+      </div>
+
+      <div class="achievement-grid">
+        <article class="achievement-card">
+          <span>April 2026</span>
+          <strong>SkillsUSA Florida Internetworking 1st Place</strong>
+          <p>State Leadership and Skills Conference winner.</p>
+        </article>
+
+        <article class="achievement-card">
+          <span>March 2026</span>
+          <strong>CompTIA Trifecta</strong>
+          <p>Earned A+, Network+, and Security+ within a focused three-week timeframe.</p>
+        </article>
+
+        <article class="achievement-card">
+          <span>2026</span>
+          <strong>CyberLaunch State Competition</strong>
+          <p>Cybersecurity competition experience.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="section-header">
         <h2>Technical Skills</h2>
-        <p>Grouped by the areas most relevant to entry-level IT and network roles.</p>
+        <p>Grouped by the areas most relevant to junior network, support, and SOC roles.</p>
       </div>
 
-      <div class="skill-grid">
+      <div class="skill-grid four">
         <div class="skill-box">
-          <h3>Networking & Security</h3>
+          <h3>Networking &amp; Security</h3>
           <p>
-            TCP/IP, subnetting, DHCP, DNS, routing, OPNsense, firewall rules,
-            secure remote access, Wazuh, and access control.
+            TCP/IP routing, subnetting, DHCP, DNS, OPNsense, firewall configuration,
+            remote access, Headscale, Netbird, and network security fundamentals.
           </p>
         </div>
 
         <div class="skill-box">
-          <h3>Systems & Infrastructure</h3>
+          <h3>Systems &amp; Infrastructure</h3>
           <p>
-            Proxmox VE, Linux, Windows, LXC containers, Docker, NAS storage,
-            backups, hardware troubleshooting, and PC builds.
+            Proxmox VE, Linux, Windows, LXC containers, Docker, hardware troubleshooting,
+            PC builds, local AI frameworks, NAS storage, and backups.
           </p>
         </div>
 
         <div class="skill-box">
-          <h3>Support & Communication</h3>
+          <h3>Cloud &amp; Identity</h3>
           <p>
-            Remote support, troubleshooting, documentation, customer service,
-            clear communication, and problem solving.
+            Microsoft Azure fundamentals, Google Workspace, access control, Authentik,
+            identity concepts, data, AI, and security compliance basics.
+          </p>
+        </div>
+
+        <div class="skill-box">
+          <h3>General IT</h3>
+          <p>
+            Help desk support, RustDesk remote assistance, active listening,
+            clear technical communication, documentation, and rapid problem solving.
           </p>
         </div>
       </div>
     </section>
 
     <section class="section card">
-      <h2>Experience Highlights</h2>
+      <h2>Certifications</h2>
 
-      <ul class="list-clean">
-        <li>Provided freelance remote and on-site technical support for hardware, PC setup, and network-related issues.</li>
-        <li>Built and documented a Proxmox and OPNsense homelab to practice infrastructure and network administration.</li>
-        <li>Configured secure remote access methods to manage internal services without exposing sensitive ports publicly.</li>
-        <li>Practiced security monitoring workflows using Wazuh in a lab environment.</li>
-      </ul>
+      <div class="cert-columns">
+        <div>
+          <h3>CompTIA</h3>
+          <ul class="list-clean">
+            <li>CompTIA A+</li>
+            <li>CompTIA Network+</li>
+            <li>CompTIA Security+</li>
+            <li>CompTIA CySA+</li>
+            <li>CompTIA CIOS, CSIS, and CSAP stackable certifications</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Cisco &amp; Microsoft</h3>
+          <ul class="list-clean">
+            <li>CCST IT Support</li>
+            <li>CCST Networking</li>
+            <li>CCST Cybersecurity</li>
+            <li>Azure Fundamentals AZ-900, SC-900, DP-900, AI-900</li>
+            <li>Microsoft Power Platform Fundamentals PL-900</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Additional</h3>
+          <ul class="list-clean">
+            <li>ITS Computational Thinking</li>
+            <li>ITS Network Security</li>
+            <li>ITS Cloud Computing</li>
+            <li>ITS Data Analytics and Databases</li>
+            <li>Network Security Support Technician</li>
+            <li>ESB: Entrepreneurship and Small Business</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="section card">
-      <h2>Portfolio Projects</h2>
+    <section class="section two-column">
+      <div class="card">
+        <h2>Experience</h2>
+
+        <div class="timeline-list">
+          <article>
+            <span>June 2024 - Present</span>
+            <h3>Freelance Work - Self Employed</h3>
+            <p>
+              Provide remote and on-site technical support using RustDesk, troubleshoot
+              hardware and network latency issues, assemble PCs, and deploy camera setups.
+            </p>
+          </article>
+
+          <article>
+            <span>June 2024 - January 2026</span>
+            <h3>Center for Child Counseling - Volunteer</h3>
+            <p>
+              Supported event setup, inventory, supplies, activity supervision, and
+              friendly customer service for community programs.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Education</h2>
+
+        <div class="timeline-list">
+          <article>
+            <span>January 2025 - Present</span>
+            <h3>SouthTech Academy</h3>
+            <p>
+              3.5 GPA, Honor Roll student, honors classes, and Esports Team Captain.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Portfolio Projects</h2>
+        <p>Project pages that expand the resume into concrete implementation details.</p>
+      </div>
 
       <div class="project-grid">
         <a href="homelab.html" class="project-card">
           <div class="project-top">
-            <span class="project-icon">▣</span>
+            <span class="project-icon">01</span>
             <span class="project-type">Infrastructure</span>
           </div>
 
-          <h3>Proxmox + OPNsense Homelab</h3>
+          <h3>Enterprise Homelab Architecture</h3>
           <p>
-            Virtualization, routing, firewalling, internal services, switching,
-            NAS storage, and documentation.
+            Proxmox, OPNsense, rackmount servers, subnetting, switching, secure access,
+            Docker, LXC containers, and infrastructure documentation.
           </p>
 
-          <span class="card-link">View project →</span>
+          <span class="card-link">View project &rarr;</span>
         </a>
 
         <a href="wazuh.html" class="project-card">
           <div class="project-top">
-            <span class="project-icon">◇</span>
+            <span class="project-icon">02</span>
             <span class="project-type">Security</span>
           </div>
 
           <h3>Wazuh Monitoring Lab</h3>
           <p>
-            Security monitoring, log review, alert triage, endpoint visibility,
-            and incident-style documentation.
+            Security monitoring, log review, authentication events, alert triage,
+            endpoint visibility, and SOC-style documentation.
           </p>
 
-          <span class="card-link">View project →</span>
+          <span class="card-link">View project &rarr;</span>
         </a>
       </div>
     </section>
 
     <div class="back-link">
-      <a href="index.html">← Back to homepage</a>
+      <a href="index.html">&larr; Back to homepage</a>
     </div>
 
   </main>
@@ -170,13 +277,13 @@
 
       try {
         await navigator.clipboard.writeText(email);
-        text.textContent = "Email: " + email + " ✅ Copied!";
+        text.textContent = "Email: " + email + " - copied";
 
         setTimeout(() => {
-          text.textContent = "Email: " + email;
+          text.textContent = "Email: " + email + " | Boynton Beach, FL";
         }, 2000);
       } catch (error) {
-        text.textContent = "Email: " + email + " — copy manually";
+        text.textContent = "Email: " + email + " - copy manually";
       }
     }
   </script>

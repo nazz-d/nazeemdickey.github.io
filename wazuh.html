@@ -11,9 +11,10 @@
   <header class="nav">
     <a href="index.html" class="brand">ND</a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
       <a href="resume.html">Resume</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -22,14 +23,14 @@
   <main class="page">
 
     <section class="hero card">
-      <p class="tagline">Security Project • Monitoring</p>
+      <p class="tagline">Security Project | Monitoring</p>
 
       <h1>Wazuh Monitoring Lab</h1>
 
       <p class="hero-text">
         Built a Wazuh-based monitoring lab to practice endpoint visibility, log collection,
-        authentication monitoring, alert review, and basic incident investigation workflows
-        across Windows and Linux systems.
+        authentication monitoring, alert review, and incident-style documentation across
+        Windows and Linux systems.
       </p>
 
       <div class="chip-row">
@@ -50,7 +51,7 @@
           <li>Collect logs from Windows and Linux lab systems.</li>
           <li>Review authentication events and failed login activity.</li>
           <li>Practice reading security alerts and understanding event context.</li>
-          <li>Build confidence using security monitoring tools in a controlled environment.</li>
+          <li>Connect endpoint activity back to networking and system administration knowledge.</li>
         </ul>
       </div>
 
@@ -62,7 +63,7 @@
           <li>Endpoint monitoring concepts</li>
           <li>Log review and alert triage</li>
           <li>Windows and Linux event visibility</li>
-          <li>Security documentation</li>
+          <li>Clear security documentation</li>
         </ul>
       </div>
 
@@ -73,35 +74,37 @@
 
       <ol class="list-clean">
         <li>Identify an alert or suspicious authentication event.</li>
-        <li>Review the affected host, username, source, and timestamp.</li>
-        <li>Determine whether the activity was expected or unusual.</li>
-        <li>Document the finding, possible cause, and recommended next step.</li>
+        <li>Review the affected host, username, source, timestamp, and related activity.</li>
+        <li>Decide whether the activity appears expected, misconfigured, or suspicious.</li>
+        <li>Document the finding, possible cause, business impact, and recommended next step.</li>
       </ol>
     </section>
 
-    <section class="section card">
-      <h2>What I Learned</h2>
+    <section class="section two-column">
+      <div class="card">
+        <h2>What I Learned</h2>
 
-      <p>
-        This project helped me understand how monitoring tools collect events, how alerts
-        can be investigated, and why good documentation matters in security operations.
-        It also helped connect my networking and systems knowledge to real SOC-style workflows.
-      </p>
-    </section>
+        <p>
+          This project helped me understand how monitoring tools collect events, how
+          alerts can be investigated, and why good notes matter during security operations.
+          It also connects my networking and systems knowledge to SOC-style workflows.
+        </p>
+      </div>
 
-    <section class="section card">
-      <h2>Next Improvements</h2>
+      <div class="card">
+        <h2>Next Improvements</h2>
 
-      <ul class="list-clean">
-        <li>Add more Windows and Linux agents.</li>
-        <li>Create sample incident writeups for failed login activity.</li>
-        <li>Improve alert tuning to reduce noise.</li>
-        <li>Document common events and response steps.</li>
-      </ul>
+        <ul class="list-clean">
+          <li>Add more Windows and Linux agents.</li>
+          <li>Create sample incident writeups for failed login activity.</li>
+          <li>Improve alert tuning to reduce noise.</li>
+          <li>Document common events and response steps.</li>
+        </ul>
+      </div>
     </section>
 
     <div class="back-link">
-      <a href="index.html">← Back to homepage</a>
+      <a href="index.html">&larr; Back to homepage</a>
     </div>
 
   </main>

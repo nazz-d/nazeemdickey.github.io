@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proxmox + OPNsense Homelab | Nazeem Dickey</title>
+  <title>Enterprise Homelab Architecture | Nazeem Dickey</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +11,10 @@
   <header class="nav">
     <a href="index.html" class="brand">ND</a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
       <a href="resume.html">Resume</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -22,21 +23,22 @@
   <main class="page">
 
     <section class="hero card">
-      <p class="tagline">Featured Project • Infrastructure</p>
+      <p class="tagline">Featured Project | Infrastructure</p>
 
-      <h1>Proxmox + OPNsense Homelab</h1>
+      <h1>Enterprise Homelab Architecture</h1>
 
       <p class="hero-text">
-        Designed and deployed a virtualized homelab environment using Proxmox VE and
-        OPNsense to practice real-world networking, firewalling, virtualization, backups,
-        secure remote access, and system administration.
+        Architected a virtualized homelab across rackmount and small form factor servers
+        using Proxmox VE, a dedicated bare-metal OPNsense edge router, managed switching,
+        Ubiquiti wireless, NAS storage, and secure remote access tooling.
       </p>
 
       <div class="chip-row">
         <span class="chip">Proxmox VE</span>
-        <span class="chip">OPNsense</span>
-        <span class="chip">Cisco Switching</span>
-        <span class="chip">Synology NAS</span>
+        <span class="chip">OPNsense Bare Metal</span>
+        <span class="chip">Subnetting</span>
+        <span class="chip">Headscale</span>
+        <span class="chip">Netbird</span>
         <span class="chip">Docker</span>
         <span class="chip">LXC</span>
       </div>
@@ -46,8 +48,8 @@
       <div class="section-header">
         <h2>Logical Network Diagram</h2>
         <p>
-          This diagram shows the high-level design of my homelab without exposing
-          private IP addresses, credentials, serial numbers, or sensitive network details.
+          This diagram shows the high-level lab design without exposing private IP
+          addresses, public IPs, credentials, serial numbers, or device identifiers.
         </p>
       </div>
 
@@ -62,11 +64,12 @@
         <h2>What I Built</h2>
 
         <ul class="list-clean">
-          <li>Configured OPNsense as the primary edge firewall and router.</li>
-          <li>Connected Cisco managed switches for wired and PoE devices.</li>
-          <li>Deployed multiple Proxmox servers for VMs, LXC containers, and Docker services.</li>
-          <li>Integrated NAS storage and backup infrastructure for lab reliability.</li>
-          <li>Documented a logical layout showing core devices, services, and traffic flow.</li>
+          <li>Deployed OPNsense on dedicated hardware as the primary edge router and firewall.</li>
+          <li>Managed internal IP routing, DHCP, DNS, firewall rules, and ingress/egress traffic.</li>
+          <li>Built a Proxmox cluster-style lab across Dell R610, Dell R410, IBM M4, and Optiplex 5040 SFF hardware.</li>
+          <li>Hosted isolated LXC containers and Docker environments for internal services.</li>
+          <li>Integrated NAS storage, backup practices, switching, and Ubiquiti wireless access points.</li>
+          <li>Documented the physical and logical topology for support, troubleshooting, and future changes.</li>
         </ul>
       </div>
 
@@ -74,12 +77,12 @@
         <h2>Skills Demonstrated</h2>
 
         <ul class="list-clean">
-          <li>Network topology planning</li>
-          <li>DHCP, DNS, and internal routing</li>
-          <li>Firewall rule management</li>
-          <li>Virtual machine and container deployment</li>
-          <li>Secure remote access design</li>
-          <li>Infrastructure documentation</li>
+          <li>Bare-metal deployment and infrastructure planning</li>
+          <li>TCP/IP routing, subnetting, DHCP, and DNS administration</li>
+          <li>Firewall rule management and security-minded network design</li>
+          <li>Virtual machine, LXC container, and Docker service deployment</li>
+          <li>Encrypted remote access without exposing management ports publicly</li>
+          <li>Infrastructure documentation and troubleshooting discipline</li>
         </ul>
       </div>
 
@@ -88,7 +91,7 @@
     <section class="section card">
       <div class="section-header">
         <h2>Technologies Used</h2>
-        <p>Tools and platforms used in the lab environment.</p>
+        <p>Tools, platforms, and hardware represented in the lab environment.</p>
       </div>
 
       <div class="chip-row large">
@@ -98,26 +101,44 @@
         <span class="chip">Windows VMs</span>
         <span class="chip">Docker</span>
         <span class="chip">LXC Containers</span>
-        <span class="chip">Cisco Switches</span>
+        <span class="chip">Cisco Switching</span>
+        <span class="chip">Ubiquiti Wireless</span>
         <span class="chip">Synology NAS</span>
+        <span class="chip">Headscale</span>
+        <span class="chip">Netbird</span>
+        <span class="chip">Authentik</span>
         <span class="chip">Cloudflared</span>
-        <span class="chip">UniFi AP</span>
+        <span class="chip">Dell R610 / R410</span>
+        <span class="chip">IBM M4</span>
+        <span class="chip">Optiplex 5040 SFF</span>
       </div>
     </section>
 
-    <section class="section card">
-      <h2>Security Notes</h2>
+    <section class="section two-column">
+      <div class="card">
+        <h2>Operational Focus</h2>
 
-      <p>
-        I avoid exposing sensitive management ports directly to the public internet.
-        Remote access is handled through controlled access methods and firewall rules.
-        Public documentation is sanitized to avoid leaking private IP addresses, public IPs,
-        credentials, or device-specific identifiers.
-      </p>
+        <ul class="list-clean">
+          <li>Keep management surfaces behind controlled access paths.</li>
+          <li>Separate workloads so lab changes do not take down every service.</li>
+          <li>Document device roles, traffic flow, and service dependencies.</li>
+          <li>Practice recovery thinking through NAS storage and backup workflows.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Security Notes</h2>
+
+        <p>
+          I avoid exposing sensitive management ports directly to the public internet.
+          Remote access is handled through encrypted access methods, segmented routing,
+          and firewall rules. Public documentation is sanitized before publishing.
+        </p>
+      </div>
     </section>
 
     <div class="back-link">
-      <a href="index.html">← Back to homepage</a>
+      <a href="index.html">&larr; Back to homepage</a>
     </div>
 
   </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nazeem Dickey | IT Portfolio</title>
+  <title>Nazeem Dickey | IT &amp; Cybersecurity Portfolio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +11,10 @@
   <header class="nav">
     <a href="index.html" class="brand">ND</a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
       <a href="resume.html">Resume</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -22,120 +23,200 @@
   <main class="page">
 
     <section class="hero card">
-      <p class="tagline">IT Support • Networking • Cybersecurity Homelab</p>
+      <p class="tagline">IT &amp; Cybersecurity | Networking | Homelab Engineering</p>
 
       <h1>Nazeem Dickey</h1>
-      <h2>Entry-Level IT Support / Network Technician</h2>
+      <h2>Junior Network Administrator / SOC Analyst Candidate</h2>
 
       <p class="hero-text">
-        I build and maintain a Proxmox-based homelab with an OPNsense edge firewall,
-        managing DHCP, DNS, subnetting, secure remote access, and virtualized services.
-        My focus is practical IT support, network troubleshooting, infrastructure
-        documentation, and security-minded system administration.
+        I am a hands-on IT professional and homelab engineer based in Boynton Beach, FL,
+        focused on virtualization, network security, physical infrastructure, and support
+        work that translates into real troubleshooting value.
       </p>
 
       <div class="buttons">
-        <a href="homelab.html" class="button">View Homelab Project</a>
-        <a href="resume.html" class="button secondary">View Resume</a>
+        <a href="homelab.html" class="button">View Homelab</a>
+        <a href="resume.html" class="button secondary">Resume</a>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
 
-      <div class="quick-stats">
+      <div class="quick-stats" aria-label="Portfolio highlights">
         <div class="stat">
           <span>Certifications</span>
-          <strong>A+ • Net+ • Sec+ • CySA+</strong>
+          <strong>A+ / Network+ / Security+ / CySA+</strong>
         </div>
 
         <div class="stat">
-          <span>Core Focus</span>
-          <strong>Networking • Virtualization • Security</strong>
+          <span>Achievement</span>
+          <strong>SkillsUSA Internetworking 1st Place</strong>
         </div>
 
         <div class="stat">
-          <span>Homelab Stack</span>
-          <strong>Proxmox • OPNsense • Wazuh</strong>
+          <span>Core Lab</span>
+          <strong>Proxmox / OPNsense / Headscale</strong>
         </div>
       </div>
+    </section>
+
+    <section class="section snapshot-grid" aria-label="Professional snapshot">
+      <article class="snapshot-card">
+        <h2>What I Bring</h2>
+        <p>
+          Practical experience with bare-metal routing, subnetting, DHCP, DNS, firewall
+          rules, encrypted remote access, and virtualized infrastructure.
+        </p>
+      </article>
+
+      <article class="snapshot-card">
+        <h2>Support Experience</h2>
+        <p>
+          Freelance remote and on-site technical support using RustDesk, hardware
+          troubleshooting, PC assembly, camera setup, and clear customer communication.
+        </p>
+      </article>
+
+      <article class="snapshot-card">
+        <h2>Current Focus</h2>
+        <p>
+          Junior network administration, SOC workflows, endpoint visibility, identity,
+          access control, and documentation that makes systems easier to support.
+        </p>
+      </article>
     </section>
 
     <section id="projects" class="section">
       <div class="section-header">
         <h2>Featured Projects</h2>
-        <p>Hands-on infrastructure work documented like real IT projects.</p>
+        <p>Hands-on infrastructure and security work documented like real IT projects.</p>
       </div>
 
       <div class="project-grid">
 
         <a href="homelab.html" class="project-card">
           <div class="project-top">
-            <span class="project-icon">▣</span>
+            <span class="project-icon">01</span>
             <span class="project-type">Infrastructure</span>
           </div>
 
-          <h3>Proxmox + OPNsense Homelab</h3>
+          <h3>Enterprise Homelab Architecture</h3>
           <p>
-            Designed a virtualized homelab with OPNsense edge routing, Cisco switching,
-            Proxmox hosts, NAS storage, backup services, VLAN-aware segmentation, and
-            internal applications.
+            Built a Proxmox-based lab across rackmount and small form factor servers,
+            with bare-metal OPNsense edge routing, managed switching, Ubiquiti wireless,
+            NAS storage, Docker, LXC containers, and secure subnet access.
           </p>
 
           <div class="chip-row">
-            <span class="chip">Proxmox</span>
+            <span class="chip">Proxmox VE</span>
             <span class="chip">OPNsense</span>
-            <span class="chip">DHCP/DNS</span>
-            <span class="chip">Networking</span>
+            <span class="chip">Subnetting</span>
+            <span class="chip">Headscale</span>
           </div>
 
-          <span class="card-link">Read project breakdown →</span>
+          <span class="card-link">Read project breakdown &rarr;</span>
         </a>
 
         <a href="wazuh.html" class="project-card">
           <div class="project-top">
-            <span class="project-icon">◇</span>
+            <span class="project-icon">02</span>
             <span class="project-type">Security Monitoring</span>
           </div>
 
           <h3>Wazuh Monitoring Lab</h3>
           <p>
-            Built a security monitoring lab to practice log collection, endpoint visibility,
-            alert review, authentication monitoring, and basic incident investigation
-            workflows.
+            Practiced SOC-style workflows by collecting Windows and Linux events,
+            reviewing authentication activity, investigating alerts, and documenting
+            response notes.
           </p>
 
           <div class="chip-row">
             <span class="chip">Wazuh</span>
-            <span class="chip">Linux</span>
-            <span class="chip">Windows</span>
-            <span class="chip">Logs</span>
+            <span class="chip">Windows Logs</span>
+            <span class="chip">Linux Logs</span>
+            <span class="chip">Alert Triage</span>
           </div>
 
-          <span class="card-link">Read project breakdown →</span>
+          <span class="card-link">Read project breakdown &rarr;</span>
         </a>
 
       </div>
     </section>
 
-    <section class="section card">
+    <section id="skills" class="section">
       <div class="section-header">
         <h2>Technical Skills</h2>
-        <p>Skills I am actively building through school, certifications, freelance support, and homelab work.</p>
+        <p>Skills backed by certifications, school, freelance support, and lab work.</p>
       </div>
 
-      <div class="skill-grid">
+      <div class="skill-grid four">
         <div class="skill-box">
-          <h3>Networking</h3>
-          <p>TCP/IP, subnetting, DHCP, DNS, routing, firewall rules, VLAN concepts, remote access, and troubleshooting.</p>
+          <h3>Networking &amp; Security</h3>
+          <p>TCP/IP routing, subnetting, DHCP, DNS, OPNsense, firewall configuration, Headscale, Netbird, and secure remote access.</p>
         </div>
 
         <div class="skill-box">
-          <h3>Systems</h3>
-          <p>Proxmox VE, Linux, Windows, LXC containers, Docker services, NAS storage, backups, and hardware support.</p>
+          <h3>Systems &amp; Infrastructure</h3>
+          <p>Proxmox VE, Linux, Windows, LXC containers, Docker, hardware troubleshooting, PC builds, NAS storage, and backups.</p>
         </div>
 
         <div class="skill-box">
-          <h3>Security</h3>
-          <p>OPNsense, Wazuh, access control, authentication monitoring, secure remote access, and basic incident analysis.</p>
+          <h3>Cloud &amp; Identity</h3>
+          <p>Microsoft Azure fundamentals, Google Workspace, access control, Authentik, identity concepts, and security compliance basics.</p>
         </div>
+
+        <div class="skill-box">
+          <h3>Support &amp; Communication</h3>
+          <p>Help desk support, RustDesk remote assistance, active listening, documentation, customer service, and rapid problem solving.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section achievements">
+      <div class="section-header">
+        <h2>Highlights</h2>
+        <p>Recent achievements and proof points from the resume.</p>
+      </div>
+
+      <div class="achievement-grid">
+        <article class="achievement-card">
+          <span>April 2026</span>
+          <strong>SkillsUSA Florida Internetworking 1st Place</strong>
+          <p>State Leadership and Skills Conference winner.</p>
+        </article>
+
+        <article class="achievement-card">
+          <span>March 2026</span>
+          <strong>CompTIA Trifecta</strong>
+          <p>Earned A+, Network+, and Security+ within a focused three-week timeframe.</p>
+        </article>
+
+        <article class="achievement-card">
+          <span>Education</span>
+          <strong>SouthTech Academy</strong>
+          <p>3.5 GPA, Honor Roll, honors classes, and Esports Team Captain.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section card cert-band">
+      <div class="section-header">
+        <h2>Certification Coverage</h2>
+        <p>CompTIA, Cisco, Microsoft, ITS, and entrepreneurship credentials.</p>
+      </div>
+
+      <div class="chip-row large">
+        <span class="chip">CompTIA A+</span>
+        <span class="chip">CompTIA Network+</span>
+        <span class="chip">CompTIA Security+</span>
+        <span class="chip">CompTIA CySA+</span>
+        <span class="chip">CCST IT Support</span>
+        <span class="chip">CCST Networking</span>
+        <span class="chip">CCST Cybersecurity</span>
+        <span class="chip">AZ-900</span>
+        <span class="chip">SC-900</span>
+        <span class="chip">DP-900</span>
+        <span class="chip">AI-900</span>
+        <span class="chip">PL-900</span>
       </div>
     </section>
 
@@ -143,19 +224,20 @@
       <div class="contact-copy">
         <h2>Contact</h2>
         <p>
-          I am looking for entry-level IT support, network technician, junior infrastructure,
-          help desk, MSP, NOC, or SOC internship opportunities.
+          I am looking for junior network administrator, SOC analyst, NOC, MSP,
+          help desk, IT support, and cybersecurity internship opportunities.
         </p>
       </div>
 
       <div class="contact-actions">
         <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="resume.html" class="button secondary">Resume</a>
       </div>
 
       <p class="contact-line" id="emailText" aria-live="polite">
-        Email: NazeemDickey@gmail.com
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
       </p>
     </section>
 
@@ -172,13 +254,13 @@
 
       try {
         await navigator.clipboard.writeText(email);
-        text.textContent = "Email: " + email + " ✅ Copied!";
+        text.textContent = "Email: " + email + " - copied";
 
         setTimeout(() => {
-          text.textContent = "Email: " + email;
+          text.textContent = "Email: " + email + " | Boynton Beach, FL";
         }, 2000);
       } catch (error) {
-        text.textContent = "Email: " + email + " — copy manually";
+        text.textContent = "Email: " + email + " - copy manually";
       }
     }
   </script>
