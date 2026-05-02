@@ -1,0 +1,247 @@
+<svg width="1200" height="860" viewBox="0 0 1200 860" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#0d0a18"/>
+      <stop offset="100%" stop-color="#030208"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#1a1030"/>
+      <stop offset="100%" stop-color="#0a0818"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#9333ea" stroke-width="0.2" opacity="0.35"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#7c3aed" opacity="0.75"/>
+    </marker>
+    <marker id="arrOrange" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#d97706" opacity="0.75"/>
+    </marker>
+    <marker id="arrTeal" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#0d9488" opacity="0.75"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="860" fill="url(#bg)"/>
+  <rect width="1200" height="860" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="600" y="30" text-anchor="middle" fill="#c084fc" font-size="15" font-weight="700" letter-spacing="2">masternazz.com — Network Topology</text>
+  <text x="600" y="48" text-anchor="middle" fill="#4b4266" font-size="10" letter-spacing="1">37 live hosts · May 2026 · masternazz.com</text>
+
+  <!-- ═══════════════ INTERNET ═══════════════ -->
+  <rect x="450" y="60" width="260" height="48" rx="8" fill="url(#card)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="580" y="81" text-anchor="middle" fill="#22d3ee" font-size="12" font-weight="700">☁  INTERNET / ISP</text>
+  <text x="580" y="99" text-anchor="middle" fill="#4b6e7a" font-size="10">Xfinity · WAN DHCP uplink</text>
+
+  <!-- Internet → OPNsense -->
+  <line x1="580" y1="108" x2="490" y2="148" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6" marker-end="url(#arr)"/>
+
+  <!-- ═══════════════ OPNSENSE ═══════════════ -->
+  <rect x="100" y="148" width="680" height="82" rx="8" fill="url(#card)" stroke="#9333ea" stroke-width="2" filter="url(#glow)"/>
+  <rect x="100" y="148" width="680" height="5" rx="4" fill="url(#purpleBar)"/>
+  <rect x="116" y="162" width="3" height="56" rx="2" fill="#9333ea"/>
+  <text x="136" y="179" fill="#f6f3ff" font-size="13" font-weight="700">OPNsense Firewall / Router</text>
+  <text x="136" y="196" fill="#9488ad" font-size="10">192.168.1.1 · WAN: em1 (DHCP) · LAN: em0 (192.168.1.0/24) · VLAN 50 DMZ (192.168.50.0/24)</text>
+  <text x="136" y="212" fill="#9488ad" font-size="10">AdGuard DNS · Suricata IDS/IPS (WAN netmap) · ACME Wildcard SSL · NAT · Firewall Rules</text>
+  <text x="136" y="224" fill="#4b4266" font-size="9">SSH :2222 · WebUI :8443 · Default allow LAN→any · Explicit NAT port forwards</text>
+
+  <!-- OPNsense → DMZ (right arrow) -->
+  <line x1="780" y1="189" x2="858" y2="189" stroke="#d97706" stroke-width="1.5" opacity="0.7" marker-end="url(#arrOrange)"/>
+
+  <!-- ═══════════════ DMZ / VLAN 50 ═══════════════ -->
+  <rect x="858" y="148" width="320" height="82" rx="8" fill="url(#card)" stroke="#d97706" stroke-width="1.5"/>
+  <rect x="858" y="148" width="320" height="5" rx="4" fill="#d97706"/>
+  <text x="1018" y="179" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">VLAN 50 — Public DMZ</text>
+  <text x="1018" y="197" text-anchor="middle" fill="#9488ad" font-size="10">192.168.50.0/24 · Gateway: 192.168.50.1</text>
+  <text x="1018" y="213" text-anchor="middle" fill="#9488ad" font-size="10">Cloudflared Tunnel · 192.168.50.2</text>
+  <text x="1018" y="225" text-anchor="middle" fill="#4b4266" font-size="9">Public-facing services · Isolated from LAN</text>
+
+  <!-- DMZ → Cloudflare -->
+  <line x1="1018" y1="230" x2="1018" y2="262" stroke="#d97706" stroke-width="1.5" opacity="0.6" marker-end="url(#arrOrange)"/>
+
+  <!-- Cloudflare box -->
+  <rect x="878" y="262" width="280" height="52" rx="8" fill="url(#card)" stroke="#d97706" stroke-width="1" opacity="0.85"/>
+  <text x="1018" y="284" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="600">☁  Cloudflare CDN + WAF</text>
+  <text x="1018" y="302" text-anchor="middle" fill="#4b6e40" font-size="10">*.masternazz.com · Public HTTPS ingress</text>
+
+  <!-- OPNsense → Cisco -->
+  <line x1="440" y1="230" x2="440" y2="262" stroke="#7c3aed" stroke-width="2" opacity="0.7" marker-end="url(#arr)"/>
+
+  <!-- ═══════════════ CISCO SWITCH ═══════════════ -->
+  <rect x="200" y="262" width="580" height="55" rx="8" fill="url(#card)" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="200" y="262" width="580" height="5" rx="4" fill="#7c3aed" opacity="0.8"/>
+  <text x="490" y="287" text-anchor="middle" fill="#f6f3ff" font-size="13" font-weight="700">Cisco Core Switch · 192.168.1.170</text>
+  <text x="490" y="306" text-anchor="middle" fill="#9488ad" font-size="10">L2/L3 Core Switching · VLAN Trunking · PoE · SSH/HTTPS management</text>
+
+  <!-- Switch → physical nodes (fan out) -->
+  <!-- → Proxmox -->
+  <line x1="310" y1="317" x2="175" y2="358" stroke="#6d28d9" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <!-- → NAS -->
+  <line x1="420" y1="317" x2="430" y2="358" stroke="#4f46e5" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <!-- → Wireless -->
+  <line x1="530" y1="317" x2="645" y2="358" stroke="#0369a1" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <!-- → Remote Access (dashed) -->
+  <line x1="620" y1="317" x2="870" y2="358" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5" marker-end="url(#arrTeal)"/>
+
+  <!-- ═══════════════ PROXMOX CLUSTER ═══════════════ -->
+  <rect x="20" y="358" width="300" height="120" rx="8" fill="url(#card)" stroke="#6d28d9" stroke-width="1.5"/>
+  <rect x="20" y="358" width="300" height="5" rx="4" fill="#6d28d9"/>
+  <text x="170" y="381" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">Proxmox VE Cluster</text>
+  <text x="170" y="399" text-anchor="middle" fill="#9488ad" font-size="10">IBM M4 · 192.168.1.12 (firstmoon?)</text>
+  <text x="170" y="415" text-anchor="middle" fill="#9488ad" font-size="10">Dell R610 · 192.168.1.13</text>
+  <text x="170" y="431" text-anchor="middle" fill="#9488ad" font-size="10">Dell R410 · 192.168.1.14</text>
+  <text x="170" y="451" text-anchor="middle" fill="#4b4266" font-size="9">Hypervisor · 20+ VMs &amp; LXC Containers · Proxmox WebUI :8006</text>
+  <text x="170" y="466" text-anchor="middle" fill="#4b4266" font-size="9">Synology PBS backup target · bare-metal deployment</text>
+
+  <!-- ═══════════════ NAS STORAGE ═══════════════ -->
+  <rect x="335" y="358" width="270" height="120" rx="8" fill="url(#card)" stroke="#4f46e5" stroke-width="1.5"/>
+  <rect x="335" y="358" width="270" height="5" rx="4" fill="#4f46e5"/>
+  <text x="470" y="381" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">NAS Storage</text>
+  <text x="470" y="399" text-anchor="middle" fill="#9488ad" font-size="10">Synology NAS #1 · 192.168.1.163</text>
+  <text x="470" y="415" text-anchor="middle" fill="#9488ad" font-size="10">Synology NAS #2 · 192.168.1.196</text>
+  <text x="470" y="431" text-anchor="middle" fill="#9488ad" font-size="10">Thecus (legacy) · 192.168.1.15</text>
+  <text x="470" y="451" text-anchor="middle" fill="#4b4266" font-size="9">Proxmox Backup · File Storage · DSM :5000/5001</text>
+  <text x="470" y="466" text-anchor="middle" fill="#4b4266" font-size="9">3x NAS units · redundant storage</text>
+
+  <!-- ═══════════════ WIRELESS ═══════════════ -->
+  <rect x="620" y="358" width="220" height="120" rx="8" fill="url(#card)" stroke="#0369a1" stroke-width="1.5"/>
+  <rect x="620" y="358" width="220" height="5" rx="4" fill="#0369a1"/>
+  <text x="730" y="381" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">Wireless / Physical</text>
+  <text x="730" y="399" text-anchor="middle" fill="#9488ad" font-size="10">Ubiquiti AP · 192.168.1.166</text>
+  <text x="730" y="415" text-anchor="middle" fill="#9488ad" font-size="10">Cisco PoE Switch</text>
+  <text x="730" y="431" text-anchor="middle" fill="#4b4266" font-size="9">Wi-Fi · PoE devices</text>
+  <text x="730" y="447" text-anchor="middle" fill="#4b4266" font-size="9">Workstations · Mobile devices</text>
+
+  <!-- ═══════════════ REMOTE ACCESS ═══════════════ -->
+  <rect x="858" y="334" width="320" height="120" rx="8" fill="url(#card)" stroke="#0d9488" stroke-width="1.5"/>
+  <rect x="858" y="334" width="320" height="5" rx="4" fill="#0d9488"/>
+  <text x="1018" y="357" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">Zero-Trust Remote Access</text>
+  <text x="1018" y="375" text-anchor="middle" fill="#9488ad" font-size="10">Headscale VPN Mesh · 192.168.1.8</text>
+  <text x="1018" y="391" text-anchor="middle" fill="#9488ad" font-size="10">Tailscale Exit Node · 192.168.1.9</text>
+  <text x="1018" y="407" text-anchor="middle" fill="#9488ad" font-size="10">DERP Relay · :3478 UDP</text>
+  <text x="1018" y="423" text-anchor="middle" fill="#4b4266" font-size="9">No exposed mgmt ports · encrypted mesh</text>
+  <text x="1018" y="441" text-anchor="middle" fill="#4b4266" font-size="9">Admin → any internal service securely</text>
+
+  <!-- Proxmox → Services -->
+  <line x1="170" y1="478" x2="170" y2="502" stroke="#6d28d9" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+
+  <!-- ═══════════════ SERVICES LAYER ═══════════════ -->
+  <rect x="20" y="502" width="820" height="230" rx="8" fill="url(#card)" stroke="#9333ea" stroke-width="1" opacity="0.8"/>
+  <rect x="20" y="502" width="820" height="5" rx="4" fill="url(#purpleBar)" opacity="0.7"/>
+  <text x="430" y="524" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="700" letter-spacing="1">VIRTUALIZED SERVICES — Proxmox VMs &amp; LXC Containers</text>
+
+  <!-- Column headers -->
+  <text x="40" y="544" fill="#6b5f88" font-size="9" font-weight="700" letter-spacing="1">NETWORK &amp; PROXY</text>
+  <text x="280" y="544" fill="#6b5f88" font-size="9" font-weight="700" letter-spacing="1">IDENTITY &amp; SECURITY</text>
+  <text x="520" y="544" fill="#6b5f88" font-size="9" font-weight="700" letter-spacing="1">MEDIA STACK · .130</text>
+  <text x="680" y="544" fill="#6b5f88" font-size="9" font-weight="700" letter-spacing="1">SERVERS &amp; MGMT</text>
+
+  <!-- Network chips -->
+  <rect x="35" y="550" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
+  <text x="125" y="565" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">Nginx Proxy Manager</text>
+  <text x="125" y="580" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.6 · :443/80</text>
+
+  <rect x="35" y="594" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
+  <text x="125" y="609" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">Headscale + DERP</text>
+  <text x="125" y="624" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.8 · :3000/:8080</text>
+
+  <rect x="35" y="638" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
+  <text x="125" y="653" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">AdGuard Home</text>
+  <text x="125" y="668" text-anchor="middle" fill="#4b4266" font-size="9">OPNsense plugin · :3001</text>
+
+  <rect x="35" y="682" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
+  <text x="125" y="697" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">Cloudflared Tunnel</text>
+  <text x="125" y="712" text-anchor="middle" fill="#4b4266" font-size="9">192.168.50.2 · DMZ VLAN</text>
+
+  <!-- Identity chips -->
+  <rect x="225" y="550" width="175" height="36" rx="5" fill="#110d22" stroke="#7c3aed" stroke-width="1"/>
+  <text x="312" y="565" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Authentik SSO</text>
+  <text x="312" y="580" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.16 · :9000/:9443</text>
+
+  <rect x="225" y="594" width="175" height="36" rx="5" fill="#110d22" stroke="#7c3aed" stroke-width="1"/>
+  <text x="312" y="609" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Wazuh SIEM/XDR</text>
+  <text x="312" y="624" text-anchor="middle" fill="#4b4266" font-size="9">Log monitoring · Alert triage</text>
+
+  <rect x="225" y="638" width="175" height="36" rx="5" fill="#110d22" stroke="#7c3aed" stroke-width="1"/>
+  <text x="312" y="653" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Tailscale Exit Node</text>
+  <text x="312" y="668" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.9 · :41641</text>
+
+  <rect x="225" y="682" width="175" height="36" rx="5" fill="#110d22" stroke="#7c3aed" stroke-width="1"/>
+  <text x="312" y="697" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Termix</text>
+  <text x="312" y="712" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.7 · Web terminal</text>
+
+  <!-- Media chips -->
+  <rect x="410" y="550" width="130" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="475" y="565" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Jellyfin</text>
+  <text x="475" y="580" text-anchor="middle" fill="#4b4266" font-size="9">:8096</text>
+
+  <rect x="410" y="594" width="130" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="475" y="609" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Sonarr / Radarr</text>
+  <text x="475" y="624" text-anchor="middle" fill="#4b4266" font-size="9">:8989 / :7878</text>
+
+  <rect x="410" y="638" width="130" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="475" y="653" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Prowlarr</text>
+  <text x="475" y="668" text-anchor="middle" fill="#4b4266" font-size="9">:9696 · Indexer mgmt</text>
+
+  <rect x="410" y="682" width="130" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="475" y="697" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">qBittorrent</text>
+  <text x="475" y="712" text-anchor="middle" fill="#4b4266" font-size="9">:8080 · :6881</text>
+
+  <!-- Game/mgmt chips -->
+  <rect x="550" y="550" width="275" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="687" y="565" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">TeamSpeak 3</text>
+  <text x="687" y="580" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.10 · :9987 UDP / :30033 TCP</text>
+
+  <rect x="550" y="594" width="275" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="687" y="609" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Pterodactyl Panel</text>
+  <text x="687" y="624" text-anchor="middle" fill="#4b4266" font-size="9">Game server management · Wings agent</text>
+
+  <rect x="550" y="638" width="275" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="687" y="653" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Homepage Dashboard</text>
+  <text x="687" y="668" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.147 · :3000</text>
+
+  <rect x="550" y="682" width="275" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
+  <text x="687" y="697" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Windrose · KSP Server</text>
+  <text x="687" y="712" text-anchor="middle" fill="#4b4266" font-size="9">192.168.1.17 · :7777 / :8800 UDP</text>
+
+  <!-- Also: Jellyseerr + Wizarr note -->
+  <text x="430" y="742" fill="#4b4266" font-size="9">+ Jellyseerr :5055 · FlareSolverr :8191 · Wizarr · netboot · npmplus · and more</text>
+
+  <!-- ═══════════════ LEGEND ═══════════════ -->
+  <rect x="20" y="752" width="1160" height="90" rx="8" fill="url(#card)" stroke="#9333ea" stroke-width="0.5" opacity="0.6"/>
+  <text x="600" y="770" text-anchor="middle" fill="#4b4266" font-size="10" font-weight="700" letter-spacing="2">LEGEND</text>
+
+  <rect x="40" y="779" width="10" height="10" rx="2" fill="none" stroke="#9333ea" stroke-width="2"/>
+  <text x="57" y="789" fill="#9488ad" font-size="10">Core Infrastructure</text>
+
+  <rect x="180" y="779" width="10" height="10" rx="2" fill="none" stroke="#d97706" stroke-width="2"/>
+  <text x="197" y="789" fill="#9488ad" font-size="10">Public DMZ / Cloudflare</text>
+
+  <rect x="360" y="779" width="10" height="10" rx="2" fill="none" stroke="#4f46e5" stroke-width="2"/>
+  <text x="377" y="789" fill="#9488ad" font-size="10">NAS Storage</text>
+
+  <rect x="470" y="779" width="10" height="10" rx="2" fill="none" stroke="#0369a1" stroke-width="2"/>
+  <text x="487" y="789" fill="#9488ad" font-size="10">Wireless / Physical</text>
+
+  <rect x="610" y="779" width="10" height="10" rx="2" fill="none" stroke="#0d9488" stroke-width="2"/>
+  <text x="627" y="789" fill="#9488ad" font-size="10">Zero-Trust Remote Access</text>
+
+  <rect x="800" y="779" width="10" height="10" rx="2" fill="none" stroke="#6d28d9" stroke-width="2"/>
+  <text x="817" y="789" fill="#9488ad" font-size="10">Virtualized Services (VMs/LXC)</text>
+
+  <rect x="1010" y="779" width="10" height="10" rx="2" fill="none" stroke="#22d3ee" stroke-width="2"/>
+  <text x="1027" y="789" fill="#9488ad" font-size="10">Internet / WAN</text>
+
+  <text x="40" y="815" fill="#4b4266" font-size="9">Security: Suricata IDS/IPS on WAN · AdGuard DNS filtering (Cloudflare DoT upstream) · Authentik SSO · Wildcard SSL via ACME + Cloudflare DNS-01</text>
+  <text x="40" y="830" fill="#4b4266" font-size="9">Remote access via encrypted Headscale/Tailscale mesh only — no raw management ports exposed to internet · Zero-trust architecture</text>
+</svg>
