@@ -112,7 +112,7 @@
 
   <!-- Smaller chips row -->
   <rect x="38" y="334" width="128" height="34" rx="6" fill="#110d22" stroke="#9333ea" stroke-width="0.8"/>
-  <text x="102" y="348" text-anchor="middle" fill="#a78bfa" font-size="9.5" font-weight="600">NPM Plus</text>
+  <text x="102" y="348" text-anchor="middle" fill="#a78bfa" font-size="9.5" font-weight="600">NPMplus</text>
   <text x="102" y="361" text-anchor="middle" fill="#4b4266" font-size="8.5">Reverse proxy</text>
 
   <rect x="174" y="334" width="128" height="34" rx="6" fill="#110d22" stroke="#9333ea" stroke-width="0.8"/>

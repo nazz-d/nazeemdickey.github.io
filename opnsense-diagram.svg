@@ -106,7 +106,7 @@
   <!-- LAN box -->
   <rect x="60" y="372" width="310" height="72" rx="8" fill="url(#card)" stroke="#9333ea" stroke-width="1.8" filter="url(#glowSoft)"/>
   <rect x="60" y="372" width="310" height="5" rx="4" fill="url(#purpleBar)"/>
-  <text x="215" y="396" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">LAN — 192.168.1.0/24</text>
+  <text x="215" y="396" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">LAN - 192.168.x.x</text>
   <text x="215" y="413" text-anchor="middle" fill="#9488ad" font-size="10">VMs · LXC · Proxmox Cluster</text>
   <text x="215" y="429" text-anchor="middle" fill="#4b4266" font-size="9">NAS · Workstations · Internal Services</text>
 

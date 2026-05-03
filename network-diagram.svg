@@ -146,7 +146,7 @@
 
   <!-- Network chips -->
   <rect x="35" y="550" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
-  <text x="125" y="565" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">Nginx Proxy Manager</text>
+  <text x="125" y="565" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">NPMplus</text>
   <text x="125" y="580" text-anchor="middle" fill="#4b4266" font-size="9">Reverse proxy · HTTPS</text>
 
   <rect x="35" y="594" width="180" height="36" rx="5" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
@@ -245,6 +245,6 @@
   <text x="40" y="862" fill="#9488ad" font-size="9">ACME wildcard SSL (*.masternazz.com) via Cloudflare DNS-01 · Deny-by-default firewall · No raw management ports on internet</text>
 
   <text x="40" y="888" fill="#6b5f88" font-size="9" font-weight="700" letter-spacing="1">ACCESS PATHS</text>
-  <text x="40" y="906" fill="#9488ad" font-size="9">Admin access → Headscale mesh VPN (WireGuard) — encrypted, zero exposed ports · Public services → Cloudflare Tunnel (VLAN 50 DMZ) → NPM reverse proxy</text>
+  <text x="40" y="906" fill="#9488ad" font-size="9">Admin access → Headscale mesh VPN (WireGuard) — encrypted, zero exposed ports · Public services → Cloudflare Tunnel (VLAN 50 DMZ) → NPMplus reverse proxy</text>
   <text x="40" y="922" fill="#4b4266" font-size="9">Proxmox Backup Server (PBS) · Synology NAS backup target · 3-2-1 backup strategy for all VMs and LXC containers</text>
 </svg>

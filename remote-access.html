@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secure Remote Access Project | Nazeem Dickey</title>
   <meta name="description" content="Public-safe secure remote access project by Nazeem Dickey.">
+  <link rel="canonical" href="https://masternazz.com/remote-access.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Secure Remote Access Project | Nazeem Dickey">
+  <meta property="og:description" content="Public-safe remote access design using Headscale, Tailscale, Cloudflare Tunnel, DMZ isolation, NPMplus, and wildcard TLS.">
+  <meta property="og:url" content="https://masternazz.com/remote-access.html">
+  <meta property="og:image" content="https://masternazz.com/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Secure Remote Access Project | Nazeem Dickey">
+  <meta name="twitter:description" content="Headscale mesh VPN, Cloudflare Tunnel, DMZ design, NPMplus, and wildcard TLS.">
+  <meta name="twitter:image" content="https://masternazz.com/network-diagram.png">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
@@ -35,7 +45,7 @@
         <span class="chip">Headscale</span>
         <span class="chip">Tailscale Exit Node</span>
         <span class="chip">Cloudflare Tunnel</span>
-        <span class="chip">Nginx Proxy Manager</span>
+        <span class="chip">NPMplus</span>
         <span class="chip">DMZ Design</span>
         <span class="chip">Wildcard TLS</span>
       </div>
@@ -54,7 +64,7 @@
           <li>Self-hosted Headscale as a WireGuard-based mesh VPN controller, managed via the Headplane web UI.</li>
           <li>Tailscale exit node for subnet routing and remote access to lab resources from anywhere.</li>
           <li>Cloudflare Tunnel connector deployed in a dedicated Public DMZ VLAN, isolated from LAN, routing public HTTPS requests through Cloudflare's edge without a WAN port forward.</li>
-          <li>Nginx Proxy Manager Plus as the internal reverse proxy, terminating TLS with a wildcard cert (*.masternazz.com) and routing subdomains to backend services.</li>
+          <li>NPMplus as the internal reverse proxy, terminating TLS with a wildcard cert (*.masternazz.com) and routing subdomains to backend services.</li>
           <li>ACME client on OPNsense auto-renewing the wildcard cert via Cloudflare DNS-01 — no cert management overhead.</li>
         </ul>
       </div>
@@ -87,7 +97,7 @@
       <article class="detail-card">
         <span class="mini-label">TLS</span>
         <h2>Wildcard Cert Pipeline</h2>
-        <p>OPNsense's ACME client issues and renews a *.masternazz.com certificate automatically via Cloudflare DNS-01. Nginx Proxy Manager terminates TLS for all subdomains, so every internal service gets HTTPS without managing individual certs.</p>
+        <p>OPNsense's ACME client issues and renews a *.masternazz.com certificate automatically via Cloudflare DNS-01. NPMplus terminates TLS for all subdomains, so every internal service gets HTTPS without managing individual certs.</p>
       </article>
     </section>
 

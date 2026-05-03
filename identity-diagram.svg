@@ -49,7 +49,7 @@
   <!--
     Right-angle elbow paths, exit points ordered bottom-to-top on Authentik left wall:
       y=138 (bottom) → Proxmox   (col2, row2)
-      y=122          → NPM Plus  (col2, row1)
+      y=122          → NPMplus  (col2, row1)
       y=106          → Homepage  (col1, row2)
       y=90  (top)    → Media Server (col1, row1)
     Col-1 verticals: x=72 / x=84 (12px apart, no overlap)
@@ -66,7 +66,7 @@
   <text x="87" y="240" text-anchor="middle" fill="#4b4266" font-size="9">Media SSO</text>
 
   <rect x="155" y="205" width="115" height="44" rx="6" fill="#110d22" stroke="#9333ea" stroke-width="1"/>
-  <text x="212" y="224" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">NPM Plus</text>
+  <text x="212" y="224" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">NPMplus</text>
   <text x="212" y="240" text-anchor="middle" fill="#4b4266" font-size="9">Proxy auth portal</text>
 
   <!-- OIDC chips row 2 -->
