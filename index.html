@@ -218,14 +218,15 @@
 
           <h3>Zero-Trust Remote Access</h3>
           <p>
-            Securing ingress via Nginx Proxy Manager and Cloudflare Tunnels, 
-            eliminating the need for open ports while maintaining usability.
+            Two independent access layers: Headscale mesh VPN for admin access and
+            Cloudflare Tunnel in a DMZ VLAN for public services — no management ports on the internet.
           </p>
 
           <div class="chip-row">
-            <span class="chip">Tunneling</span>
-            <span class="chip">SSL/TLS</span>
-            <span class="chip">Reverse Proxy</span>
+            <span class="chip">Headscale</span>
+            <span class="chip">Cloudflare Tunnel</span>
+            <span class="chip">DMZ Design</span>
+            <span class="chip">Wildcard TLS</span>
           </div>
 
           <span class="card-link">View project -&gt;</span>

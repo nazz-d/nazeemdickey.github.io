@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wazuh Monitoring Lab | Nazeem Dickey</title>
-  <meta name="description" content="Wazuh monitoring and SOC-style investigation workflow project by Nazeem Dickey.">
+  <title>Wazuh SIEM/XDR Lab | Nazeem Dickey</title>
+  <meta name="description" content="Self-hosted Wazuh SIEM/XDR deployment and SOC-style investigation workflow by Nazeem Dickey.">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
@@ -12,7 +12,6 @@
 
   <header class="nav">
     <a href="index.html" class="brand" aria-label="Nazeem Dickey home">ND</a>
-
     <nav class="nav-links" aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="index.html#projects">Projects</a>
@@ -24,111 +23,91 @@
   </header>
 
   <main class="page">
-
     <section class="page-hero">
-      <p class="eyebrow">Project | SOC Workflow</p>
-
-      <h1>Wazuh Monitoring Lab</h1>
-
+      <p class="eyebrow">Project | SOC / Security Monitoring</p>
+      <h1>Wazuh SIEM / XDR</h1>
       <p class="lead">
-        Monitoring and investigation practice focused on endpoint visibility, authentication
-        events, alert context, triage notes, and the kind of documentation a SOC or help desk
-        team can use during follow-up.
+        Wazuh deployed as a self-hosted SIEM and XDR platform in an LXC container on the Proxmox
+        cluster — collecting endpoint events, correlating Suricata network alerts, and providing
+        a real alert triage environment for SOC-style investigation practice.
       </p>
-
       <div class="chip-row">
         <span class="chip">Wazuh</span>
-        <span class="chip">Log Review</span>
+        <span class="chip">SIEM</span>
+        <span class="chip">XDR</span>
+        <span class="chip">Suricata Integration</span>
+        <span class="chip">Endpoint Agents</span>
         <span class="chip">Alert Triage</span>
-        <span class="chip">Windows Events</span>
-        <span class="chip">Linux Events</span>
+      </div>
+    </section>
+
+    <section class="section card">
+      <div class="diagram-card">
+        <img src="wazuh-diagram.svg" alt="Wazuh SIEM data flow diagram" style="width:100%;border-radius:8px;">
       </div>
     </section>
 
     <section class="section two-column">
       <div class="card">
-        <h2>Lab Goals</h2>
-
+        <h2>What I Built</h2>
         <ul class="list-clean">
-          <li>Collect security-relevant events from Windows and Linux systems.</li>
-          <li>Review authentication activity, failed logins, and host context.</li>
-          <li>Practice separating expected behavior from suspicious activity.</li>
-          <li>Write investigation notes that include evidence, impact, and next steps.</li>
-          <li>Connect endpoint events back to networking and system administration knowledge.</li>
+          <li>Deployed Wazuh as a self-hosted SIEM/XDR in an LXC container on the Proxmox cluster, running as a persistent production service.</li>
+          <li>Configured Wazuh agents on Linux LXC containers and Windows hosts to forward security events — authentication, process activity, file integrity, and system calls.</li>
+          <li>Integrated Suricata IDS alerts from OPNsense's WAN interface into Wazuh via syslog so network-layer and host-layer events land in the same dashboard for correlation.</li>
+          <li>Used the Wazuh dashboard for alert browsing, rule inspection, and investigation workflows across multiple endpoint types.</li>
+          <li>Practiced SOC-style triage: identify the alert → review surrounding context → classify → document findings and next steps.</li>
         </ul>
       </div>
 
       <div class="card">
         <h2>Skills Demonstrated</h2>
-
         <ul class="list-clean">
-          <li>Basic SIEM workflow understanding</li>
-          <li>Endpoint monitoring concepts</li>
-          <li>Alert triage and evidence review</li>
-          <li>Authentication event analysis</li>
-          <li>Clear security documentation</li>
+          <li>SIEM/XDR deployment and agent configuration</li>
+          <li>Endpoint visibility across Linux and Windows systems</li>
+          <li>Network and host event correlation (Suricata + Wazuh)</li>
+          <li>Alert triage and classification workflow</li>
+          <li>File integrity monitoring and compliance concepts</li>
+          <li>SOC-style investigation documentation</li>
         </ul>
       </div>
-    </section>
-
-    <section class="section card">
-      <h2>Investigation Workflow</h2>
-
-      <ol class="list-clean">
-        <li>Identify the alert, event type, affected host, user, and timestamp.</li>
-        <li>Review surrounding events before and after the alert.</li>
-        <li>Check whether the source, account, and action match expected behavior.</li>
-        <li>Classify the event as expected, misconfiguration, suspicious, or needs more evidence.</li>
-        <li>Document what happened, why it matters, what was checked, and the recommended next step.</li>
-      </ol>
     </section>
 
     <section class="section three-column">
       <article class="detail-card">
+        <span class="mini-label">Integration</span>
+        <h2>Suricata + Wazuh Correlation</h2>
+        <p>Suricata runs on OPNsense's WAN interface in netmap mode and forwards IDS alerts to Wazuh via syslog. Network-layer detections and host-layer events appear in the same platform — a detection on the wire can be cross-referenced with what the endpoint was doing at the same time.</p>
+      </article>
+
+      <article class="detail-card">
         <span class="mini-label">Visibility</span>
-        <h2>Endpoint Context</h2>
-        <p>Look at hosts, users, and timestamps together instead of treating alerts as isolated popups.</p>
+        <h2>Agent-Based Endpoint Coverage</h2>
+        <p>Wazuh agents on Linux containers and Windows hosts collect authentication events, process creation, file integrity changes, and system-level activity. The manager correlates these against built-in and custom rules to surface meaningful alerts rather than raw log noise.</p>
       </article>
 
       <article class="detail-card">
-        <span class="mini-label">Triage</span>
-        <h2>Noise vs Signal</h2>
-        <p>Practice asking whether an alert is expected activity, a configuration issue, or something worth escalating.</p>
-      </article>
-
-      <article class="detail-card">
-        <span class="mini-label">Notes</span>
-        <h2>Reusable Writeups</h2>
-        <p>Write investigation notes clearly enough that another technician could understand what was checked.</p>
+        <span class="mini-label">Workflow</span>
+        <h2>Triage Practice Environment</h2>
+        <p>Real alerts from the homelab infrastructure — failed logins, config changes, unexpected processes — create a low-stakes environment to practice the analyst triage loop: identify, contextualize, classify, and document. The same workflow scales directly to production SOC work.</p>
       </article>
     </section>
 
-    <section class="section two-column">
-      <div class="card">
-        <h2>What I Learned</h2>
-        <p>
-          Monitoring tools are only useful when the analyst understands context. This
-          project helped me connect logs, accounts, systems, and network knowledge into
-          a repeatable investigation workflow.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>Next Improvements</h2>
-        <ul class="list-clean">
-          <li>Add more endpoint agents and document their roles.</li>
-          <li>Create sanitized sample incident writeups.</li>
-          <li>Improve alert tuning notes to reduce noise.</li>
-          <li>Build a small playbook library for common alert types.</li>
-        </ul>
-      </div>
+    <section class="section card callout">
+      <h2>What This Shows Employers</h2>
+      <p>
+        Wazuh is used in production SOC environments. I deployed it, wired it to real endpoints,
+        and connected it to a live IDS feed — not a classroom simulation. I understand how alerts
+        are generated, why correlation between network and host events matters, and what the
+        triage workflow looks like from inside the tool. That's day-one relevant for SOC analyst
+        and junior security operations roles.
+      </p>
     </section>
 
     <section class="section">
       <div class="section-header">
         <div>
           <h2>Explore More Projects</h2>
-          <p>Project pages that cover the infrastructure being monitored.</p>
+          <p>Project pages covering the infrastructure being monitored.</p>
         </div>
       </div>
 
@@ -204,11 +183,10 @@
     <div class="back-link">
       <a href="index.html#projects">&lt;- Back to projects</a>
     </div>
-
   </main>
 
   <footer class="footer">
-    <p>Security monitoring lab documentation by Nazeem Dickey.</p>
+    <p>Security monitoring project by Nazeem Dickey.</p>
   </footer>
 
   <script src="script.js"></script>

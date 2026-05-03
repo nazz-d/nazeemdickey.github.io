@@ -196,8 +196,8 @@
   <text x="687" y="668" text-anchor="middle" fill="#4b4266" font-size="9">Service launcher</text>
 
   <rect x="550" y="682" width="275" height="36" rx="5" fill="#110d22" stroke="#6d28d9" stroke-width="1"/>
-  <text x="687" y="697" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Windrose · KSP Server</text>
-  <text x="687" y="712" text-anchor="middle" fill="#4b4266" font-size="9">Game server nodes</text>
+  <text x="687" y="697" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="600">Game Server Nodes</text>
+  <text x="687" y="712" text-anchor="middle" fill="#4b4266" font-size="9">Dedicated game instances</text>
 
   <!-- More services note -->
   <text x="430" y="742" fill="#4b4266" font-size="9">+ Home Assistant · Ollama · OpenWebUI · Unifi Controller · Pelican Panel · Homarr · scanopy · netboot-xyz · and more</text>
