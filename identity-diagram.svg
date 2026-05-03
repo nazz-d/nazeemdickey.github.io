@@ -47,15 +47,17 @@
   <text x="145" y="192" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="700" letter-spacing="1">OIDC / OAuth2</text>
 
   <!--
-    Right-angle elbow paths from Authentik left wall → horizontal left → vertical down.
-    Each path exits at a distinct y on the left wall, travels to a unique x offset,
-    then drops straight to its chip top. No two paths share a vertical segment.
-      col-1 x positions: 75 (Media Server row1), 80 (Homepage row2)
-      col-2 x positions: 226 (NPM Plus row1), 248 (Proxmox row2)
+    Right-angle elbow paths, exit points ordered bottom-to-top on Authentik left wall:
+      y=138 (bottom) → Proxmox   (col2, row2)
+      y=122          → NPM Plus  (col2, row1)
+      y=106          → Homepage  (col1, row2)
+      y=90  (top)    → Media Server (col1, row1)
+    Col-1 verticals: x=72 / x=84 (12px apart, no overlap)
+    Col-2 verticals: x=226 / x=248 (22px apart, no overlap)
   -->
-  <path d="M280,90 L75,90 L75,205"   fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arr)"/>
-  <path d="M280,106 L226,106 L226,205" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arr)"/>
-  <path d="M280,122 L80,122 L80,275"  fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"  marker-end="url(#arr)"/>
+  <path d="M280,90  L72,90  L72,205"  fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arr)"/>
+  <path d="M280,106 L84,106 L84,275"  fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arr)"/>
+  <path d="M280,122 L226,122 L226,205" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"  marker-end="url(#arr)"/>
   <path d="M280,138 L248,138 L248,275" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round" opacity="0.5"  marker-end="url(#arr)"/>
 
   <!-- OIDC chips row 1 -->
@@ -81,11 +83,12 @@
   <text x="755" y="192" text-anchor="middle" fill="#818cf8" font-size="10" font-weight="700" letter-spacing="1">LDAP OUTPOST</text>
 
   <!--
-    Right-angle elbow paths from Authentik right wall → horizontal right → vertical down.
-    One path per chip: exactly 2 lines, no gap-landings.
+    Right-angle elbow paths, exit points ordered bottom-to-top on Authentik right wall:
+      y=116 (bottom) → Wazuh  (closer chip, x=682)
+      y=100 (top)    → Legacy (farther chip, x=807)
   -->
-  <path d="M620,100 L682,100 L682,205" fill="none" stroke="#4f46e5" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arrIndigo)"/>
-  <path d="M620,116 L807,116 L807,205" fill="none" stroke="#4f46e5" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arrIndigo)"/>
+  <path d="M620,116 L682,116 L682,205" fill="none" stroke="#4f46e5" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arrIndigo)"/>
+  <path d="M620,100 L807,100 L807,205" fill="none" stroke="#4f46e5" stroke-width="1.3" stroke-linejoin="round" opacity="0.65" marker-end="url(#arrIndigo)"/>
 
   <!-- LDAP chips -->
   <rect x="625" y="205" width="115" height="44" rx="6" fill="#110d22" stroke="#4f46e5" stroke-width="1"/>
