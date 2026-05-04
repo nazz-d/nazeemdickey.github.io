@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journey &amp; Timeline | Nazeem Massoom Dickey</title>
+  <meta name="description" content="How Nazeem Massoom Dickey went from zero IT background to enterprise homelab, CompTIA trifecta, and SkillsUSA Florida 1st Place in under two years.">
+  <link rel="canonical" href="https://masternazz.com/journey.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Journey &amp; Timeline | Nazeem Massoom Dickey">
+  <meta property="og:description" content="From zero IT background to enterprise homelab, CompTIA trifecta, CySA+, and SkillsUSA Florida 1st Place in under two years.">
+  <meta property="og:url" content="https://masternazz.com/journey.html">
+  <meta property="og:image" content="https://masternazz.com/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Journey &amp; Timeline | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Zero to enterprise homelab, CompTIA trifecta, and SkillsUSA FL 1st Place in under two years.">
+  <meta name="twitter:image" content="https://masternazz.com/network-diagram.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    .journey-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .journey-timeline::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(34,211,238,0.7), rgba(139,92,246,0.5), rgba(34,211,238,0.2));
+      border-radius: 2px;
+    }
+
+    .journey-entry {
+      display: flex;
+      gap: 28px;
+      padding: 0 0 36px 0;
+      position: relative;
+    }
+
+    .journey-entry:last-child {
+      padding-bottom: 0;
+    }
+
+    .journey-dot {
+      flex-shrink: 0;
+      width: 48px;
+      display: flex;
+      justify-content: center;
+      padding-top: 18px;
+    }
+
+    .journey-dot-inner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(34,211,238,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes milestone-pulse {
+      0%   { box-shadow: 0 0 0 3px rgba(139,92,246,0.45), 0 0 14px rgba(139,92,246,0.4); }
+      50%  { box-shadow: 0 0 0 7px rgba(139,92,246,0.15), 0 0 22px rgba(139,92,246,0.55); }
+      100% { box-shadow: 0 0 0 3px rgba(139,92,246,0.45), 0 0 14px rgba(139,92,246,0.4); }
+    }
+
+    .journey-entry.milestone .journey-dot-inner {
+      background: var(--purple-strong);
+      width: 20px;
+      height: 20px;
+      margin-top: -2px;
+      animation: milestone-pulse 2s ease-in-out infinite;
+    }
+
+    .journey-body {
+      flex: 1;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      box-shadow: 0 18px 46px var(--shadow);
+    }
+
+    .journey-entry.milestone .journey-body {
+      border-color: rgba(139,92,246,0.35);
+      background: rgba(139,92,246,0.07);
+    }
+
+    .journey-date {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .journey-entry.milestone .journey-date {
+      color: var(--purple-strong);
+    }
+
+    .journey-body h3 {
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    .journey-body p {
+      color: var(--subtle);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 0;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 18px 46px var(--shadow);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card span {
+      font-size: 0.82rem;
+      color: var(--subtle);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 820px) {
+      .stat-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .journey-timeline::before {
+        left: 15px;
+      }
+
+      .journey-dot {
+        width: 32px;
+        padding-top: 20px;
+      }
+
+      .journey-dot-inner {
+        width: 12px;
+        height: 12px;
+      }
+
+      .journey-entry.milestone .journey-dot-inner {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stat-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="journey.html" aria-current="page">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Personal | Career Journey</p>
+      <h1>Journey &amp; Timeline</h1>
+      <p class="lead">
+        From zero IT background midway through junior year to enterprise homelab,
+        CompTIA trifecta, CySA+, and SkillsUSA Florida 1st Place — in under two years.
+      </p>
+      <div class="hero-actions">
+        <a href="resume.html" class="button">Resume</a>
+        <a href="homelab.html" class="button secondary">Homelab</a>
+        <a href="certifications.html" class="button secondary">Certifications</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="stat-strip">
+        <div class="stat-card">
+          <strong>&lt;2yr</strong>
+          <span>Zero to enterprise lab</span>
+        </div>
+        <div class="stat-card">
+          <strong>3wk</strong>
+          <span>A+, Net+, Sec+ streak</span>
+        </div>
+        <div class="stat-card">
+          <strong>1st</strong>
+          <span>SkillsUSA FL Internetworking</span>
+        </div>
+        <div class="stat-card">
+          <strong>14+</strong>
+          <span>Certifications earned</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>The Full Timeline</h2>
+          <p>Every step, in order — including the failed exams and the hard parts.</p>
+        </div>
+      </div>
+
+      <div class="journey-timeline">
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">January 2025 — SouthTech Academy</span>
+            <h3>Started in IT Midway Through Junior Year</h3>
+            <p>Enrolled at SouthTech Academy halfway through junior year with zero IT background. First exposure was CCST Networking. Failed it twice — kept going anyway.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">March 2025 — First Server</span>
+            <h3>IBM System x3750 — The Lab Starts</h3>
+            <p>My mentor got me my first server — an IBM x3750 rackmount. No space in my room, so it lived behind a bookshelf near the router. Started experimenting with Pterodactyl, NGINX, and Minecraft hosting. First time actually seeing how services connect.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">September 2025 — First Rack</span>
+            <h3>Synology NAS, SG300 Switch, OPNsense Optiplex</h3>
+            <p>My mentor gave me a Synology NAS — first time managing real storage and backups. He and my dad helped build a two-post rack: IBM server at the bottom, NAS on the second shelf, SG300 switch on the third, and an Optiplex running OPNsense at the top with a KVM switch. First real rack.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">Late 2025 — Turning Point</span>
+            <h3>All-In After Loss</h3>
+            <p>After my grandmother passed, I put everything into IT. Passed CCST Networking on the third attempt — which I needed to qualify for SkillsUSA. Started the CompTIA track immediately after.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">March 2026 — Three Weeks</span>
+            <h3>CompTIA Trifecta: A+, Network+, Security+</h3>
+            <p>Studied with Professor Messer and YouTube. Passed A+ Core 1 and Core 2 in a single week, Network+ the week after, Security+ the week after that. Three industry certifications in three consecutive weeks.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">Early April 2026 — Lab Expansion</span>
+            <h3>Dell R610 &amp; R410 — Two More Nodes</h3>
+            <p>My mentor found two servers people were throwing out — a Dell R610 and R410. Added them to the Proxmox cluster alongside the IBM, forming a three-node setup.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">April 2026 — State Level</span>
+            <h3>SkillsUSA Florida Internetworking — 1st Place</h3>
+            <p>Won first place in Internetworking at the SkillsUSA Florida State Competition — networking knowledge tested under pressure against peers from across the state. Qualified for SkillsUSA NLSC in Atlanta, GA.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">April 2026 — CompTIA</span>
+            <h3>CySA+ Passed</h3>
+            <p>Added the Cybersecurity Analyst certification, completing the CompTIA CSAP stackable credential pathway on top of the trifecta.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">April 2026 — Tampa, FL</span>
+            <h3>CyberLaunch USF State Championship</h3>
+            <p>Competed in Florida's largest state-sponsored high school CTF at the University of South Florida — hosted by Cyber Florida. Advanced from the November virtual qualifier to the in-person State Championship.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">2026 — Full Rack Build</span>
+            <h3>Cisco Switches + Enclosed 4-Post Rack</h3>
+            <p>Mentor sourced two Cisco Catalyst 3750 V2 switches and a full enclosed 4-post rack with a door and PDU. The lab became a proper rack: all three servers, both switches, three NAS units, and real power distribution.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">Now — What's Next</span>
+            <h3>CCNA &amp; PenTest+ in Progress — SkillsUSA Nationals Ahead</h3>
+            <p>Actively studying CCNA and PenTest+. Competing at SkillsUSA NLSC in Atlanta, GA. Open to junior networking, SOC, NOC, MSP, and IT support roles.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="index.html">&lt;- Back to homepage</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Journey documented by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
