@@ -833,8 +833,14 @@ p {
 
 @media (max-width: 820px) {
   .nav {
-    align-items: flex-start;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
   }
 
   .hero,

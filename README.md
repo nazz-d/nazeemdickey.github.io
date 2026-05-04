@@ -1,6 +1,6 @@
-# Nazeem Dickey Portfolio
+# Nazeem Massoom Dickey Portfolio
 
-Public portfolio for Nazeem Dickey, focused on junior network administrator, SOC analyst, NOC, MSP, IT support, and cybersecurity internship opportunities.
+Public portfolio for Nazeem Massoom Dickey, focused on junior network administrator, SOC analyst, NOC, MSP, IT support, and cybersecurity internship opportunities.
 
 Live site: https://masternazz.com
 
