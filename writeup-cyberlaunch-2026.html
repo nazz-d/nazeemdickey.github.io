@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberLaunch USF 2026 — CTF Writeup | Nazeem Massoom Dickey</title>
+  <meta name="description" content="CyberLaunch USF 2026 State Championship CTF recap — Kali Linux, Nmap, Metasploit, Hashcat, SMB exploitation, and OSINT geolocation.">
+  <link rel="canonical" href="https://masternazz.com/writeup-cyberlaunch-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="CyberLaunch USF 2026 — CTF Writeup | Nazeem Massoom Dickey">
+  <meta property="og:description" content="CyberLaunch USF 2026 State Championship CTF recap — Kali Linux, Nmap, Metasploit, SMB exploitation, hash cracking, and OSINT image geolocation.">
+  <meta property="og:url" content="https://masternazz.com/writeup-cyberlaunch-2026.html">
+  <meta property="og:image" content="https://masternazz.com/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CyberLaunch USF 2026 — CTF Writeup | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="CyberLaunch USF 2026 CTF recap — Nmap, Metasploit, Hashcat, SMB exploitation, and OSINT geolocation under competition pressure.">
+  <meta name="twitter:image" content="https://masternazz.com/network-diagram.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    .writeup-body {
+      max-width: 760px;
+    }
+
+    .writeup-body h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .writeup-body p {
+      color: var(--subtle);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .writeup-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .writeup-body ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .writeup-body ul li {
+      color: var(--subtle);
+      line-height: 1.75;
+      margin-bottom: 6px;
+    }
+
+    .writeup-body strong {
+      color: var(--text);
+    }
+
+    .tool-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .tool-chip {
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.25);
+      color: var(--accent);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    .writeup-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .writeup-meta-item {
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .writeup-meta-item span {
+      color: var(--accent);
+    }
+
+    .writeup-meta-item strong {
+      color: var(--subtle);
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Writeup | CTF / Competition</p>
+      <h1>CyberLaunch USF 2026</h1>
+      <p class="lead">
+        Florida's largest state-sponsored high school CTF — hosted by Cyber Florida at the
+        University of South Florida. This is my recap of the competition format, the workflow
+        I used, and what it actually felt like to do offensive security work under a timer
+        for the first time.
+      </p>
+      <div class="chip-row">
+        <span class="chip">CTF</span>
+        <span class="chip">Kali Linux</span>
+        <span class="chip">Nmap</span>
+        <span class="chip">Metasploit</span>
+        <span class="chip">Hashcat</span>
+        <span class="chip">John the Ripper</span>
+        <span class="chip">SMB Exploitation</span>
+        <span class="chip">OSINT</span>
+      </div>
+    </section>
+
+    <section class="section card writeup-body">
+
+      <div class="writeup-meta">
+        <div class="writeup-meta-item"><span>Event</span> &nbsp;<strong>CyberLaunch USF State Championship</strong></div>
+        <div class="writeup-meta-item"><span>Date</span> &nbsp;<strong>April 2026</strong></div>
+        <div class="writeup-meta-item"><span>Location</span> &nbsp;<strong>University of South Florida, Tampa</strong></div>
+        <div class="writeup-meta-item"><span>Format</span> &nbsp;<strong>In-person CTF, timed</strong></div>
+      </div>
+
+      <h2>The Setup</h2>
+      <p>
+        CyberLaunch runs a November virtual qualifier and an in-person State Championship in April at USF.
+        I qualified through the virtual round and competed at the Tampa campus for the State Championship.
+        The format was a capture-the-flag competition — find flags hidden across a set of target machines
+        and challenges, score points, repeat until time runs out.
+      </p>
+      <p>
+        Each competitor needed two laptops: one running the CTF environment and one free for research.
+        Everything was allowed — documentation, Google, AI tools, anything. That's actually more realistic
+        than most exam environments. Real security work isn't done from memory; it's done with the right
+        tools and the ability to find and apply information quickly.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The Target Machines</h2>
+      <p>
+        The CTF included multiple Windows machines as targets — a Windows XP box, a Windows 7 box,
+        and at least one more. Older Windows versions are classic CTF targets because they carry
+        well-documented vulnerabilities, particularly around SMB, that are straightforward to exploit
+        with the right tools once you identify them. They're also what you'd realistically find in
+        legacy environments at small businesses — which made the whole thing feel relevant rather than
+        just academic.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The Workflow</h2>
+
+      <p><strong>Step 1 — Reconnaissance with Nmap</strong></p>
+      <p>
+        Every engagement starts with knowing what you're looking at. Nmap was the first tool — running
+        service version scans against the target machines to see what ports were open, what services
+        were running, and what OS signatures came back. On older Windows machines, SMB on port 445
+        almost always shows up, and seeing that immediately tells you where to start looking for
+        known vulnerabilities.
+      </p>
+
+      <p><strong>Step 2 — Vulnerability Research (OSINT)</strong></p>
+      <p>
+        Once the services were identified, the next step was research. What known CVEs apply to this
+        service version? Is there a Metasploit module for it? This is where the second laptop earned
+        its keep — cross-referencing Nmap output against vulnerability databases and documentation
+        while keeping the attack machine free. SMB vulnerabilities on unpatched XP and Windows 7
+        are well documented, and finding the right module was mostly a matter of knowing how to search.
+      </p>
+
+      <p><strong>Step 3 — Exploitation with Metasploit</strong></p>
+      <p>
+        Metasploit handled the actual exploitation. Set the target, set the payload, run the module,
+        get a shell. When it works it looks almost too easy — but that's the point of a framework like
+        Metasploit. The hard part isn't running the exploit, it's correctly identifying the vulnerability
+        in the first place and configuring the module correctly. Getting a Meterpreter session open on
+        a target machine for the first time in a real competition environment was a genuinely satisfying
+        moment.
+      </p>
+
+      <p><strong>Step 4 — Hash Extraction and Cracking</strong></p>
+      <p>
+        Once inside a machine, the next objective was usually credentials. Dumping password hashes
+        from the SAM database, then taking those hashes offline to crack with Hashcat or John the
+        Ripper. Hashcat uses GPU acceleration for dictionary and brute-force attacks — fast and
+        effective against weak or common passwords. John the Ripper handled some of the other formats.
+        Cracked credentials sometimes unlocked other parts of the challenge or gave access to
+        additional machines on the network.
+      </p>
+
+      <p><strong>Step 5 — Flag Hunting</strong></p>
+      <p>
+        Flags were hidden across the machines — in files, directories, registry keys, and other
+        locations you'd only find by actually poking around inside a compromised system. This is
+        where post-exploitation enumeration mattered: knowing where to look, how to navigate the
+        filesystem from a shell, and how to search for specific content. Each flag found added to
+        the score.
+      </p>
+
+      <p><strong>Step 6 — OSINT Image Geolocation</strong></p>
+      <p>
+        Not everything was network-based. There were also OSINT challenges, including one where
+        the task was to identify the geographic coordinates of a location from an image — no
+        metadata, just visual analysis. Reading landmarks, architecture, street layouts, and
+        environment to narrow down a location. It's a completely different skill from the
+        technical exploitation work but it tests the same core ability: observe carefully,
+        research systematically, and reach a conclusion you can defend.
+      </p>
+
+      <div class="tool-chip-row">
+        <span class="tool-chip">nmap</span>
+        <span class="tool-chip">metasploit</span>
+        <span class="tool-chip">hashcat</span>
+        <span class="tool-chip">john</span>
+        <span class="tool-chip">meterpreter</span>
+        <span class="tool-chip">kali linux</span>
+        <span class="tool-chip">smb / ms17-010</span>
+        <span class="tool-chip">osint</span>
+      </div>
+
+      <hr class="section-divider">
+
+      <h2>What It Actually Felt Like</h2>
+      <p>
+        Challenging. The timer creates a kind of pressure that studying at home doesn't replicate —
+        you know the clock is running, other teams are scoring, and every minute you spend stuck on
+        something is a minute not spent finding the next flag. It forces you to make decisions faster
+        than you're comfortable with and move on when something isn't working rather than grinding
+        on it indefinitely.
+      </p>
+      <p>
+        It also showed me how much the homelab prep mattered. I'd used Nmap and configured services
+        on real hardware before — not just read about it. When you've actually set up a network and
+        watched traffic move through it, the reconnaissance phase makes more intuitive sense. You know
+        what normal looks like, so anomalies stand out.
+      </p>
+      <p>
+        The OSINT challenge was a reminder that security isn't only technical. Pattern recognition,
+        attention to detail, and knowing how to search systematically are just as important as knowing
+        which Metasploit module to run. A good analyst uses both.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>What I'd Do Differently</h2>
+      <p>
+        More deliberate post-exploitation enumeration practice beforehand. Getting a shell is
+        satisfying but I spent more time than I should have figuring out where flags might be
+        hiding once I was already inside. That's a workflow you want to have memorized — a
+        checklist of places to look so you're not improvising under pressure.
+      </p>
+      <p>
+        I'd also spend more time on OSINT tooling specifically. The image geolocation challenge
+        caught me off guard — not because I couldn't do it, but because I hadn't practiced that
+        category as deliberately as the network exploitation side. Next time it won't be a surprise.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The Bigger Picture</h2>
+      <p>
+        CyberLaunch gave me a clearer picture of what offensive security work actually looks like
+        in practice — the reconnaissance-to-exploitation-to-post-exploitation chain, the role of
+        OSINT alongside technical tools, and how real-world vulnerabilities (unpatched SMB on legacy
+        Windows) show up in structured environments. It's one thing to read about EternalBlue or
+        watch a walkthrough. It's another to run the workflow yourself under competition conditions
+        and get results.
+      </p>
+      <p>
+        It also confirmed that the homelab work translates. The concepts aren't abstract when you've
+        already configured the hardware they run on.
+      </p>
+
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Related Pages</h2>
+        </div>
+      </div>
+      <div class="project-grid">
+        <a href="wazuh.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </span>
+            <span class="project-type">SIEM / Security</span>
+          </div>
+          <h3>Wazuh SIEM / XDR</h3>
+          <p>The defensive side — SIEM deployment, endpoint monitoring, and alert triage. The other half of understanding how attacks work.</p>
+          <span class="card-link">View project -&gt;</span>
+        </a>
+
+        <a href="skillsusa.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </span>
+            <span class="project-type">Competition</span>
+          </div>
+          <h3>SkillsUSA Internetworking</h3>
+          <p>Florida State Champion — 1st Place. The networking fundamentals competition that happened the same month.</p>
+          <span class="card-link">View page -&gt;</span>
+        </a>
+
+        <a href="writeups.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </span>
+            <span class="project-type">Writing</span>
+          </div>
+          <h3>All Writeups</h3>
+          <p>Back to the writeups index — more competition recaps and technical notes.</p>
+          <span class="card-link">View all -&gt;</span>
+        </a>
+
+        <a href="journey.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </span>
+            <span class="project-type">Journey</span>
+          </div>
+          <h3>Journey &amp; Timeline</h3>
+          <p>The full story — where CyberLaunch fits in the bigger picture.</p>
+          <span class="card-link">View timeline -&gt;</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line" id="emailText" aria-live="polite" style="margin-top: 24px; color: var(--subtle); font-weight: 700;">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="writeups.html">&lt;- Back to writeups</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Writeup by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
