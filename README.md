@@ -22,6 +22,23 @@ Live site: https://masternazz.com
 
 OpenAI Codex, Anthropic Claude, and Google Gemini assisted with drafting, review, implementation support, and documentation polish. The project direction, infrastructure decisions, lab ownership, validation, and final technical judgment are Nazeem's.
 
+## AI Starter Repos
+
+This portfolio is maintained with a small set of official Claude, Gemini, and Codex starter repos for workflow research, examples, and implementation reference.
+
+Current starter set:
+
+- `anthropics/claude-code`
+- `anthropics/skills`
+- `google-gemini/gemini-cli`
+- `google-gemini/cookbook`
+- `googleapis/python-genai`
+- `googleapis/js-genai`
+- `openai/codex`
+- `openai/plugins`
+- `openai/codex-action`
+- `openai/codex-plugin-cc`
+
 ## Public-Safe Boundary
 
 This site intentionally avoids publishing private configuration exports, secrets, exact firewall rule details, credential material, MAC addresses, and full internal addressing.
