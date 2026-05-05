@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-labelledby="title">
+  <title>Cisco logo</title>
+  <g fill="#22d3ee">
+    <rect x="24" y="34" width="8" height="18" rx="4"/>
+    <rect x="40" y="24" width="8" height="28" rx="4"/>
+    <rect x="56" y="14" width="8" height="38" rx="4"/>
+    <rect x="72" y="24" width="8" height="28" rx="4"/>
+    <rect x="88" y="34" width="8" height="18" rx="4"/>
+    <rect x="104" y="24" width="8" height="28" rx="4"/>
+    <rect x="120" y="14" width="8" height="38" rx="4"/>
+    <rect x="136" y="24" width="8" height="28" rx="4"/>
+    <rect x="152" y="34" width="8" height="18" rx="4"/>
+  </g>
+  <text x="43" y="91" fill="#f6f3ff" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="2">CISCO</text>
+</svg>

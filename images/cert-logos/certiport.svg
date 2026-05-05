@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-labelledby="title">
+  <title>Certiport logo</title>
+  <defs>
+    <linearGradient id="certiportWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <path d="M20 65c18-28 42-42 72-42 18 0 34 4 49 12-24 2-41 11-52 26-10 14-25 23-47 23-7 0-14-1-22-4z" fill="url(#certiportWave)" opacity="0.95"/>
+  <text x="28" y="90" fill="#f6f3ff" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700">Certiport</text>
+</svg>

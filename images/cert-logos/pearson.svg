@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-labelledby="title">
+  <title>Pearson logo</title>
+  <g transform="translate(22 24)">
+    <circle cx="32" cy="32" r="28" fill="none" stroke="#22c55e" stroke-width="8"/>
+    <path d="M32 18c-10 0-18 8-18 18v26h12V48h8c10 0 18-8 18-18s-8-12-20-12z" fill="#c084fc"/>
+  </g>
+  <text x="92" y="73" fill="#f6f3ff" font-family="Segoe UI, Arial, sans-serif" font-size="32" font-weight="700">Pearson</text>
+</svg>
