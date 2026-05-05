@@ -14,11 +14,9 @@
   --amber: #f59e0b;
   --danger: #ef4444;
   --shadow: rgba(0, 0, 0, 0.65);
-  /* glass effect */
   --glass-bg: rgba(18, 12, 36, 0.55);
   --glass-border: rgba(255, 255, 255, 0.07);
   --glass-glow: rgba(192, 132, 252, 0.06);
-  /* UI elements */
   --btn-text: #070411;
   --card-shadow: 0 18px 46px var(--shadow);
   /* cursor spotlight */
@@ -35,7 +33,7 @@
   --text: #0f172a;
   --muted: #475569;
   --subtle: #64748b;
-  --line: rgba(37, 99, 235, 0.12);
+  --line: rgba(37, 99, 235, 0.15);
   --purple: #2563eb;
   --purple-strong: #1d4ed8;
   --accent: #0ea5e9;
@@ -315,7 +313,7 @@ p { color: var(--muted); line-height: 1.72; }
 .section-header h2 { margin-bottom: 6px; font-size: 2rem; }
 .section-header p { max-width: 700px; margin: 0; color: var(--subtle); }
 
-.card, .snapshot-card, .project-card, .skill-box, .achievement-card, .timeline-item, .detail-card {
+.card, .snapshot-card, .project-card, .skill-box, .achievement-card, .detail-card {
   background: var(--panel); 
   border: 1px solid var(--line); 
   border-radius: 8px;
@@ -377,7 +375,84 @@ p { color: var(--muted); line-height: 1.72; }
 .glass-panel:hover::after { opacity: 1; }
 .glass-panel > * { position: relative; z-index: 1; }
 
-/* ── Rack photo gallery ─────────────────────────────────────────────── */
+/* ── Timeline Section Refinement ── */
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  padding-left: 36px;
+  margin-top: 24px;
+}
+
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.timeline-item:hover {
+  transform: translateX(6px);
+  border-color: var(--accent);
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -32px;
+  top: 28px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 4px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent);
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.timeline-item:hover::before {
+  transform: scale(1.2);
+}
+
+.timeline-item span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.timeline-item h3 {
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+.timeline-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ── Rack photo gallery ── */
 .rack-gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -531,6 +606,8 @@ p { color: var(--muted); line-height: 1.72; }
   .hero h1, .page-hero h1 { font-size: 2.34rem; }
   .button { width: 100%; }
   .rack-gallery { grid-template-columns: 1fr; }
+  .timeline-list { padding-left: 28px; }
+  .timeline-item::before { left: -24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
