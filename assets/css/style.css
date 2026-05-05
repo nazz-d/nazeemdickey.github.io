@@ -1146,6 +1146,10 @@ p {
     gap: 10px;
   }
 
+  .search-trigger kbd {
+    display: none;
+  }
+
   .card,
   .snapshot-card,
   .project-card,
