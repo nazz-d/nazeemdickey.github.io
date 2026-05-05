@@ -148,30 +148,147 @@ function setupGlassPanels() {
   });
 }
 
+const INDEX = [
+  {
+    "title": "Home",
+    "url": "index.html",
+    "icon": "🏠",
+    "desc": "Portfolio landing page",
+    "keywords": "home portfolio nazeem network admin soc noc msp skills projects contact hero"
+  },
+  {
+    "title": "Certifications",
+    "url": "pages/certifications.html",
+    "icon": "🏅",
+    "desc": "Professional certifications and credentials for Nazeem Massoom Dickey.",
+    "keywords": "certifications certifications professional certifications and credentials for nazeem massoom dickey"
+  },
+  {
+    "title": "Enterprise Homelab Architecture",
+    "url": "pages/homelab.html",
+    "icon": "🖥️",
+    "desc": "Public-safe overview of Nazeem Massoom Dickey's enterprise-style homelab architecture.",
+    "keywords": "homelab enterprise homelab architecture publicsafe overview of nazeem massoom dickeys enterprisestyle homelab architecture"
+  },
+  {
+    "title": "Authentik Identity Lab",
+    "url": "pages/identity.html",
+    "icon": "👤",
+    "desc": "Public-safe Authentik identity and SSO project by Nazeem Massoom Dickey.",
+    "keywords": "identity authentik identity lab publicsafe authentik identity and sso project by nazeem massoom dickey"
+  },
+  {
+    "title": "Journey &amp; Timeline",
+    "url": "pages/journey.html",
+    "icon": "🗺️",
+    "desc": "How Nazeem Massoom Dickey went from zero IT background to enterprise homelab, CompTIA trifecta, and SkillsUSA Florida 1st Place in under two years.",
+    "keywords": "journey journey amp timeline how nazeem massoom dickey went from zero it background to enterprise homelab comptia trifecta and skillsusa florida 1st place in under two years"
+  },
+  {
+    "title": "OPNsense Edge Firewall Project",
+    "url": "pages/opnsense.html",
+    "icon": "🛡️",
+    "desc": "Public-safe OPNsense firewall project by Nazeem Massoom Dickey.",
+    "keywords": "opnsense opnsense edge firewall project publicsafe opnsense firewall project by nazeem massoom dickey"
+  },
+  {
+    "title": "Proxmox Infrastructure Project",
+    "url": "pages/proxmox.html",
+    "icon": "⚙️",
+    "desc": "Public-safe Proxmox infrastructure project by Nazeem Massoom Dickey.",
+    "keywords": "proxmox proxmox infrastructure project publicsafe proxmox infrastructure project by nazeem massoom dickey"
+  },
+  {
+    "title": "Secure Remote Access Project",
+    "url": "pages/remote-access.html",
+    "icon": "🔐",
+    "desc": "Public-safe secure remote access project by Nazeem Massoom Dickey.",
+    "keywords": "remoteaccess secure remote access project publicsafe secure remote access project by nazeem massoom dickey"
+  },
+  {
+    "title": "Nazeem Massoom Dickey — Resume (ATS)",
+    "url": "pages/resume-ats.html",
+    "icon": "📄",
+    "desc": "ATS-friendly resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.",
+    "keywords": "resumeats nazeem massoom dickey  resume ats atsfriendly resume for nazeem massoom dickey it and cybersecurity candidate"
+  },
+  {
+    "title": "Nazeem Massoom Dickey — Resume",
+    "url": "pages/resume-styled.html",
+    "icon": "📄",
+    "desc": "Styled resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.",
+    "keywords": "resumestyled nazeem massoom dickey  resume styled resume for nazeem massoom dickey it and cybersecurity candidate"
+  },
+  {
+    "title": "Resume",
+    "url": "pages/resume.html",
+    "icon": "📄",
+    "desc": "Resume page for Nazeem Massoom Dickey, IT and cybersecurity candidate.",
+    "keywords": "resume resume resume page for nazeem massoom dickey it and cybersecurity candidate"
+  },
+  {
+    "title": "SkillsUSA Internetworking",
+    "url": "pages/skillsusa.html",
+    "icon": "🥇",
+    "desc": "SkillsUSA Florida Internetworking 1st Place — Nazeem Massoom Dickey competing at state and national level.",
+    "keywords": "skillsusa skillsusa internetworking skillsusa florida internetworking 1st place  nazeem massoom dickey competing at state and national level"
+  },
+  {
+    "title": "Live Service Status",
+    "url": "pages/status.html",
+    "icon": "📡",
+    "desc": "Real-time uptime monitoring for masternazz.com services, powered by a self-hosted Uptime Kuma instance running on Proxmox.",
+    "keywords": "status live service status realtime uptime monitoring for masternazzcom services powered by a selfhosted uptime kuma instance running on proxmox"
+  },
+  {
+    "title": "Cisco Switching &amp; DMZ VLAN",
+    "url": "pages/switching.html",
+    "icon": "🔀",
+    "desc": "Cisco Catalyst 3750 V2 switching deployment with VLAN 50 DMZ isolation for Cloudflare Tunnel public ingress.",
+    "keywords": "switching cisco switching amp dmz vlan cisco catalyst 3750 v2 switching deployment with vlan 50 dmz isolation for cloudflare tunnel public ingress"
+  },
+  {
+    "title": "Wazuh SIEM/XDR Lab",
+    "url": "pages/wazuh.html",
+    "icon": "🔍",
+    "desc": "Self-hosted Wazuh SIEM/XDR deployment and SOC-style investigation workflow by Nazeem Massoom Dickey.",
+    "keywords": "wazuh wazuh siemxdr lab selfhosted wazuh siemxdr deployment and socstyle investigation workflow by nazeem massoom dickey"
+  },
+  {
+    "title": "CyberLaunch USF 2026 — CTF Writeup",
+    "url": "pages/writeup-cyberlaunch-2026.html",
+    "icon": "📄",
+    "desc": "CyberLaunch USF 2026 State Championship CTF recap — Kali Linux, Nmap, Metasploit, Hashcat, SMB exploitation, and OSINT geolocation.",
+    "keywords": "writeupcyberlaunch2026 cyberlaunch usf 2026  ctf writeup cyberlaunch usf 2026 state championship ctf recap  kali linux nmap metasploit hashcat smb exploitation and osint geolocation"
+  },
+  {
+    "title": "Writeups",
+    "url": "pages/writeups.html",
+    "icon": "✍️",
+    "desc": "Technical writeups and competition recaps by Nazeem Massoom Dickey — CTF writeups, competition notes, and field reports.",
+    "keywords": "writeups writeups technical writeups and competition recaps by nazeem massoom dickey  ctf writeups competition notes and field reports"
+  }
+];
+
 function setupSearch() {
   // Detect depth: pages/ subdir has root at ../
   const isSubpage = location.pathname.includes("/pages/");
   const root = isSubpage ? "../" : "";
 
-  const INDEX = [
-    { title: "Home", url: root + "index.html", icon: "🏠", desc: "Portfolio landing page", keywords: "home portfolio nazeem network admin soc noc msp skills projects contact hero" },
-    { title: "Certifications", url: root + "pages/certifications.html", icon: "🏅", desc: "All 29 certifications", keywords: "certifications certs comptia cysa security+ network+ a+ microsoft azure az-900 sc-900 ai-900 dp-900 pl-900 cisco ccst credly its pearson quickbooks skillsusa csap csis cios" },
-    { title: "Resume", url: root + "pages/resume.html", icon: "📄", desc: "Resume overview page", keywords: "resume cv styled ats pdf download work experience education skills" },
-    { title: "Resume (Styled)", url: root + "pages/resume-styled.html", icon: "📄", desc: "Visual styled resume", keywords: "resume styled pdf print download" },
-    { title: "Resume (ATS)", url: root + "pages/resume-ats.html", icon: "📄", desc: "ATS plain-text resume", keywords: "resume ats plain text applicant tracking system" },
-    { title: "Enterprise Homelab", url: root + "pages/homelab.html", icon: "🖥️", desc: "Full network architecture and hardware", keywords: "homelab proxmox cisco synology dell server esxi network topology infrastructure switches vlan vlans rack enterprise" },
-    { title: "Proxmox", url: root + "pages/proxmox.html", icon: "⚙️", desc: "Proxmox VE cluster setup", keywords: "proxmox ve cluster virtual machines vm lxc containers hypervisor pve node" },
-    { title: "OPNsense Firewall", url: root + "pages/opnsense.html", icon: "🛡️", desc: "OPNsense firewall config", keywords: "opnsense firewall pfsense rules nat wan lan vlan ids ips suricata dns dhcp" },
-    { title: "Switching & VLANs", url: root + "pages/switching.html", icon: "🔀", desc: "Cisco switch configuration and VLANs", keywords: "switching vlans cisco catalyst trunk access port stp spanning tree inter-vlan routing layer 3" },
-    { title: "Remote Access", url: root + "pages/remote-access.html", icon: "🔐", desc: "VPN and remote access setup", keywords: "remote access vpn wireguard tailscale cloudflare tunnel ssl tls ssh reverse proxy" },
-    { title: "Identity & Directory", url: root + "pages/identity.html", icon: "👤", desc: "Active Directory and identity management", keywords: "active directory identity ldap ad domain controller users groups gpo samba" },
-    { title: "Wazuh SIEM", url: root + "pages/wazuh.html", icon: "🔍", desc: "Wazuh SIEM and log monitoring", keywords: "wazuh siem log monitoring alerts security events ossec xdr edr threat detection soc" },
-    { title: "Live Status", url: root + "pages/status.html", icon: "📡", desc: "Live homelab service status", keywords: "status live uptime services monitoring ping health check" },
-    { title: "Writeups", url: root + "pages/writeups.html", icon: "✍️", desc: "Technical writeups and competition reports", keywords: "writeups ctf competition skillsusa cyberlaunch blog reports technical" },
-    { title: "SkillsUSA", url: root + "pages/skillsusa.html", icon: "🥇", desc: "SkillsUSA 1st place — Internetworking", keywords: "skillsusa first place 1st internetworking florida competition networking trophy award" },
-    { title: "CyberLaunch 2026 Writeup", url: root + "pages/writeup-cyberlaunch-2026.html", icon: "✍️", desc: "CyberLaunch 2026 competition writeup", keywords: "cyberlaunch 2026 competition writeup ctf cybersecurity" },
-    { title: "My Journey", url: root + "pages/journey.html", icon: "🗺️", desc: "Timeline of certs and milestones", keywords: "journey timeline milestones certifications history story path career" },
-  ];
+    // The INDEX is now generated with "pages/filename.html" paths.
+  const processedIndex = INDEX.map(item => {
+    let url = item.url;
+    if (url === "index.html") {
+      url = root + "index.html";
+    } else {
+      if (isSubpage) {
+        url = url.replace("pages/", "");
+      } else {
+        url = root + url;
+      }
+    }
+    return { ...item, url };
+  });
 
   // Inject overlay HTML once
   const overlay = document.createElement("div");

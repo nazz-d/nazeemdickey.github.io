@@ -367,6 +367,35 @@
         updatedEl.textContent = "Last updated: " + new Date().toLocaleTimeString();
       } catch (err) {
         console.error("Status Dashboard Error:", err);
+        
+        // Attempt fallback from GitHub Actions generated JSON
+        try {
+          const fallbackRes = await fetch("../assets/status-fallback.json");
+          if (fallbackRes.ok) {
+            const data = await fallbackRes.json();
+            const state = data.status; // "up" or "down"
+            const label = state === "up" ? "Main Site Operational" : "Main Site Offline";
+            
+            dashboard.innerHTML = `
+              <div class="status-row" style="background: rgba(255,255,255,0.05); border-color: var(--line);">
+                <div class="status-left">
+                  <span class="status-indicator ${state}"></span>
+                  <span class="status-name">Self-Hosted Lab Link</span>
+                </div>
+                <div class="status-right">
+                  <span class="status-badge ${state}">${label}</span>
+                </div>
+              </div>
+              <div class="status-error" style="padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 12px;">
+                <p style="font-size: 0.8rem; opacity: 0.7;">Primary monitoring dashboard at <strong>status.masternazz.com</strong> is currently unreachable. Showing cloud fallback data from GitHub Actions.</p>
+              </div>`;
+            updatedEl.textContent = "Cloud Fallback Update: " + data.last_updated;
+            return;
+          }
+        } catch (fErr) {
+          console.error("Fallback failed:", fErr);
+        }
+
         dashboard.innerHTML = `
           <div class="status-error">
             <p><strong>Could not reach status API.</strong></p>

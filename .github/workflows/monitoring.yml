@@ -1,0 +1,38 @@
+name: Fallback Monitoring
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Every 30 minutes
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Main Site
+        id: check
+        run: |
+          if curl -s --head --request GET https://masternazz.com | grep "200 OK" > /dev/null; then
+            echo "status=up" >> $GITHUB_OUTPUT
+            echo "UP"
+          else
+            echo "status=down" >> $GITHUB_OUTPUT
+            echo "DOWN"
+          fi
+
+      - name: Update Status File
+        run: |
+          echo "{\"status\": \"${{ steps.check.outputs.status }}\", \"last_updated\": \"$(date -u)\"}" > assets/status-fallback.json
+
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add assets/status-fallback.json
+          git commit -m "chore: update status fallback [skip ci]" || exit 0
+          git push
