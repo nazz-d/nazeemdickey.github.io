@@ -785,6 +785,7 @@ p {
   display: flex;
   align-items: center;
   gap: 20px;
+  height: 100%;
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -834,12 +835,19 @@ p {
 }
 
 .cert-verify {
+  display: inline-flex;
+  align-items: center;
   color: var(--accent);
   font-size: 0.85rem;
   font-weight: 900;
 }
 
 .mini-cert {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -856,6 +864,17 @@ p {
 .mini-cert span {
   color: var(--subtle);
   font-size: 0.85rem;
+}
+
+.mini-cert .cert-verify {
+  margin-top: auto;
+}
+
+.hero-note {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--subtle);
+  font-size: 0.95rem;
 }
 
 @media (max-width: 1100px) {
