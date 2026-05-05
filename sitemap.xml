@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://masternazz.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://masternazz.com/journey.html</loc><priority>0.9</priority></url>
+  <url><loc>https://masternazz.com/certifications.html</loc><priority>0.9</priority></url>
+  <url><loc>https://masternazz.com/resume.html</loc><priority>0.9</priority></url>
+  <url><loc>https://masternazz.com/homelab.html</loc><priority>0.8</priority></url>
+  <url><loc>https://masternazz.com/skillsusa.html</loc><priority>0.8</priority></url>
+  <url><loc>https://masternazz.com/writeups.html</loc><priority>0.8</priority></url>
+  <url><loc>https://masternazz.com/writeup-cyberlaunch-2026.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/opnsense.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/proxmox.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/switching.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/remote-access.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/identity.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/wazuh.html</loc><priority>0.7</priority></url>
+  <url><loc>https://masternazz.com/status.html</loc><priority>0.6</priority></url>
+</urlset>
