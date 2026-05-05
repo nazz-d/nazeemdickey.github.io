@@ -64,6 +64,9 @@
     }
     .status-loading { color: var(--subtle); font-size: 0.9rem; padding: 24px 0; }
     .status-error { color: #ef4444; font-size: 0.9rem; padding: 24px 0; }
+    .status-error-help { margin-top: 8px; font-size: 0.85rem; }
+    .status-error-link { color: inherit; text-decoration: underline; }
+    .status-error-detail { margin-top: 12px; opacity: 0.7; font-size: 0.75rem; }
     .stack-table {
       width: 100%;
       border-collapse: collapse;
@@ -173,8 +176,8 @@
 
     <section class="section card">
       <h2>Monitoring Stack</h2>
-      <p style="margin-bottom: 20px;">How each layer fits together from check to public display.</p>
-      <div style="overflow-x: auto;">
+      <p class="table-note">How each layer fits together from check to public display.</p>
+      <div class="table-scroll">
         <table class="stack-table">
           <thead>
             <tr>
@@ -272,13 +275,13 @@
           <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
         </div>
       </div>
-      <div class="contact-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+      <div class="contact-actions callout-actions">
         <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
         <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
         <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
-      <p class="contact-line" id="emailText" aria-live="polite" style="margin-top: 24px; color: var(--subtle); font-weight: 700;">
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
         Email: NazeemDickey@gmail.com | Boynton Beach, FL
       </p>
     </section>
@@ -298,6 +301,16 @@
     const BASE = "https://status.masternazz.com";
     const dashboard = document.getElementById("status-dashboard");
     const updatedEl = document.getElementById("status-updated");
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char]));
+    }
 
     async function loadStatus() {
       console.log("Fetching status from:", BASE);
@@ -326,7 +339,7 @@
 
         let html = "";
         groups.forEach(group => {
-          html += `<p class="status-group-label">${group.name}</p>`;
+          html += `<p class="status-group-label">${escapeHtml(group.name)}</p>`;
           group.monitorList.forEach(monitor => {
             const checks = beats[monitor.id] || [];
             const last   = checks[checks.length - 1];
@@ -339,7 +352,7 @@
               <div class="status-row">
                 <div class="status-left">
                   <span class="status-indicator ${state}"></span>
-                  <span class="status-name">${monitor.name}</span>
+                  <span class="status-name">${escapeHtml(monitor.name)}</span>
                 </div>
                 <div class="status-right">
                   <span class="status-ping">${ping}</span>
@@ -356,11 +369,11 @@
         dashboard.innerHTML = `
           <div class="status-error">
             <p><strong>Could not reach status API.</strong></p>
-            <p style="margin-top: 8px; font-size: 0.85rem;">
+            <p class="status-error-help">
               This is usually due to a DNS resolution issue or a network firewall. 
-              Please verify that <a href="${BASE}/status/public" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">status.masternazz.com</a> is reachable in your browser.
+              Please verify that <a href="https://status.masternazz.com/status/public" target="_blank" rel="noopener" class="status-error-link">status.masternazz.com</a> is reachable in your browser.
             </p>
-            <p style="margin-top: 12px; opacity: 0.7; font-size: 0.75rem;">Error: ${err.message}</p>
+            <p class="status-error-detail">Error: ${escapeHtml(err.message)}</p>
           </div>`;
       }
     }

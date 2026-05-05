@@ -102,47 +102,47 @@
 
     <section class="section card">
       <h2>Trunk Port Layout</h2>
-      <p style="margin-bottom: 20px;">Sanitized port map showing how VLANs 1 and 50 are carried across the switching fabric. All IPs are representative; the native VLAN on every trunk is VLAN 1.</p>
+      <p class="table-note">Sanitized port map showing how VLANs 1 and 50 are carried across the switching fabric. All IPs are representative; the native VLAN on every trunk is VLAN 1.</p>
 
-      <div style="overflow-x: auto;">
-        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+      <div class="table-scroll">
+        <table class="data-table">
           <thead>
-            <tr style="border-bottom: 1px solid var(--line); color: var(--subtle); text-align:left;">
-              <th style="padding: 10px 14px;">Switch</th>
-              <th style="padding: 10px 14px;">Port</th>
-              <th style="padding: 10px 14px;">Connected To</th>
-              <th style="padding: 10px 14px;">Mode</th>
-              <th style="padding: 10px 14px;">Allowed VLANs</th>
+            <tr>
+              <th>Switch</th>
+              <th>Port</th>
+              <th>Connected To</th>
+              <th>Mode</th>
+              <th>Allowed VLANs</th>
             </tr>
           </thead>
-          <tbody style="color: var(--muted);">
-            <tr style="border-bottom: 1px solid rgba(147,51,234,0.1);">
-              <td style="padding: 10px 14px;">Main</td>
-              <td style="padding: 10px 14px;">Proxmox trunk</td>
-              <td style="padding: 10px 14px;">Proxmox node</td>
-              <td style="padding: 10px 14px;">trunk</td>
-              <td style="padding: 10px 14px;">1, 50</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(147,51,234,0.1);">
-              <td style="padding: 10px 14px;">Main</td>
-              <td style="padding: 10px 14px;">Firewall trunk</td>
-              <td style="padding: 10px 14px;">OPNsense LAN interface</td>
-              <td style="padding: 10px 14px;">trunk</td>
-              <td style="padding: 10px 14px;">1, 50</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(147,51,234,0.1);">
-              <td style="padding: 10px 14px;">Main</td>
-              <td style="padding: 10px 14px;">Sub switch uplink</td>
-              <td style="padding: 10px 14px;">Sub switch</td>
-              <td style="padding: 10px 14px;">trunk</td>
-              <td style="padding: 10px 14px;">1, 50</td>
+          <tbody>
+            <tr>
+              <td>Main</td>
+              <td>Proxmox trunk</td>
+              <td>Proxmox node</td>
+              <td>trunk</td>
+              <td>1, 50</td>
             </tr>
             <tr>
-              <td style="padding: 10px 14px;">Sub</td>
-              <td style="padding: 10px 14px;">Main switch uplink</td>
-              <td style="padding: 10px 14px;">Main switch</td>
-              <td style="padding: 10px 14px;">trunk</td>
-              <td style="padding: 10px 14px;">1, 50</td>
+              <td>Main</td>
+              <td>Firewall trunk</td>
+              <td>OPNsense LAN interface</td>
+              <td>trunk</td>
+              <td>1, 50</td>
+            </tr>
+            <tr>
+              <td>Main</td>
+              <td>Sub switch uplink</td>
+              <td>Sub switch</td>
+              <td>trunk</td>
+              <td>1, 50</td>
+            </tr>
+            <tr>
+              <td>Sub</td>
+              <td>Main switch uplink</td>
+              <td>Main switch</td>
+              <td>trunk</td>
+              <td>1, 50</td>
             </tr>
           </tbody>
         </table>
@@ -227,13 +227,13 @@
           <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
         </div>
       </div>
-      <div class="contact-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+      <div class="contact-actions callout-actions">
         <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
         <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
         <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
-      <p class="contact-line" id="emailText" aria-live="polite" style="margin-top: 24px; color: var(--subtle); font-weight: 700;">
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
         Email: NazeemDickey@gmail.com | Boynton Beach, FL
       </p>
     </section>

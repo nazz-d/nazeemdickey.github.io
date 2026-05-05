@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nazeem Massoom Dickey — Resume (ATS)</title>
   <meta name="description" content="ATS-friendly resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.">
   <link rel="canonical" href="https://masternazz.com/resume-ats.html">
@@ -217,6 +218,12 @@
       padding-left: 8px;
     }
 
+    .cert-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px 20px;
+    }
+
     /* ── EDUCATION ── */
     .edu-header {
       display: flex;
@@ -264,7 +271,7 @@
   <div class="section summary">
     <div class="section-title">Professional Summary</div>
     <p>
-      IT professional and homelab engineer with CompTIA A+, Net+, Sec+, CySA+, Cisco CCST, and 6x Microsoft Azure credentials. Operates a production-grade homelab: 3-node Proxmox cluster, OPNsense with Suricata IDS/IPS, Wazuh SIEM/XDR, Authentik SSO, and zero-trust remote access on real enterprise hardware. SkillsUSA Florida State Champion — Internetworking, 1st Place (April 2026). Targeting Junior Network Admin, SOC Analyst, NOC, MSP, and IT Support roles.
+      IT professional and homelab engineer with CompTIA A+, Net+, Sec+, CySA+, Cisco CCST, and 6x Microsoft fundamentals credentials. Operates a production-grade homelab: 3-node Proxmox cluster, OPNsense with Suricata IDS/IPS, Wazuh SIEM/XDR, Authentik SSO, and zero-trust remote access on real enterprise hardware. SkillsUSA Florida State Champion — Internetworking, 1st Place (April 2026). Targeting Junior Network Admin, SOC Analyst, NOC, MSP, and IT Support roles.
     </p>
   </div>
 
@@ -278,7 +285,7 @@
       </div>
       <div class="ach-item">
         <div class="ach-date">Upcoming — Atlanta, GA</div>
-        <div class="ach-text">SkillsUSA National LSSC — Internetworking Competitor</div>
+        <div class="ach-text">SkillsUSA National NLSC — Internetworking Competitor</div>
       </div>
       <div class="ach-item">
         <div class="ach-date">March 2026</div>
@@ -391,7 +398,7 @@
   <!-- CERTIFICATIONS -->
   <div class="section">
     <div class="section-title">Certifications</div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 20px;">
+    <div class="cert-summary-grid">
 
       <div class="cert-group">
         <div class="cert-group-label">CompTIA</div>

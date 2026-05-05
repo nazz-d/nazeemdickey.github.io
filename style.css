@@ -615,6 +615,16 @@ p {
   margin: 0;
 }
 
+.timeline-link {
+  display: block;
+  text-decoration: none;
+}
+
+.timeline-link .card-link {
+  display: inline-block;
+  margin-top: 10px;
+}
+
 .timeline-actions {
   margin-top: 20px;
 }
@@ -632,7 +642,38 @@ p {
   width: 100%;
   min-width: 650px;
   border: 1px solid rgba(194, 169, 255, 0.14);
-  border-radius: 6px;
+  border-radius: 8px;
+}
+
+.table-note {
+  margin-bottom: 20px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.data-table th {
+  padding: 10px 14px;
+  text-align: left;
+  color: var(--subtle);
+  border-bottom: 1px solid var(--line);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 .callout {
