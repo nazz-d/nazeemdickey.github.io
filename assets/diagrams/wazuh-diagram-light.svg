@@ -1,0 +1,127 @@
+<svg data-diagram-theme="light" width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#edf5ff"/>
+      <stop offset="100%" stop-color="#f8fbff"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0284c7" stroke-width="0.4" opacity="0.2"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#2563eb" opacity="0.85"/>
+    </marker>
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#dc2626" opacity="0.85"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#15803d" opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="540" fill="url(#bg)"/>
+  <rect width="900" height="540" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#075985" font-size="15" font-weight="700" letter-spacing="2">Wazuh SIEM / XDR — Data Flow</text>
+  <text x="450" y="48" text-anchor="middle" fill="#7890aa" font-size="10" letter-spacing="1">masternazz.com homelab · endpoint visibility + network threat correlation</text>
+
+  <!-- ── LEFT: SOURCES ── -->
+  <text x="125" y="76" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="700" letter-spacing="1">MONITORED ENDPOINTS</text>
+
+  <!-- OPNsense / Suricata source -->
+  <rect x="22" y="86" width="206" height="60" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1.5" filter="url(#glowSoft)"/>
+  <rect x="22" y="86" width="206" height="4" rx="3" fill="#0284c7" opacity="0.7"/>
+  <text x="125" y="106" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">OPNsense — Suricata</text>
+  <text x="125" y="121" text-anchor="middle" fill="#38506d" font-size="9">WAN netmap IDS · syslog integration</text>
+  <text x="125" y="135" text-anchor="middle" fill="#7890aa" font-size="9">Network intrusion alerts → Wazuh</text>
+
+  <!-- Linux LXC agents -->
+  <rect x="22" y="162" width="206" height="60" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="22" y="162" width="206" height="4" rx="3" fill="url(#purpleBar)"/>
+  <text x="125" y="182" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Linux LXC Containers</text>
+  <text x="125" y="197" text-anchor="middle" fill="#38506d" font-size="9">Wazuh agent — auth · process · syscall</text>
+  <text x="125" y="211" text-anchor="middle" fill="#7890aa" font-size="9">SSH events · sudo · cron · file changes</text>
+
+  <!-- Windows VM -->
+  <rect x="22" y="238" width="206" height="60" rx="7" fill="url(#card)" stroke="#2563eb" stroke-width="1.5"/>
+  <rect x="22" y="238" width="206" height="4" rx="3" fill="#2563eb" opacity="0.7"/>
+  <text x="125" y="258" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Windows Hosts</text>
+  <text x="125" y="273" text-anchor="middle" fill="#38506d" font-size="9">Wazuh agent — Windows Event Log</text>
+  <text x="125" y="287" text-anchor="middle" fill="#7890aa" font-size="9">Logon events · process creation · Defender</text>
+
+  <!-- Proxmox / Infrastructure -->
+  <rect x="22" y="314" width="206" height="60" rx="7" fill="url(#card)" stroke="#2563eb" stroke-width="1.5"/>
+  <rect x="22" y="314" width="206" height="4" rx="3" fill="#2563eb" opacity="0.7"/>
+  <text x="125" y="334" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Infrastructure Services</text>
+  <text x="125" y="349" text-anchor="middle" fill="#38506d" font-size="9">Authentik · NPMplus · NAS</text>
+  <text x="125" y="363" text-anchor="middle" fill="#7890aa" font-size="9">Auth events · access logs</text>
+
+  <!-- Arrows from sources to Wazuh Manager — right-angle elbows -->
+  <path d="M228,116 L263,116 L263,210 L329,210" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-linejoin="round" opacity="0.7" marker-end="url(#arr)"/>
+  <path d="M228,192 L291,192 L291,235 L329,235" fill="none" stroke="#0284c7" stroke-width="1.5" stroke-linejoin="round" opacity="0.7" marker-end="url(#arr)"/>
+  <line x1="228" y1="268" x2="329" y2="268" stroke="#2563eb" stroke-width="1.5" opacity="0.7" marker-end="url(#arr)"/>
+  <path d="M228,344 L279,344 L279,295 L329,295" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-linejoin="round" opacity="0.7" marker-end="url(#arr)"/>
+
+  <!-- ── CENTER: WAZUH MANAGER ── -->
+  <rect x="330" y="190" width="240" height="150" rx="10" fill="url(#card)" stroke="#0284c7" stroke-width="2.5" filter="url(#glow)"/>
+  <rect x="330" y="190" width="240" height="6" rx="5" fill="url(#purpleBar)"/>
+  <text x="450" y="218" text-anchor="middle" fill="#102033" font-size="14" font-weight="700">Wazuh Manager</text>
+  <text x="450" y="236" text-anchor="middle" fill="#075985" font-size="10" font-weight="600">SIEM / XDR — LXC on Proxmox</text>
+  <text x="450" y="256" text-anchor="middle" fill="#38506d" font-size="9">Rule-based event correlation</text>
+  <text x="450" y="270" text-anchor="middle" fill="#38506d" font-size="9">Agent management · log indexing</text>
+  <text x="450" y="285" text-anchor="middle" fill="#38506d" font-size="9">File integrity monitoring (FIM)</text>
+  <text x="450" y="300" text-anchor="middle" fill="#38506d" font-size="9">Vulnerability detection · compliance</text>
+  <text x="450" y="316" text-anchor="middle" fill="#7890aa" font-size="9">Active response + alert enrichment</text>
+
+  <!-- Arrows from Wazuh Manager to outputs — right-angle elbows -->
+  <path d="M570,215 L619,215 L619,116 L648,116" fill="none" stroke="#0284c7" stroke-width="1.8" stroke-linejoin="round" opacity="0.75" marker-end="url(#arr)"/>
+  <line x1="570" y1="274" x2="648" y2="274" stroke="#dc2626" stroke-width="1.8" opacity="0.75" marker-end="url(#arrRed)"/>
+  <path d="M570,310 L619,310 L619,390 L648,390" fill="none" stroke="#15803d" stroke-width="1.8" stroke-linejoin="round" opacity="0.75" marker-end="url(#arrGreen)"/>
+
+  <!-- ── RIGHT: OUTPUTS ── -->
+  <text x="775" y="76" text-anchor="middle" fill="#2563eb" font-size="10" font-weight="700" letter-spacing="1">OUTPUTS</text>
+
+  <!-- Dashboard -->
+  <rect x="648" y="86" width="224" height="60" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1.5" filter="url(#glowSoft)"/>
+  <rect x="648" y="86" width="224" height="4" rx="3" fill="url(#purpleBar)"/>
+  <text x="760" y="107" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Wazuh Dashboard</text>
+  <text x="760" y="122" text-anchor="middle" fill="#38506d" font-size="9">Kibana-based · alert browser</text>
+  <text x="760" y="136" text-anchor="middle" fill="#7890aa" font-size="9">Event drill-down · rule explorer</text>
+
+  <!-- Alerts -->
+  <rect x="648" y="244" width="224" height="60" rx="7" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+  <rect x="648" y="244" width="224" height="4" rx="3" fill="#dc2626" opacity="0.6"/>
+  <text x="760" y="265" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="700">Alert Triage Workflow</text>
+  <text x="760" y="280" text-anchor="middle" fill="#38506d" font-size="9">Identify · contextualize · classify</text>
+  <text x="760" y="294" text-anchor="middle" fill="#7890aa" font-size="9">Expected / misconfigured / escalate</text>
+
+  <!-- Investigation notes -->
+  <rect x="648" y="360" width="224" height="60" rx="7" fill="url(#card)" stroke="#15803d" stroke-width="1.5"/>
+  <rect x="648" y="360" width="224" height="4" rx="3" fill="#15803d" opacity="0.6"/>
+  <text x="760" y="381" text-anchor="middle" fill="#16a34a" font-size="11" font-weight="700">Investigation Notes</text>
+  <text x="760" y="396" text-anchor="middle" fill="#38506d" font-size="9">Evidence · impact · next steps</text>
+  <text x="760" y="410" text-anchor="middle" fill="#7890aa" font-size="9">Runbook-style SOC documentation</text>
+
+  <!-- Bottom callout -->
+  <rect x="22" y="450" width="856" height="46" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="22" y="450" width="856" height="3" rx="3" fill="url(#purpleBar)" opacity="0.6"/>
+  <text x="450" y="470" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">Suricata (WAN) + Wazuh agents → correlated alerts across network and host layers</text>
+  <text x="450" y="487" text-anchor="middle" fill="#7890aa" font-size="9">Sanitized for public viewing · no rule IDs, alert thresholds, or agent counts published</text>
+</svg>

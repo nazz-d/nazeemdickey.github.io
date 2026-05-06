@@ -1,0 +1,139 @@
+<svg data-diagram-theme="light" width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#edf5ff"/>
+      <stop offset="100%" stop-color="#f8fbff"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0284c7" stroke-width="0.4" opacity="0.2"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#2563eb" opacity="0.85"/>
+    </marker>
+    <marker id="arrOrange" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#c2410c" opacity="0.85"/>
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#0284c7" opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="580" fill="url(#bg)"/>
+  <rect width="900" height="580" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" fill="#075985" font-size="15" font-weight="700" letter-spacing="2">OPNsense Edge Firewall Architecture</text>
+  <text x="450" y="50" text-anchor="middle" fill="#7890aa" font-size="10" letter-spacing="1">masternazz.com homelab · sanitized for public viewing</text>
+
+  <!-- INTERNET box -->
+  <rect x="310" y="62" width="280" height="56" rx="8" fill="url(#card)" stroke="#0284c7" stroke-width="1.8" filter="url(#glowSoft)"/>
+  <rect x="310" y="62" width="280" height="5" rx="4" fill="#0284c7" opacity="0.7"/>
+  <text x="450" y="86" text-anchor="middle" fill="#0284c7" font-size="12" font-weight="700">INTERNET / ISP</text>
+  <text x="450" y="104" text-anchor="middle" fill="#7890aa" font-size="10">WAN uplink · DHCP from ISP</text>
+
+  <!-- Internet → OPNsense arrow -->
+  <line x1="450" y1="118" x2="450" y2="148" stroke="#0284c7" stroke-width="2" stroke-dasharray="6,3" opacity="0.7" marker-end="url(#arrCyan)"/>
+
+  <!-- OPNsense main box -->
+  <rect x="80" y="150" width="740" height="96" rx="10" fill="url(#card)" stroke="#0284c7" stroke-width="2.5" filter="url(#glow)"/>
+  <rect x="80" y="150" width="740" height="6" rx="5" fill="url(#purpleBar)"/>
+  <rect x="98" y="166" width="3" height="68" rx="2" fill="#0284c7"/>
+  <text x="450" y="177" text-anchor="middle" fill="#102033" font-size="14" font-weight="700" letter-spacing="0.5">OPNsense 26.1</text>
+  <text x="450" y="194" text-anchor="middle" fill="#38506d" font-size="10">Dell Optiplex 5040 SFF · Edge Firewall / Router</text>
+  <text x="450" y="211" text-anchor="middle" fill="#075985" font-size="11" font-weight="600">VLAN Segmentation · NAT · Deny-by-default Firewall Rules</text>
+  <text x="450" y="228" text-anchor="middle" fill="#7890aa" font-size="9">Encrypted management only · no raw admin ports exposed to internet</text>
+
+  <!-- OPNsense → Feature boxes: trunk + horizontal bus + 4 branch arrows -->
+  <line x1="450" y1="246" x2="450" y2="257" stroke="#2563eb" stroke-width="1.5" opacity="0.6"/>
+  <line x1="139" y1="257" x2="733" y2="257" stroke="#2563eb" stroke-width="1.2" opacity="0.4"/>
+  <line x1="139" y1="257" x2="139" y2="268" stroke="#2563eb" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="337" y1="257" x2="337" y2="268" stroke="#2563eb" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="535" y1="257" x2="535" y2="268" stroke="#2563eb" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="733" y1="257" x2="733" y2="268" stroke="#2563eb" stroke-width="1.5" opacity="0.6" marker-end="url(#arr)"/>
+
+  <!-- Feature chips row -->
+  <!-- AdGuard -->
+  <rect x="48" y="270" width="182" height="62" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+  <rect x="48" y="270" width="182" height="4" rx="4" fill="#0284c7" opacity="0.6"/>
+  <text x="139" y="291" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">AdGuard Home DNS</text>
+  <text x="139" y="308" text-anchor="middle" fill="#38506d" font-size="9">Network-wide filtering</text>
+  <text x="139" y="322" text-anchor="middle" fill="#7890aa" font-size="9">Cloudflare DoT upstream</text>
+
+  <!-- Suricata -->
+  <rect x="246" y="270" width="182" height="62" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="246" y="270" width="182" height="4" rx="4" fill="#2563eb" opacity="0.6"/>
+  <text x="337" y="291" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">Suricata IDS/IPS</text>
+  <text x="337" y="308" text-anchor="middle" fill="#38506d" font-size="9">WAN netmap mode</text>
+  <text x="337" y="322" text-anchor="middle" fill="#7890aa" font-size="9">Intrusion detection</text>
+
+  <!-- ACME -->
+  <rect x="444" y="270" width="182" height="62" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+  <rect x="444" y="270" width="182" height="4" rx="4" fill="#0284c7" opacity="0.6"/>
+  <text x="535" y="291" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">ACME + Cloudflare</text>
+  <text x="535" y="308" text-anchor="middle" fill="#38506d" font-size="9">Auto wildcard cert</text>
+  <text x="535" y="322" text-anchor="middle" fill="#7890aa" font-size="9">*.masternazz.com</text>
+
+  <!-- Firewall + NAT -->
+  <rect x="642" y="270" width="182" height="62" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="642" y="270" width="182" height="4" rx="4" fill="#2563eb" opacity="0.6"/>
+  <text x="733" y="291" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">Firewall + NAT</text>
+  <text x="733" y="308" text-anchor="middle" fill="#38506d" font-size="9">VLAN segmentation</text>
+  <text x="733" y="322" text-anchor="middle" fill="#7890aa" font-size="9">Deny-by-default</text>
+
+  <!-- Left arrow → LAN -->
+  <line x1="215" y1="332" x2="215" y2="370" stroke="#2563eb" stroke-width="2" opacity="0.75" marker-end="url(#arr)"/>
+
+  <!-- Right arrow → DMZ -->
+  <line x1="678" y1="332" x2="678" y2="370" stroke="#c2410c" stroke-width="2" opacity="0.75" marker-end="url(#arrOrange)"/>
+
+  <!-- LAN box -->
+  <rect x="60" y="372" width="310" height="72" rx="8" fill="url(#card)" stroke="#0284c7" stroke-width="1.8" filter="url(#glowSoft)"/>
+  <rect x="60" y="372" width="310" height="5" rx="4" fill="url(#purpleBar)"/>
+  <text x="215" y="396" text-anchor="middle" fill="#102033" font-size="12" font-weight="700">LAN - 192.168.x.x</text>
+  <text x="215" y="413" text-anchor="middle" fill="#38506d" font-size="10">VMs · LXC · Proxmox Cluster</text>
+  <text x="215" y="429" text-anchor="middle" fill="#7890aa" font-size="9">NAS · Workstations · Internal Services</text>
+
+  <!-- DMZ box -->
+  <rect x="528" y="372" width="300" height="56" rx="8" fill="url(#card)" stroke="#c2410c" stroke-width="1.8"/>
+  <rect x="528" y="372" width="300" height="5" rx="4" fill="#c2410c" opacity="0.7"/>
+  <text x="678" y="396" text-anchor="middle" fill="#b45309" font-size="12" font-weight="700">VLAN 50 — Public DMZ</text>
+  <text x="678" y="414" text-anchor="middle" fill="#38506d" font-size="9">Isolated subnet · separated from LAN</text>
+
+  <!-- DMZ → Cloudflared -->
+  <line x1="678" y1="428" x2="678" y2="452" stroke="#c2410c" stroke-width="1.8" opacity="0.7" marker-end="url(#arrOrange)"/>
+
+  <!-- Cloudflared LXC -->
+  <rect x="528" y="454" width="300" height="48" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1.2"/>
+  <text x="678" y="475" text-anchor="middle" fill="#b45309" font-size="11" font-weight="600">Cloudflared Tunnel LXC</text>
+  <text x="678" y="491" text-anchor="middle" fill="#7890aa" font-size="9">VLAN 50 · isolated from LAN</text>
+
+  <!-- Cloudflared → Cloudflare CDN -->
+  <line x1="678" y1="502" x2="678" y2="520" stroke="#c2410c" stroke-width="1.8" opacity="0.7" marker-end="url(#arrOrange)"/>
+
+  <!-- Cloudflare CDN -->
+  <rect x="528" y="522" width="300" height="44" rx="8" fill="url(#card)" stroke="#c2410c" stroke-width="1" opacity="0.9"/>
+  <text x="678" y="542" text-anchor="middle" fill="#b45309" font-size="11" font-weight="600">Cloudflare CDN / WAF</text>
+  <text x="678" y="557" text-anchor="middle" fill="#7890aa" font-size="9">*.masternazz.com — Public HTTPS · DDoS protection</text>
+
+  <!-- Bottom callout -->
+  <rect x="60" y="460" width="430" height="40" rx="8" fill="#ffffff" stroke="#7890aa" stroke-width="0.8" opacity="0.8"/>
+  <text x="275" y="477" text-anchor="middle" fill="#38506d" font-size="10" font-weight="600">Encrypted management only</text>
+  <text x="275" y="492" text-anchor="middle" fill="#7890aa" font-size="9">No raw admin ports exposed to internet · deny-by-default policy</text>
+</svg>

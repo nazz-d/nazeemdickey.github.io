@@ -1,0 +1,136 @@
+<svg data-diagram-theme="light" width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#edf5ff"/>
+      <stop offset="100%" stop-color="#f8fbff"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0284c7" stroke-width="0.4" opacity="0.2"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrTeal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#0f766e" opacity="0.9"/>
+    </marker>
+    <marker id="arrOrange" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#c2410c" opacity="0.9"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="540" fill="url(#bg)"/>
+  <rect width="900" height="540" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#075985" font-size="15" font-weight="700" letter-spacing="2">Zero-Trust Remote Access Architecture</text>
+  <text x="450" y="48" text-anchor="middle" fill="#7890aa" font-size="10" letter-spacing="1">masternazz.com homelab · no WAN ports exposed</text>
+
+  <!-- Left side header -->
+  <rect x="40" y="58" width="370" height="28" rx="6" fill="#0f766e" opacity="0.15"/>
+  <rect x="40" y="58" width="370" height="3" rx="3" fill="#0f766e" opacity="0.7"/>
+  <text x="225" y="78" text-anchor="middle" fill="#0f766e" font-size="11" font-weight="700" letter-spacing="1">Admin / Private Access</text>
+
+  <!-- Right side header -->
+  <rect x="490" y="58" width="370" height="28" rx="6" fill="#c2410c" opacity="0.12"/>
+  <rect x="490" y="58" width="370" height="3" rx="3" fill="#c2410c" opacity="0.7"/>
+  <text x="675" y="78" text-anchor="middle" fill="#c2410c" font-size="11" font-weight="700" letter-spacing="1">Public Service Access</text>
+
+  <!-- Vertical divider -->
+  <line x1="450" y1="58" x2="450" y2="490" stroke="#7890aa" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- LEFT: Admin Device -->
+  <rect x="72" y="100" width="306" height="56" rx="8" fill="url(#card)" stroke="#0f766e" stroke-width="1.8" filter="url(#glow)"/>
+  <rect x="72" y="100" width="306" height="4" rx="4" fill="#0f766e" opacity="0.7"/>
+  <text x="225" y="122" text-anchor="middle" fill="#102033" font-size="12" font-weight="700">Admin Device</text>
+  <text x="225" y="140" text-anchor="middle" fill="#38506d" font-size="10">WireGuard / Tailscale client installed</text>
+
+  <!-- Arrow -->
+  <line x1="225" y1="156" x2="225" y2="178" stroke="#0f766e" stroke-width="2" opacity="0.8" marker-end="url(#arrTeal)"/>
+
+  <!-- LEFT: Headscale -->
+  <rect x="72" y="180" width="306" height="62" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+  <rect x="72" y="180" width="306" height="4" rx="4" fill="#0f766e" opacity="0.6"/>
+  <text x="225" y="202" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Headscale Control Plane</text>
+  <text x="225" y="219" text-anchor="middle" fill="#38506d" font-size="10">Self-hosted · peer key management</text>
+  <text x="225" y="234" text-anchor="middle" fill="#7890aa" font-size="9">DERP relay · NAT traversal</text>
+
+  <!-- Arrow -->
+  <line x1="225" y1="242" x2="225" y2="264" stroke="#0f766e" stroke-width="2" opacity="0.8" marker-end="url(#arrTeal)"/>
+
+  <!-- LEFT: Tailscale Exit Node -->
+  <rect x="72" y="266" width="306" height="54" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+  <rect x="72" y="266" width="306" height="4" rx="4" fill="#0f766e" opacity="0.5"/>
+  <text x="225" y="289" text-anchor="middle" fill="#102033" font-size="11" font-weight="700">Tailscale Exit Node</text>
+  <text x="225" y="306" text-anchor="middle" fill="#38506d" font-size="10">Subnet routing · split-tunnel capable</text>
+
+  <!-- Arrow -->
+  <line x1="225" y1="320" x2="225" y2="342" stroke="#0f766e" stroke-width="2" opacity="0.8" marker-end="url(#arrTeal)"/>
+
+  <!-- LEFT: Internal Services -->
+  <rect x="72" y="344" width="306" height="62" rx="8" fill="url(#card)" stroke="#0f766e" stroke-width="1.8"/>
+  <rect x="72" y="344" width="306" height="4" rx="4" fill="#0f766e" opacity="0.5"/>
+  <text x="225" y="368" text-anchor="middle" fill="#102033" font-size="12" font-weight="700">Internal Services</text>
+  <text x="225" y="385" text-anchor="middle" fill="#38506d" font-size="10">Proxmox · OPNsense · NAS</text>
+  <text x="225" y="400" text-anchor="middle" fill="#7890aa" font-size="9">All VMs · full private network access</text>
+
+  <!-- LEFT: Bottom label -->
+  <rect x="72" y="420" width="306" height="36" rx="6" fill="#ffffff" stroke="#0f766e" stroke-width="0.8" opacity="0.8"/>
+  <text x="225" y="436" text-anchor="middle" fill="#0f766e" font-size="10" font-weight="600">Encrypted WireGuard mesh</text>
+  <text x="225" y="450" text-anchor="middle" fill="#7890aa" font-size="9">Zero exposed ports · P2P encrypted tunnels</text>
+
+  <!-- RIGHT: Public Internet -->
+  <rect x="522" y="100" width="306" height="56" rx="8" fill="url(#card)" stroke="#c2410c" stroke-width="1.8"/>
+  <rect x="522" y="100" width="306" height="4" rx="4" fill="#c2410c" opacity="0.7"/>
+  <text x="675" y="122" text-anchor="middle" fill="#b45309" font-size="12" font-weight="700">Public Internet</text>
+  <text x="675" y="140" text-anchor="middle" fill="#7890aa" font-size="10">End users · any device · anywhere</text>
+
+  <!-- Arrow -->
+  <line x1="675" y1="156" x2="675" y2="178" stroke="#c2410c" stroke-width="2" opacity="0.8" marker-end="url(#arrOrange)"/>
+
+  <!-- RIGHT: Cloudflare CDN -->
+  <rect x="522" y="180" width="306" height="62" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1.4"/>
+  <rect x="522" y="180" width="306" height="4" rx="4" fill="#c2410c" opacity="0.6"/>
+  <text x="675" y="202" text-anchor="middle" fill="#b45309" font-size="11" font-weight="700">Cloudflare CDN + WAF</text>
+  <text x="675" y="219" text-anchor="middle" fill="#38506d" font-size="10">DDoS protection · proxy mode</text>
+  <text x="675" y="234" text-anchor="middle" fill="#7890aa" font-size="9">Origin IP hidden · rate limiting</text>
+
+  <!-- Arrow -->
+  <line x1="675" y1="242" x2="675" y2="264" stroke="#c2410c" stroke-width="2" opacity="0.8" marker-end="url(#arrOrange)"/>
+
+  <!-- RIGHT: Cloudflare Tunnel -->
+  <rect x="522" y="266" width="306" height="54" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1.4"/>
+  <rect x="522" y="266" width="306" height="4" rx="4" fill="#c2410c" opacity="0.5"/>
+  <text x="675" y="289" text-anchor="middle" fill="#b45309" font-size="11" font-weight="700">Cloudflare Tunnel</text>
+  <text x="675" y="306" text-anchor="middle" fill="#38506d" font-size="10">VLAN 50 DMZ · isolated from LAN</text>
+
+  <!-- Arrow -->
+  <line x1="675" y1="320" x2="675" y2="342" stroke="#c2410c" stroke-width="2" opacity="0.8" marker-end="url(#arrOrange)"/>
+
+  <!-- RIGHT: NPMplus -->
+  <rect x="522" y="344" width="306" height="62" rx="8" fill="url(#card)" stroke="#c2410c" stroke-width="1.8"/>
+  <rect x="522" y="344" width="306" height="4" rx="4" fill="#c2410c" opacity="0.5"/>
+  <text x="675" y="366" text-anchor="middle" fill="#b45309" font-size="11" font-weight="700">NPMplus Reverse Proxy</text>
+  <text x="675" y="383" text-anchor="middle" fill="#38506d" font-size="10">TLS termination · subdomain routing</text>
+  <text x="675" y="400" text-anchor="middle" fill="#7890aa" font-size="9">Media · Homepage · Game Servers · etc.</text>
+
+  <!-- RIGHT: Bottom label -->
+  <rect x="522" y="420" width="306" height="36" rx="6" fill="#ffffff" stroke="#c2410c" stroke-width="0.8" opacity="0.8"/>
+  <text x="675" y="436" text-anchor="middle" fill="#c2410c" font-size="10" font-weight="600">No WAN port forwards</text>
+  <text x="675" y="450" text-anchor="middle" fill="#7890aa" font-size="9">Tunnel-only ingress · LAN fully isolated</text>
+
+  <!-- Bottom callout spanning full width -->
+  <rect x="80" y="476" width="740" height="46" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="80" y="476" width="740" height="3" rx="3" fill="url(#purpleBar)" opacity="0.7"/>
+  <text x="450" y="497" text-anchor="middle" fill="#075985" font-size="11" font-weight="700">*.masternazz.com — Wildcard TLS via ACME + Cloudflare DNS-01</text>
+  <text x="450" y="513" text-anchor="middle" fill="#7890aa" font-size="9">Auto-renewed · OPNsense ACME plugin · certificate pushed to all internal services</text>
+</svg>

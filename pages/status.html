@@ -14,9 +14,19 @@
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <style>
     .status-dashboard {
+      --status-row-bg: rgba(var(--accent-rgb), 0.055);
+      --status-row-bg-hover: rgba(var(--accent-rgb), 0.095);
+      --status-row-border: var(--line);
+      --status-row-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+    [data-theme="light"] .status-dashboard {
+      --status-row-bg: rgba(255, 255, 255, 0.74);
+      --status-row-bg-hover: rgba(239, 247, 255, 0.94);
+      --status-row-border: rgba(14, 132, 199, 0.22);
+      --status-row-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
     }
     .status-group-label {
       font-size: 0.72rem;
@@ -33,11 +43,16 @@
       gap: 16px;
       padding: 14px 18px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: background 0.2s;
+      background: var(--status-row-bg);
+      border: 1px solid var(--status-row-border);
+      box-shadow: var(--status-row-shadow);
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease-out), box-shadow 0.2s ease;
     }
-    .status-row:hover { background: rgba(255,255,255,0.055); }
+    .status-row:hover {
+      background: var(--status-row-bg-hover);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
     .status-left { display: flex; align-items: center; gap: 12px; }
     .status-indicator {
       width: 10px; height: 10px;
@@ -54,19 +69,32 @@
     .status-badge {
       font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
       padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+      border: 1px solid transparent;
     }
-    .status-badge.up   { background: rgba(34,197,94,0.15);  color: #22c55e; }
-    .status-badge.down { background: rgba(239,68,68,0.15);  color: #ef4444; }
-    .status-badge.pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .status-badge.up   { background: rgba(34,197,94,0.15);  color: var(--green); border-color: rgba(34,197,94,0.24); }
+    .status-badge.down { background: rgba(239,68,68,0.15);  color: var(--danger); border-color: rgba(239,68,68,0.24); }
+    .status-badge.pending { background: rgba(245,158,11,0.15); color: var(--amber); border-color: rgba(245,158,11,0.24); }
     .status-updated {
       font-size: 0.78rem; color: var(--subtle);
       text-align: right; margin-top: 8px;
     }
     .status-loading { color: var(--subtle); font-size: 0.9rem; padding: 24px 0; }
-    .status-error { color: #ef4444; font-size: 0.9rem; padding: 24px 0; }
+    .status-error { color: var(--danger); font-size: 0.9rem; padding: 24px 0; }
     .status-error-help { margin-top: 8px; font-size: 0.85rem; }
     .status-error-link { color: inherit; text-decoration: underline; }
     .status-error-detail { margin-top: 12px; opacity: 0.7; font-size: 0.75rem; }
+    .status-row-fallback { border-style: dashed; }
+    .status-fallback-note {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+    }
+    .status-fallback-note p {
+      margin: 0;
+      color: var(--subtle);
+      font-size: 0.8rem;
+      opacity: 0.85;
+    }
     .stack-table {
       width: 100%;
       border-collapse: collapse;
@@ -81,7 +109,7 @@
     .stack-table td {
       padding: 10px 14px;
       color: var(--muted);
-      border-bottom: 1px solid rgba(147,51,234,0.1);
+      border-bottom: 1px solid var(--line);
     }
   </style>
 </head>
@@ -377,7 +405,7 @@
             const label = state === "up" ? "Main Site Operational" : "Main Site Offline";
             
             dashboard.innerHTML = `
-              <div class="status-row" style="background: rgba(255,255,255,0.05); border-color: var(--line);">
+              <div class="status-row status-row-fallback">
                 <div class="status-left">
                   <span class="status-indicator ${state}"></span>
                   <span class="status-name">Self-Hosted Lab Link</span>
@@ -386,8 +414,8 @@
                   <span class="status-badge ${state}">${label}</span>
                 </div>
               </div>
-              <div class="status-error" style="padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 12px;">
-                <p style="font-size: 0.8rem; opacity: 0.7;">Primary monitoring dashboard at <strong>status.masternazz.com</strong> is currently unreachable. Showing cloud fallback data from GitHub Actions.</p>
+              <div class="status-error status-fallback-note">
+                <p>Primary monitoring dashboard at <strong>status.masternazz.com</strong> is currently unreachable. Showing cloud fallback data from GitHub Actions.</p>
               </div>`;
             updatedEl.textContent = "Cloud Fallback Update: " + data.last_updated;
             return;

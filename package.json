@@ -4,6 +4,7 @@
   "scripts": {
     "resume:export": "node tools/export-resumes.js",
     "resume:measure": "node tools/measure-resumes.js",
+    "diagrams:theme": "node tools/generate-theme-diagrams.js",
     "visual:check": "node tools/visual-check.js"
   },
   "devDependencies": {

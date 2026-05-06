@@ -1,5 +1,16 @@
 const email = "NazeemDickey@gmail.com";
 
+(() => {
+  try {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+  } catch (error) {
+    // Storage can be unavailable in a few embedded/browser privacy contexts.
+  }
+})();
+
 async function copyEmail() {
   const text = document.getElementById("emailText");
 
@@ -275,7 +286,7 @@ function setupSearch() {
   const isSubpage = location.pathname.includes("/pages/");
   const root = isSubpage ? "../" : "";
 
-    // The INDEX is now generated with "pages/filename.html" paths.
+  // The INDEX is generated with "pages/filename.html" paths.
   const processedIndex = INDEX.map(item => {
     let url = item.url;
     if (url === "index.html") {
@@ -311,6 +322,16 @@ function setupSearch() {
   const results = overlay.querySelector(".search-results");
   let activeIdx = -1;
 
+  function escapeHtml(text) {
+    return String(text).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[char]));
+  }
+
   function highlight(text, query) {
     if (!query) return text;
     const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -334,14 +355,14 @@ function setupSearch() {
     activeIdx = -1;
     const trimmed = q.trim();
     const items = trimmed
-      ? INDEX.map(item => ({ item, score: rank(item, trimmed) }))
+      ? processedIndex.map(item => ({ item, score: rank(item, trimmed) }))
           .filter(x => x.score > 0)
           .sort((a, b) => b.score - a.score)
           .map(x => x.item)
-      : INDEX;
+      : processedIndex;
 
     if (!items.length) {
-      results.innerHTML = `<div class="search-empty">No results for "<strong>${trimmed}</strong>"</div>`;
+      results.innerHTML = `<div class="search-empty">No results for "<strong>${escapeHtml(trimmed)}</strong>"</div>`;
       return;
     }
 
@@ -367,6 +388,7 @@ function setupSearch() {
 
   function open() {
     overlay.classList.add("is-open");
+    document.body.classList.add("search-lock");
     input.value = "";
     render("");
     requestAnimationFrame(() => input.focus());
@@ -374,6 +396,7 @@ function setupSearch() {
 
   function close() {
     overlay.classList.remove("is-open");
+    document.body.classList.remove("search-lock");
     activeIdx = -1;
   }
 
@@ -405,11 +428,46 @@ function setupSearch() {
 
   // Keyboard shortcut Ctrl+K / Cmd+K
   document.addEventListener("keydown", e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       e.preventDefault();
       overlay.classList.contains("is-open") ? close() : open();
     }
   });
+}
+
+function diagramSrcForTheme(src, theme) {
+  if (!/assets\/diagrams\/.+\.svg([?#].*)?$/.test(src)) {
+    return src;
+  }
+
+  if (theme === "light") {
+    return src.replace(/-light\.svg([?#].*)?$/, ".svg$1").replace(/\.svg([?#].*)?$/, "-light.svg$1");
+  }
+
+  return src.replace(/-light\.svg([?#].*)?$/, ".svg$1");
+}
+
+function updateThemeAwareDiagrams(theme = document.documentElement.getAttribute("data-theme") || "dark") {
+  document.querySelectorAll(".diagram-card img").forEach((img) => {
+    const currentSrc = img.getAttribute("src") || "";
+    const darkSrc = img.dataset.themeSrcDark || diagramSrcForTheme(currentSrc, "dark");
+
+    if (darkSrc === currentSrc && !/assets\/diagrams\/.+\.svg([?#].*)?$/.test(currentSrc)) {
+      return;
+    }
+
+    img.dataset.themeSrcDark = darkSrc;
+    img.dataset.themeSrcLight = img.dataset.themeSrcLight || diagramSrcForTheme(darkSrc, "light");
+
+    const nextSrc = theme === "light" ? img.dataset.themeSrcLight : img.dataset.themeSrcDark;
+    if (img.getAttribute("src") !== nextSrc) {
+      img.setAttribute("src", nextSrc);
+    }
+  });
+}
+
+function setupThemeAwareDiagrams() {
+  updateThemeAwareDiagrams();
 }
 
 function setupThemeToggle() {
@@ -432,8 +490,25 @@ function setupThemeToggle() {
     navLinks.appendChild(btn);
   }
 
-  const savedTheme = localStorage.getItem("theme") || "dark";
-  document.documentElement.setAttribute("data-theme", savedTheme);
+  function saveTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+    updateThemeAwareDiagrams(theme);
+
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (error) {
+      // Theme still changes even when localStorage is blocked.
+    }
+  }
+
+  let savedTheme = "dark";
+  try {
+    savedTheme = localStorage.getItem("theme") || "dark";
+  } catch (error) {
+    savedTheme = document.documentElement.getAttribute("data-theme") || "dark";
+  }
+  saveTheme(savedTheme);
 
   btn.addEventListener("click", async (e) => {
     const currentTheme = document.documentElement.getAttribute("data-theme");
@@ -446,15 +521,13 @@ function setupThemeToggle() {
     document.documentElement.style.setProperty("--click-y", y + "px");
 
     if (!document.startViewTransition) {
-      document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
+      saveTheme(newTheme);
       return;
     }
 
     document.documentElement.classList.add("theme-wave-active");
     const transition = document.startViewTransition(() => {
-      document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
+      saveTheme(newTheme);
     });
 
     try {
@@ -470,5 +543,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCursorSpotlight();
   setupGlassPanels();
   setupSearch();
+  setupThemeAwareDiagrams();
   setupThemeToggle();
 });

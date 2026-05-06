@@ -1,0 +1,145 @@
+<svg data-diagram-theme="light" width="900" height="1560" viewBox="0 0 900 1560" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#edf5ff"/>
+      <stop offset="100%" stop-color="#f8fbff"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="milestoneCard" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#eaf2ff"/>
+      <stop offset="100%" stop-color="#eef4ff"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.2"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#0284c7" stroke-width="0.2" opacity="0.3"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="1560" fill="url(#bg)"/>
+  <rect width="900" height="1560" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#075985" font-size="15" font-weight="700" letter-spacing="2">NAZEEM MASSOOM DICKEY — JOURNEY &amp; TIMELINE</text>
+  <text x="450" y="58" text-anchor="middle" fill="#7890aa" font-size="10" letter-spacing="1">masternazz.com · January 2025 → Present</text>
+
+  <!-- Spine line -->
+  <rect x="119" y="80" width="3" height="1390" rx="2" fill="url(#spine)"/>
+
+  <!-- ═══ ENTRY 1 — SouthTech (y=82, h=62) ═══ -->
+  <circle cx="120" cy="113" r="7" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glow)"/>
+  <rect x="150" y="82" width="710" height="62" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="150" y="82" width="4" height="62" rx="2" fill="#0284c7" opacity="0.6"/>
+  <text x="166" y="103" fill="#0284c7" font-size="9" font-weight="700" letter-spacing="1">JANUARY 2025 — SOUTHTECH ACADEMY</text>
+  <text x="166" y="121" fill="#eff6ff" font-size="12" font-weight="700">Started in IT Midway Through Junior Year</text>
+  <text x="166" y="137" fill="#64748b" font-size="10">Zero IT background. First exposure: CCST Networking. Failed it twice — kept going.</text>
+
+  <!-- ═══ ENTRY 2 — First Server (y=174, h=62) ═══ -->
+  <circle cx="120" cy="205" r="7" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glow)"/>
+  <rect x="150" y="174" width="710" height="62" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="150" y="174" width="4" height="62" rx="2" fill="#0284c7" opacity="0.6"/>
+  <text x="166" y="195" fill="#0284c7" font-size="9" font-weight="700" letter-spacing="1">MARCH 2025 — FIRST SERVER</text>
+  <text x="166" y="213" fill="#eff6ff" font-size="12" font-weight="700">IBM System x3750 — The Lab Starts</text>
+  <text x="166" y="229" fill="#64748b" font-size="10">Mentor sourced the server. Sat behind a bookshelf. Pterodactyl, NGINX, Minecraft hosting.</text>
+
+  <!-- ═══ ENTRY 3 — First Rack (y=276, h=62) ═══ -->
+  <circle cx="120" cy="307" r="7" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glow)"/>
+  <rect x="150" y="276" width="710" height="62" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="150" y="276" width="4" height="62" rx="2" fill="#0284c7" opacity="0.6"/>
+  <text x="166" y="297" fill="#0284c7" font-size="9" font-weight="700" letter-spacing="1">SEPTEMBER 2025 — FIRST RACK</text>
+  <text x="166" y="315" fill="#eff6ff" font-size="12" font-weight="700">Synology NAS, SG300 Switch, OPNsense Optiplex</text>
+  <text x="166" y="331" fill="#64748b" font-size="10">Two-post rack with mentor and dad. IBM, NAS, SG300, OPNsense Optiplex, KVM switch.</text>
+
+  <!-- ═══ ENTRY 4 — MILESTONE: All-In (y=388, h=76) ═══ -->
+  <circle cx="120" cy="426" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="388" width="710" height="76" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="388" width="4" height="76" rx="2" fill="#0284c7"/>
+  <text x="166" y="409" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">LATE 2025 — TURNING POINT</text>
+  <text x="166" y="427" fill="#eff6ff" font-size="12" font-weight="700">All-In After Loss</text>
+  <text x="166" y="445" fill="#38506d" font-size="10">After my grandmother passed, I put everything into IT. Passed CCST Networking</text>
+  <text x="166" y="459" fill="#38506d" font-size="10">on the third attempt — qualifying for SkillsUSA. Started CompTIA immediately after.</text>
+
+  <!-- ═══ ENTRY 5 — MILESTONE: Trifecta (y=514, h=76) ═══ -->
+  <circle cx="120" cy="552" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="514" width="710" height="76" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="514" width="4" height="76" rx="2" fill="#0284c7"/>
+  <text x="166" y="535" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">MARCH 2026 — THREE WEEKS</text>
+  <text x="166" y="553" fill="#eff6ff" font-size="12" font-weight="700">CompTIA Trifecta: A+, Network+, Security+</text>
+  <text x="166" y="571" fill="#38506d" font-size="10">A+ Core 1 &amp; 2 in one week. Network+ the next. Security+ the week after.</text>
+  <text x="166" y="585" fill="#38506d" font-size="10">Three industry certifications in three consecutive weeks. Professor Messer + YouTube.</text>
+
+  <!-- ═══ ENTRY 6 — R610 / R410 (y=640, h=62) ═══ -->
+  <circle cx="120" cy="671" r="7" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glow)"/>
+  <rect x="150" y="640" width="710" height="62" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="150" y="640" width="4" height="62" rx="2" fill="#0284c7" opacity="0.6"/>
+  <text x="166" y="661" fill="#0284c7" font-size="9" font-weight="700" letter-spacing="1">EARLY APRIL 2026 — LAB EXPANSION</text>
+  <text x="166" y="679" fill="#eff6ff" font-size="12" font-weight="700">Dell R610 &amp; R410 — Two More Nodes</text>
+  <text x="166" y="695" fill="#64748b" font-size="10">Mentor found two servers being thrown out. Added to Proxmox cluster — three nodes total.</text>
+
+  <!-- ═══ ENTRY 7 — MILESTONE: SkillsUSA 1st (y=752, h=76) ═══ -->
+  <circle cx="120" cy="790" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="752" width="710" height="76" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="752" width="4" height="76" rx="2" fill="#0284c7"/>
+  <text x="166" y="773" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">APRIL 2026 — STATE LEVEL</text>
+  <text x="166" y="791" fill="#eff6ff" font-size="12" font-weight="700">SkillsUSA Florida Internetworking — 1st Place</text>
+  <text x="166" y="809" fill="#38506d" font-size="10">Won first place at the SkillsUSA Florida State Competition — networking tested under</text>
+  <text x="166" y="823" fill="#38506d" font-size="10">pressure against peers statewide. Qualified for SkillsUSA NLSC in Atlanta, GA.</text>
+
+  <!-- ═══ ENTRY 8 — MILESTONE: CySA+ (y=878, h=62) ═══ -->
+  <circle cx="120" cy="909" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="878" width="710" height="62" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="878" width="4" height="62" rx="2" fill="#0284c7"/>
+  <text x="166" y="899" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">APRIL 2026 — COMPTIA</text>
+  <text x="166" y="917" fill="#eff6ff" font-size="12" font-weight="700">CySA+ Passed</text>
+  <text x="166" y="933" fill="#38506d" font-size="10">Cybersecurity Analyst cert added. Completed the CompTIA CSAP stackable pathway.</text>
+
+  <!-- ═══ ENTRY 9 — MILESTONE: CyberLaunch (y=990, h=76) ═══ -->
+  <circle cx="120" cy="1028" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="990" width="710" height="76" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="990" width="4" height="76" rx="2" fill="#0284c7"/>
+  <text x="166" y="1011" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">APRIL 2026 — TAMPA, FL</text>
+  <text x="166" y="1029" fill="#eff6ff" font-size="12" font-weight="700">CyberLaunch USF State Championship</text>
+  <text x="166" y="1047" fill="#38506d" font-size="10">Florida's largest state-sponsored high school CTF — hosted by Cyber Florida at USF.</text>
+  <text x="166" y="1061" fill="#38506d" font-size="10">Advanced from November virtual qualifier to in-person State Championship.</text>
+
+  <!-- ═══ ENTRY 10 — Full Rack (y=1116, h=62) ═══ -->
+  <circle cx="120" cy="1147" r="7" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glow)"/>
+  <rect x="150" y="1116" width="710" height="62" rx="7" fill="url(#card)" stroke="#0284c7" stroke-width="1" opacity="0.9"/>
+  <rect x="150" y="1116" width="4" height="62" rx="2" fill="#0284c7" opacity="0.6"/>
+  <text x="166" y="1137" fill="#0284c7" font-size="9" font-weight="700" letter-spacing="1">2026 — FULL RACK BUILD</text>
+  <text x="166" y="1155" fill="#eff6ff" font-size="12" font-weight="700">Cisco Switches + Enclosed 4-Post Rack</text>
+  <text x="166" y="1171" fill="#64748b" font-size="10">Two Cisco Catalyst 3750 V2s + enclosed rack with door and PDU. Lab fully realized.</text>
+
+  <!-- ═══ ENTRY 11 — MILESTONE: Now (y=1228, h=76) ═══ -->
+  <circle cx="120" cy="1266" r="10" fill="#0284c7" stroke="#edf5ff" stroke-width="2" filter="url(#glowStrong)"/>
+  <rect x="150" y="1228" width="710" height="76" rx="7" fill="url(#milestoneCard)" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="150" y="1228" width="4" height="76" rx="2" fill="#0284c7"/>
+  <text x="166" y="1249" fill="#075985" font-size="9" font-weight="700" letter-spacing="1">NOW — WHAT'S NEXT</text>
+  <text x="166" y="1267" fill="#eff6ff" font-size="12" font-weight="700">CCNA &amp; PenTest+ in Progress — SkillsUSA Nationals Ahead</text>
+  <text x="166" y="1285" fill="#38506d" font-size="10">Studying CCNA and PenTest+. Competing at SkillsUSA NLSC in Atlanta, GA.</text>
+  <text x="166" y="1299" fill="#38506d" font-size="10">Open to junior networking, SOC, NOC, MSP, and IT support roles.</text>
+
+  <!-- Legend -->
+  <rect x="150" y="1354" width="710" height="64" rx="7" fill="#edf5ff" stroke="#dbeafe" stroke-width="1"/>
+  <circle cx="180" cy="1379" r="6" fill="#0284c7" filter="url(#glow)"/>
+  <text x="195" y="1383" fill="#075985" font-size="10" font-weight="700">Milestone</text>
+  <circle cx="310" cy="1379" r="5" fill="#0284c7" filter="url(#glow)"/>
+  <text x="325" y="1383" fill="#0284c7" font-size="10" font-weight="700">Lab / Gear</text>
+  <text x="166" y="1406" fill="#7890aa" font-size="9" letter-spacing="0.5">masternazz.com · Nazeem Massoom Dickey · January 2025 → Present</text>
+
+</svg>

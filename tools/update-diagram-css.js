@@ -14,10 +14,20 @@ const newStyles = `.diagram-card img {
 }
 
 [data-theme="light"] .diagram-card img {
-  filter: invert(0.92) hue-rotate(185deg) brightness(1.05) contrast(1.1);
+  filter: none;
+}
+
+[data-theme="light"] .diagram-card {
+  background: #fdfefe;
+  box-shadow: var(--card-shadow);
 }
 
 `;
+
+if (content.includes('[data-theme="light"] .diagram-card img')) {
+  console.log('Diagram light-mode styles are already present.');
+  process.exit(0);
+}
 
 if (content.includes(marker)) {
   content = content.replace(marker, newStyles + marker);

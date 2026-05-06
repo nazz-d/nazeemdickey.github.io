@@ -61,8 +61,8 @@
     }
 
     .tool-chip {
-      background: rgba(34,211,238,0.08);
-      border: 1px solid rgba(34,211,238,0.25);
+      background: rgba(var(--accent-rgb),0.08);
+      border: 1px solid var(--line);
       color: var(--accent);
       border-radius: 6px;
       padding: 4px 12px;
@@ -152,9 +152,9 @@
         <div class="writeup-meta-item"><span>Format</span> &nbsp;<strong>In-person CTF, timed</strong></div>
       </div>
 
-      <div class="card" style="margin-bottom: 32px; border-left: 4px solid var(--accent); background: rgba(192, 132, 252, 0.03);">
-        <h3 style="margin-bottom: 12px; color: var(--accent);">STAR Breakdown</h3>
-        <ul class="list-clean" style="padding-left: 0;">
+      <div class="card star-callout">
+        <h3>STAR Breakdown</h3>
+        <ul class="list-clean">
           <li><strong>Situation:</strong> Competing in Florida's largest state-sponsored high school CTF State Championship at the University of South Florida.</li>
           <li><strong>Task:</strong> Compromise multiple target machines (Windows XP/7 legacy systems) and solve complex OSINT challenges under a strict 4-hour timer.</li>
           <li><strong>Action:</strong> Implemented a systematic recon-to-root workflow: Nmap for discovery, Metasploit for SMB exploitation, and Hashcat for offline password cracking. Applied visual geolocation techniques for OSINT.</li>
