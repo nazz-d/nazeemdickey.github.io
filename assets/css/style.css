@@ -93,6 +93,7 @@ html { scroll-behavior: smooth; background: var(--bg); color-scheme: dark; }
 
 body {
   margin: 0;
+  display: flow-root;
   min-height: 100vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text);
