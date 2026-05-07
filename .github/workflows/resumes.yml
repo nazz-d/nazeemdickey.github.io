@@ -1,0 +1,41 @@
+name: Generate Resumes
+
+on:
+  push:
+    paths:
+      - 'pages/resume-styled.html'
+      - 'pages/resume-ats.html'
+      - 'tools/export-resumes.js'
+      - '.github/workflows/resumes.yml'
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Generate PDFs
+        run: npm run resume:export
+
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add assets/resumes/*.pdf
+          git commit -m "chore: auto-generate resumes [skip ci]" || exit 0
+          git push

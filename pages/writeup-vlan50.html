@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Technical writeup: Troubleshooting and fixing VLAN 50 trunking on Cisco 3750V2 switches to restore Cloudflare Tunnel connectivity.">
+  <link rel="canonical" href="https://masternazz.com/pages/writeup-vlan50.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey">
+  <meta property="og:description" content="Fixing the path: How I resolved a VLAN trunking mismatch between OPNsense and Cisco switching to restore DMZ services.">
+  <meta property="og:url" content="https://masternazz.com/pages/writeup-vlan50.html">
+  <meta property="og:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Solving real-world networking issues: Troubleshooting VLAN 50 on Catalyst 3750V2 hardware.">
+  <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <header class="nav">
+    <a href="../index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="writeups.html" aria-current="page">Writeups</a>
+      <a href="#contact">Contact</a>
+      <button class="search-trigger" aria-label="Search pages (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search <kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Writeup | Networking &amp; Troubleshooting</p>
+      <h1>Cisco Trunking &amp; VLAN 50 Fix</h1>
+      <p class="lead">
+        A deep dive into identifying and resolving a VLAN trunking mismatch between OPNsense
+        and a two-switch Cisco Catalyst fabric to restore connectivity for a DMZ-isolated
+        Cloudflare Tunnel.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Cisco IOS</span>
+        <span class="chip">VLAN 50</span>
+        <span class="chip">802.1Q Trunking</span>
+        <span class="chip">Troubleshooting</span>
+        <span class="chip">OPNsense</span>
+        <span class="chip">Cloudflare Tunnel</span>
+      </div>
+    </section>
+
+    <section class="section card writeup-body">
+
+      <div class="card star-callout">
+        <h3>STAR Breakdown</h3>
+        <ul class="list-clean">
+          <li><strong>Situation:</strong> The Cloudflare Tunnel LXC, isolated in a dedicated Public_DMZ (VLAN 50), was unreachable and failing to receive a DHCP lease from the OPNsense gateway.</li>
+          <li><strong>Task:</strong> Verify the physical and logical path of VLAN 50 through the network fabric—consisting of OPNsense, a Proxmox cluster, a main Cisco 3750V2, and a secondary Cisco 3750V2.</li>
+          <li><strong>Action:</strong> Systematically audited the switch configurations. Identified that while VLAN 50 was tagged at the OPNsense and Proxmox layers, the Cisco trunk ports connecting the switches were only allowing the native VLAN (VLAN 1). Applied <code>switchport trunk allowed vlan add 50</code> across the entire path.</li>
+          <li><strong>Result:</strong> Restored full L2/L3 pathing. Cloudflared received lease 192.168.50.2, successfully reached the gateway, and restored all global status and web services.</li>
+        </ul>
+      </div>
+
+      <h2>The Symptom</h2>
+      <p>
+        The <code>cloudflared</code> service is critical to my infrastructure—it's how my public status page 
+        and secure web ingress function without opening ports on my WAN. During an update, the 
+        container lost connectivity. <code>nmap</code> from the LAN couldn't reach it, and it was 
+        failing to get a DHCP lease on the 192.168.50.0/24 segment.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The Topology Audit</h2>
+      <p>
+        My network uses a "Router on a Stick" (mostly) model with multiple VLANs. The path for VLAN 50 is:
+      </p>
+      <ol>
+        <li><strong>OPNsense ( em0.50 )</strong> -> Gateway</li>
+        <li><strong>Cisco 3750V2 Main ( Fa5/0/47 )</strong> -> Trunk to OPNsense</li>
+        <li><strong>Cisco 3750V2 Main ( Fa5/0/48 )</strong> -> Trunk to Sub Switch</li>
+        <li><strong>Cisco 3750V2 Sub ( Fa2/0/47 )</strong> -> Trunk back to Main</li>
+        <li><strong>Cisco 3750V2 Main ( Fa5/0/1 )</strong> -> Trunk to Proxmox Node</li>
+      </ol>
+      <p>
+        If any single link in this chain fails to "allow" VLAN 50, the L2 broadcast domain is 
+        broken and the DHCP Discover packet never reaches the OPNsense server.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Troubleshooting Steps</h2>
+
+      <h3>1. Verifying OPNsense & Proxmox</h3>
+      <p>
+        I first checked the OPNsense interfaces. VLAN 50 was active on <code>em0</code>, and the 
+        DHCP server was running. In Proxmox, the LXC was correctly tagged with bridge <code>vmbr0</code> 
+        and tag <code>50</code>. The issue wasn't at the endpoints.
+      </p>
+
+      <h3>2. The Cisco Discovery</h3>
+      <p>
+        I logged into the main switch (<code>192.168.1.182</code>) and ran <code>show interfaces trunk</code>. 
+        The results were clear: <strong>VLAN 50 was missing from the "Vlans allowed on trunk" list.</strong> 
+        The ports were trunking, but they were effectively filtering out the DMZ traffic.
+      </p>
+
+      <h3>3. The Implementation</h3>
+      <p>
+        I moved systematically through the fabric to apply the fix:
+      </p>
+      <pre><code>! On Cisco_Catalyst_3750_V2_Main
+interface range Fa5/0/1, Fa5/0/47, Fa5/0/48
+ switchport trunk allowed vlan add 50
+ exit
+wr mem
+
+! On Cisco_Catalyst_3750_V2_Sub
+interface Fa2/0/47
+ switchport trunk allowed vlan add 50
+ exit
+wr mem</code></pre>
+
+      <hr class="section-divider">
+
+      <h2>The Result</h2>
+      <p>
+        Immediately after saving the configuration, the <code>cloudflared</code> LXC received a 
+        DHCP lease (<code>192.168.50.2</code>). I verified connectivity with a ping to the 
+        gateway (<code>192.168.50.1</code>) and confirmed that the Cloudflare Tunnel registered 
+        as "Active" in the Zero Trust dashboard.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Key Takeaways</h2>
+      <p>
+        <strong>Trust but Verify:</strong> Just because a port is set to <code>mode trunk</code> 
+        doesn't mean it's carrying your traffic. 
+      </p>
+      <p>
+        <strong>Documentation is a Tool:</strong> Having a clear map of which physical ports 
+        connected my OPNsense box to my switches allowed me to identify the exact interfaces 
+        to audit in seconds rather than guessing.
+      </p>
+      <p>
+        <strong>DMZ Isolation:</strong> This fix was particularly important because it maintained 
+        the security boundary. VLAN 50 remains isolated from the LAN, but now it has the L2 path 
+        it needs to reach the internet.
+      </p>
+
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Related Pages</h2>
+      </div>
+      <div class="project-grid">
+        <a href="switching.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="4" rx="1"/><rect x="2" y="14" width="20" height="4" rx="1"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="6" y1="16" x2="6" y2="16"/></svg>
+            </span>
+            <span class="project-type">Switching</span>
+          </div>
+          <h3>Cisco Switching Project</h3>
+          <p>The hardware architecture behind this fix—Catalyst 3750V2 setup and trunk port design.</p>
+          <span class="card-link">View project -&gt;</span>
+        </a>
+
+        <a href="opnsense.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span class="project-type">Firewall</span>
+          </div>
+          <h3>OPNsense Gateway</h3>
+          <p>How the edge router handles the L3 side of VLAN 50 and DMZ segmentation.</p>
+          <span class="card-link">View project -&gt;</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="writeups.html">&lt;- Back to writeups</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Networking Writeup by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>
