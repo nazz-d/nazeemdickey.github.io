@@ -783,20 +783,21 @@ function setupHeroNameCanvas() {
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 }
 
-function setupHeroMatrix() {
-  const canvas = document.getElementById("heroMatrix");
+function setupHeroCircuit() {
+  const canvas = document.getElementById("heroCircuit");
   if (!canvas) return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const ctx = canvas.getContext("2d");
   const hero = canvas.parentElement;
-  const FONT_SIZE = 13;
-  const CHARS = "01アイウエオカキクケコサシスセソタチツテトナニヌネノ";
+  const GRID = 38;
+  const TRACE_COUNT = 18;
+  const PACKET_COUNT = 12;
 
-  let W, H, dpr, cols;
-  let drops = [];
+  let W, H, dpr;
   let mouse = { x: -9999, y: -9999 };
-  let lastDraw = 0;
+  let traces = [];
+  let packets = [];
   let rafId = null;
 
   function accentRgb() {
@@ -813,53 +814,102 @@ function setupHeroMatrix() {
     canvas.style.width  = W + "px";
     canvas.style.height = H + "px";
     ctx.scale(dpr, dpr);
-    cols = Math.floor(W / FONT_SIZE);
-    drops = Array.from({ length: cols }, () => Math.random() * -H / FONT_SIZE);
   }
 
-  function draw(now) {
-    rafId = requestAnimationFrame(draw);
-    if (now - lastDraw < 55) return; // ~18fps for the trail effect
-    lastDraw = now;
+  function snapGrid(v) { return Math.round(v / GRID) * GRID; }
 
+  function makeTrace() {
+    const cols = Math.floor(W / GRID);
+    const rows = Math.floor(H / GRID);
+    let x = snapGrid(Math.random() * W);
+    let y = snapGrid(Math.random() * H);
+    const points = [{ x, y }];
+    const steps = 4 + Math.floor(Math.random() * 7);
+    for (let i = 0; i < steps; i++) {
+      const horiz = Math.random() > 0.5;
+      const len = (1 + Math.floor(Math.random() * 4)) * GRID;
+      if (horiz) x = Math.max(0, Math.min(cols * GRID, x + (Math.random() > 0.5 ? len : -len)));
+      else       y = Math.max(0, Math.min(rows * GRID, y + (Math.random() > 0.5 ? len : -len)));
+      points.push({ x, y });
+    }
+    return { points, alpha: 0.15 + Math.random() * 0.3 };
+  }
+
+  function makePacket(trace) {
+    return { trace, t: Math.random(), speed: 0.0018 + Math.random() * 0.0022 };
+  }
+
+  function pointOnTrace(trace, t) {
+    const pts = trace.points;
+    const total = pts.length - 1;
+    const seg = Math.min(t * total, total - 0.0001);
+    const i = Math.floor(seg);
+    const frac = seg - i;
+    const a = pts[i], b = pts[i + 1] || pts[i];
+    return { x: a.x + (b.x - a.x) * frac, y: a.y + (b.y - a.y) * frac };
+  }
+
+  function init() {
+    resize();
+    traces  = Array.from({ length: TRACE_COUNT }, makeTrace);
+    packets = Array.from({ length: PACKET_COUNT }, () => makePacket(traces[Math.floor(Math.random() * traces.length)]));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
     const rgb = accentRgb();
 
-    // Fade trail
-    ctx.fillStyle = "rgba(0,0,0,0.18)";
-    ctx.fillRect(0, 0, W, H);
+    // Traces
+    for (const tr of traces) {
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(${rgb},${tr.alpha})`;
+      ctx.lineWidth = 1;
+      ctx.moveTo(tr.points[0].x, tr.points[0].y);
+      for (let i = 1; i < tr.points.length; i++) ctx.lineTo(tr.points[i].x, tr.points[i].y);
+      ctx.stroke();
 
-    ctx.font = `${FONT_SIZE}px monospace`;
-
-    for (let i = 0; i < cols; i++) {
-      const x = i * FONT_SIZE;
-      const y = drops[i] * FONT_SIZE;
-
-      // Mouse repel — columns near cursor reset and scatter upward
-      const dx = x - mouse.x, dy = y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
-        drops[i] -= (1 - dist / 120) * 2.5;
+      for (const pt of tr.points) {
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${rgb},${tr.alpha * 1.8})`;
+        ctx.fill();
       }
-
-      const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-
-      // Head char is bright
-      ctx.fillStyle = `rgba(255,255,255,0.9)`;
-      ctx.fillText(ch, x, y);
-
-      // Body chars slightly behind in accent color
-      if (drops[i] > 2) {
-        ctx.fillStyle = `rgba(${rgb},0.55)`;
-        ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], x, y - FONT_SIZE);
-      }
-
-      // Reset column when it passes bottom
-      if (y > H && Math.random() > 0.975) drops[i] = 0;
-      drops[i] += 0.5;
     }
+
+    // Packets
+    for (const pk of packets) {
+      pk.t += pk.speed;
+      if (pk.t > 1) {
+        pk.trace = traces[Math.floor(Math.random() * traces.length)];
+        pk.t = 0;
+        pk.speed = 0.0018 + Math.random() * 0.0022;
+      }
+
+      const pos = pointOnTrace(pk.trace, pk.t);
+
+      // Cursor attracts packets
+      const dx = mouse.x - pos.x, dy = mouse.y - pos.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 200 && dist > 0) pk.t += (1 - dist / 200) * 0.004;
+
+      const grd = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 8);
+      grd.addColorStop(0, `rgba(${rgb},1)`);
+      grd.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.95)";
+      ctx.fill();
+    }
+
+    rafId = requestAnimationFrame(draw);
   }
 
-  resize();
+  init();
 
   hero.addEventListener("mousemove", (e) => {
     const rect = hero.getBoundingClientRect();
@@ -871,9 +921,11 @@ function setupHeroMatrix() {
 
   window.addEventListener("resize", () => {
     if (rafId) cancelAnimationFrame(rafId);
-    resize();
+    init();
     rafId = requestAnimationFrame(draw);
   }, { passive: true });
+
+  new MutationObserver(() => {}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
   rafId = requestAnimationFrame(draw);
 }
@@ -886,5 +938,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupThemeAwareDiagrams();
   setupThemeToggle();
   setupHeroNameCanvas();
-  setupHeroMatrix();
+  setupHeroCircuit();
 });
