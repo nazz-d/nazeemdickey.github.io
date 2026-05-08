@@ -797,6 +797,84 @@ function setupScrollProgress() {
   update();
 }
 
+function setupRoleRotator() {
+  const el = document.getElementById("roleRotator");
+  if (!el) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = "Junior Network Admin";
+    el.style.borderRight = "none";
+    return;
+  }
+
+  const roles = [
+    "Junior Network Admin",
+    "SOC Analyst",
+    "NOC Technician",
+    "MSP Technician",
+    "IT Support Specialist",
+  ];
+
+  let roleIdx = 0;
+  let charIdx = 0;
+  let deleting = false;
+  let lastTick = 0;
+  const TYPE_SPEED = 68;
+  const DELETE_SPEED = 34;
+  const HOLD_MS = 2200;
+  let holdUntil = 0;
+
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (holdUntil && now < holdUntil) return;
+    if (now - lastTick < (deleting ? DELETE_SPEED : TYPE_SPEED)) return;
+    lastTick = now;
+    const current = roles[roleIdx];
+    if (!deleting) {
+      charIdx++;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx >= current.length) { deleting = true; holdUntil = now + HOLD_MS; }
+    } else {
+      charIdx--;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx === 0) { deleting = false; roleIdx = (roleIdx + 1) % roles.length; holdUntil = now + 300; }
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function setupCertCounter() {
+  const el = document.getElementById("certCounter");
+  if (!el) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = el.dataset.target;
+    return;
+  }
+
+  const target = parseInt(el.dataset.target, 10);
+  let started = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !started) {
+      started = true;
+      observer.disconnect();
+      const duration = 1400;
+      const startTime = performance.now();
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(tick);
+    }
+  }, { threshold: 0.4 });
+
+  observer.observe(el);
+}
+
 function setupActiveNav() {
   const sections = ["#projects", "#skills", "#timeline", "#contact"]
     .map(id => document.querySelector(id))
@@ -833,5 +911,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupThemeToggle();
   setupHeroNameCanvas();
   setupScrollProgress();
+  setupRoleRotator();
+  setupCertCounter();
   setupActiveNav();
 });

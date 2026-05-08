@@ -1022,6 +1022,22 @@ pre code { color: var(--muted); }
 }
 
 
+/* ── Role rotator ────────────────────────────────────────────────────────── */
+.role-rotator {
+  color: var(--accent);
+  border-right: 2px solid var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+/* ── Cert counter ────────────────────────────────────────────────────────── */
+.cert-counter {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Active nav section highlight ───────────────────────────────────────── */
 .nav-links a.is-active {
   color: var(--accent);
