@@ -1012,3 +1012,35 @@ code {
 }
 
 pre code { color: var(--muted); }
+
+/* ── Scroll progress bar ─────────────────────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--accent));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+[data-theme="light"] .scroll-progress {
+  background: linear-gradient(90deg, #2563eb, #0284c7);
+}
+
+/* ── Role rotator ────────────────────────────────────────────────────────── */
+.role-rotator {
+  color: var(--accent);
+  border-right: 2px solid var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+/* ── Active nav section highlight ───────────────────────────────────────── */
+.nav-links a.is-active {
+  color: var(--accent);
+}

@@ -930,6 +930,103 @@ function setupHeroCircuit() {
   rafId = requestAnimationFrame(draw);
 }
 
+function setupScrollProgress() {
+  const bar = document.getElementById("scrollProgress");
+  if (!bar) return;
+
+  function update() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = total > 0 ? (scrolled / total * 100).toFixed(2) + "%" : "0%";
+  }
+
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+function setupRoleRotator() {
+  const el = document.getElementById("roleRotator");
+  if (!el) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = "Junior Network Admin";
+    el.style.borderRight = "none";
+    return;
+  }
+
+  const roles = [
+    "Junior Network Admin",
+    "SOC Analyst",
+    "NOC Technician",
+    "MSP Technician",
+    "IT Support Specialist",
+  ];
+
+  let roleIdx = 0;
+  let charIdx = 0;
+  let deleting = false;
+  let lastTick = 0;
+  const TYPE_SPEED = 68;
+  const DELETE_SPEED = 34;
+  const HOLD_MS = 2200;
+  let holdUntil = 0;
+
+  function tick(now) {
+    requestAnimationFrame(tick);
+
+    if (holdUntil && now < holdUntil) return;
+    if (now - lastTick < (deleting ? DELETE_SPEED : TYPE_SPEED)) return;
+    lastTick = now;
+
+    const current = roles[roleIdx];
+
+    if (!deleting) {
+      charIdx++;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx >= current.length) {
+        deleting = true;
+        holdUntil = now + HOLD_MS;
+      }
+    } else {
+      charIdx--;
+      el.textContent = current.slice(0, charIdx);
+      if (charIdx === 0) {
+        deleting = false;
+        roleIdx = (roleIdx + 1) % roles.length;
+        holdUntil = now + 300;
+      }
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function setupActiveNav() {
+  const sections = ["#projects", "#skills", "#timeline", "#contact"]
+    .map(id => document.querySelector(id))
+    .filter(Boolean);
+
+  const navLinks = document.querySelectorAll(".nav-links a");
+  if (!navLinks.length || !sections.length) return;
+
+  function getLinkForSection(section) {
+    const id = "#" + section.id;
+    return [...navLinks].find(a => a.getAttribute("href") === id || a.getAttribute("href") === "index.html" + id);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const link = getLinkForSection(entry.target);
+      if (!link) continue;
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove("is-active"));
+        link.classList.add("is-active");
+      }
+    }
+  }, { rootMargin: "-30% 0px -60% 0px" });
+
+  sections.forEach(s => observer.observe(s));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setupProjectFilters();
   setupCursorSpotlight();
@@ -939,4 +1036,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupThemeToggle();
   setupHeroNameCanvas();
   setupHeroCircuit();
+  setupScrollProgress();
+  setupRoleRotator();
+  setupActiveNav();
 });
