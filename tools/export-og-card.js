@@ -5,7 +5,8 @@ const root = path.resolve(__dirname, '..');
 
 (async () => {
   const browser = await chromium.launch();
-  const page = await browser.newPage();
+  const ctx = await browser.newContext({ deviceScaleFactor: 2 });
+  const page = await ctx.newPage();
 
   await page.setViewportSize({ width: 1200, height: 630 });
 
