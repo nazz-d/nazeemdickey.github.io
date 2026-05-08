@@ -783,6 +783,152 @@ function setupHeroNameCanvas() {
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 }
 
+function setupHeroParticles() {
+  const canvas = document.getElementById("heroParticles");
+  if (!canvas) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const ctx = canvas.getContext("2d");
+  const hero = canvas.parentElement;
+
+  const PARTICLE_COUNT = 62;
+  const CONNECT_DIST = 130;
+  const MOUSE_RADIUS = 160;
+  const MOUSE_FORCE = 0.012;
+  const SPEED = 0.38;
+
+  let W, H, dpr;
+  let mouse = { x: -9999, y: -9999 };
+  let rafId = null;
+
+  function accentRgb() {
+    return document.documentElement.getAttribute("data-theme") === "light"
+      ? "37,99,235" : "192,132,252";
+  }
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W = hero.offsetWidth;
+    H = hero.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + "px";
+    canvas.style.height = H + "px";
+    ctx.scale(dpr, dpr);
+  }
+
+  function makeParticle() {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = (0.3 + Math.random() * 0.7) * SPEED;
+    return {
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      r:  1.5 + Math.random() * 1.5,
+    };
+  }
+
+  let particles = [];
+
+  function init() {
+    resize();
+    particles = Array.from({ length: PARTICLE_COUNT }, makeParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const rgb = accentRgb();
+
+    // Update positions + mouse repulsion
+    for (const p of particles) {
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS && dist > 0) {
+        const force = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE;
+        p.vx += (dx / dist) * force * 18;
+        p.vy += (dy / dist) * force * 18;
+      }
+
+      // Dampen so they don't fly off
+      p.vx *= 0.985;
+      p.vy *= 0.985;
+
+      // Keep minimum speed
+      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      if (spd < SPEED * 0.25) {
+        p.vx += (Math.random() - 0.5) * 0.04;
+        p.vy += (Math.random() - 0.5) * 0.04;
+      }
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap edges
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10;
+      if (p.y > H + 10) p.y = -10;
+    }
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.55;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${rgb},${alpha.toFixed(3)})`;
+          ctx.lineWidth = 0.8;
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw dots
+    for (const p of particles) {
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const nearMouse = Math.sqrt(dx * dx + dy * dy) < MOUSE_RADIUS * 0.6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, nearMouse ? p.r * 1.7 : p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${rgb},${nearMouse ? 0.95 : 0.6})`;
+      ctx.fill();
+    }
+
+    rafId = requestAnimationFrame(draw);
+  }
+
+  init();
+
+  // Track mouse relative to hero card
+  hero.addEventListener("mousemove", (e) => {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  }, { passive: true });
+
+  hero.addEventListener("mouseleave", () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  }, { passive: true });
+
+  window.addEventListener("resize", () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    init();
+    rafId = requestAnimationFrame(draw);
+  }, { passive: true });
+
+  // Redraw accent color on theme change
+  new MutationObserver(() => {}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  rafId = requestAnimationFrame(draw);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setupProjectFilters();
   setupCursorSpotlight();
@@ -791,4 +937,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupThemeAwareDiagrams();
   setupThemeToggle();
   setupHeroNameCanvas();
+  setupHeroParticles();
 });
