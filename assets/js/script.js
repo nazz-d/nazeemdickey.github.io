@@ -847,33 +847,63 @@ function setupFaviconAnimation() {
   link.rel = "icon"; link.type = "image/png";
   if (!link.parentNode) document.head.appendChild(link);
 
-  let pulse = 0;
+  let t = 0;
   let focused = true;
+
+  function lerpColor(a, b, amt) {
+    const ah = parseInt(a.slice(1), 16);
+    const bh = parseInt(b.slice(1), 16);
+    const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
+    const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+    const rr = Math.round(ar + (br - ar) * amt);
+    const rg = Math.round(ag + (bg - ag) * amt);
+    const rb = Math.round(ab + (bb - ab) * amt);
+    return `rgb(${rr},${rg},${rb})`;
+  }
 
   function draw() {
     ctx.clearRect(0, 0, 32, 32);
-    const glow = 0.55 + 0.45 * Math.sin(pulse);
-    const r1 = focused ? `rgba(192,132,252,${glow})` : "rgba(100,100,120,0.8)";
-    const r2 = focused ? `rgba(147,51,234,${glow})` : "rgba(70,70,90,0.8)";
-    const grad = ctx.createLinearGradient(0, 0, 32, 32);
-    grad.addColorStop(0, r1);
-    grad.addColorStop(1, r2);
+
+    // Slow color cycle: purple → cyan → purple
+    const cycle = (Math.sin(t) + 1) / 2;
+    const col1 = focused ? lerpColor("#9333ea", "#22d3ee", cycle) : "#6b6b80";
+    const col2 = focused ? lerpColor("#c084fc", "#06b6d4", cycle) : "#4a4a5a";
+
+    // Rounded square background
+    const r = 7;
     ctx.beginPath();
-    ctx.moveTo(16, 2); ctx.lineTo(4, 7); ctx.lineTo(4, 15);
-    ctx.bezierCurveTo(4, 22, 10, 28, 16, 30);
-    ctx.bezierCurveTo(22, 28, 28, 22, 28, 15);
-    ctx.lineTo(28, 7); ctx.closePath();
-    ctx.fillStyle = grad;
+    ctx.moveTo(r, 1); ctx.lineTo(32 - r, 1);
+    ctx.quadraticCurveTo(31, 1, 31, r);
+    ctx.lineTo(31, 32 - r);
+    ctx.quadraticCurveTo(31, 31, 32 - r, 31);
+    ctx.lineTo(r, 31);
+    ctx.quadraticCurveTo(1, 31, 1, 32 - r);
+    ctx.lineTo(1, r);
+    ctx.quadraticCurveTo(1, 1, r, 1);
+    ctx.closePath();
+    const bg = ctx.createLinearGradient(0, 0, 32, 32);
+    bg.addColorStop(0, "#0d0a18");
+    bg.addColorStop(1, "#1a0d30");
+    ctx.fillStyle = bg;
     ctx.fill();
-    ctx.strokeStyle = "rgba(3,2,8,0.8)";
-    ctx.lineWidth = 2.5;
-    ctx.lineCap = "round"; ctx.lineJoin = "round";
-    ctx.beginPath();
-    ctx.moveTo(11, 12); ctx.lineTo(15, 16); ctx.lineTo(11, 20);
-    ctx.moveTo(17, 21); ctx.lineTo(22, 21);
+
+    // Subtle border
+    ctx.strokeStyle = focused ? col1 : "#333";
+    ctx.lineWidth = 1;
     ctx.stroke();
+
+    // "ND" text
+    const grad = ctx.createLinearGradient(4, 8, 28, 24);
+    grad.addColorStop(0, col1);
+    grad.addColorStop(1, col2);
+    ctx.fillStyle = grad;
+    ctx.font = "bold 13px 'Segoe UI', system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("ND", 16, 17);
+
     link.href = canvas.toDataURL("image/png");
-    pulse += focused ? 0.045 : 0.015;
+    t += focused ? 0.018 : 0.005;
   }
 
   window.addEventListener("focus", () => { focused = true; });
