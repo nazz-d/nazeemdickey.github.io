@@ -3,8 +3,8 @@ name: Generate Resumes
 on:
   push:
     paths:
-      - 'pages/resume-styled.html'
-      - 'pages/resume-ats.html'
+      - 'pages/Massoom_Dickey_Nazeem_Resume_Styled.html'
+      - 'pages/Massoom_Dickey_Nazeem_Resume_ATS.html'
       - 'tools/export-resumes.js'
       - '.github/workflows/resumes.yml'
   workflow_dispatch:

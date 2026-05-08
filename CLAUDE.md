@@ -31,8 +31,8 @@ Always use the facts above. Never guess, invent, or assume names or URLs. If uns
 - `pages/status.html` — Live Uptime Kuma status embed
 - `pages/certifications.html` — Full certification list with Credly links
 - `pages/resume.html` — Resume page with PDF download links
-- `pages/resume-styled.html` — Styled dark-theme resume (HTML)
-- `pages/resume-ats.html` — ATS-friendly plain resume (HTML)
+- `pages/Massoom_Dickey_Nazeem_Resume_Styled.html` — Styled dark-theme resume (HTML)
+- `pages/Massoom_Dickey_Nazeem_Resume_ATS.html` — ATS-friendly plain resume (HTML)
 - `pages/skillsusa.html` — SkillsUSA FL 1st Place competition page
 - `pages/journey.html` — Career timeline
 - `pages/writeups.html` — Writeups index
@@ -55,5 +55,5 @@ Always use the facts above. Never guess, invent, or assume names or URLs. If uns
 
 ## Common Tasks
 - **PDF export:** Use Playwright scripts in repo root — measure first, then generate
-- **Resume files:** `pages/resume-styled.html` (styled) and `pages/resume-ats.html` (ATS)
+- **Resume files:** `pages/Massoom_Dickey_Nazeem_Resume_Styled.html` (styled) and `pages/Massoom_Dickey_Nazeem_Resume_ATS.html` (ATS)
 - **Diagrams:** Static SVGs in `assets/diagrams/` — do not replace with animations without approval

@@ -218,14 +218,14 @@ const INDEX = [
   },
   {
     "title": "Nazeem Massoom Dickey — Resume (ATS)",
-    "url": "pages/resume-ats.html",
+    "url": "pages/Massoom_Dickey_Nazeem_Resume_ATS.html",
     "icon": "📄",
     "desc": "ATS-friendly resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.",
     "keywords": "resumeats nazeem massoom dickey  resume ats atsfriendly resume for nazeem massoom dickey it and cybersecurity candidate"
   },
   {
     "title": "Nazeem Massoom Dickey — Resume",
-    "url": "pages/resume-styled.html",
+    "url": "pages/Massoom_Dickey_Nazeem_Resume_Styled.html",
     "icon": "📄",
     "desc": "Styled resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.",
     "keywords": "resumestyled nazeem massoom dickey  resume styled resume for nazeem massoom dickey it and cybersecurity candidate"

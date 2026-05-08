@@ -11,14 +11,14 @@ const root = path.resolve(__dirname, '..');
   const files = [
     {
       name: 'resume-ats',
-      html: 'pages/resume-ats.html',
-      pdf: 'assets/resumes/resume-ats.pdf',
+      html: 'pages/Massoom_Dickey_Nazeem_Resume_ATS.html',
+      pdf: 'assets/resumes/Massoom_Dickey_Nazeem_Resume_ATS.pdf',
       margin: { top: '0.3in', right: '0.45in', bottom: '0.25in', left: '0.45in' },
     },
     {
       name: 'resume-styled',
-      html: 'pages/resume-styled.html',
-      pdf: 'assets/resumes/resume-styled.pdf',
+      html: 'pages/Massoom_Dickey_Nazeem_Resume_Styled.html',
+      pdf: 'assets/resumes/Massoom_Dickey_Nazeem_Resume_Styled.pdf',
       margin: { top: '0', right: '0', bottom: '0', left: '0' },
     },
   ];
@@ -28,51 +28,35 @@ const root = path.resolve(__dirname, '..');
     console.log(`Processing: ${file.name}`);
     await page.goto(url, { waitUntil: 'networkidle' });
 
-    // Measure content height (11 inches = 1056px at 96dpi)
-    const height = await page.evaluate(() => document.documentElement.scrollHeight);
-    console.log(`  Content height: ${height}px`);
-
-    // Scale down if it exceeds the limit (standard Letter is ~1050px height)
     let scale = 1.0;
-    if (height > 1020) {
-      scale = Math.max(0.7, 1000 / height);
-      console.log(`  Scaling down to ${scale.toFixed(2)} to fit on one page.`);
-    }
+    let pdfBuffer;
+    let pageCount = 2;
 
-    let pdfBuffer = await page.pdf({
-      format: 'Letter',
-      printBackground: true,
-      margin: file.margin,
-      scale: scale,
-    });
-
-    // Verify page count
-    let pdfText = pdfBuffer.toString('binary');
-    let pageCount = (pdfText.match(/\/Type \/Page[^s]/g) || []).length;
-
-    // Retry once with slightly smaller scale if it overflows
-    if (pageCount > 1) {
-      console.log(`  Warning: ${file.name}.pdf overflowed to ${pageCount} pages. Retrying with 0.95 scale...`);
-      scale = scale * 0.95;
+    // Intelligent scaling loop: reduce scale until it fits on exactly 1 page
+    while (pageCount > 1 && scale > 0.7) {
       pdfBuffer = await page.pdf({
         format: 'Letter',
         printBackground: true,
         margin: file.margin,
         scale: scale,
       });
-      pdfText = pdfBuffer.toString('binary');
+
+      const pdfText = pdfBuffer.toString('binary');
       pageCount = (pdfText.match(/\/Type \/Page[^s]/g) || []).length;
+
+      if (pageCount > 1) {
+        scale -= 0.01;
+      }
     }
 
     if (pageCount > 1) {
-      console.error(`  ERROR: ${file.name}.pdf generated ${pageCount} pages! Must be exactly 1.`);
-      console.error(`  Current height: ${height}px. Try reducing content in ${file.html}`);
+      console.error(`  ERROR: ${file.name}.pdf still ${pageCount} pages at scale ${scale.toFixed(2)}!`);
       await browser.close();
       process.exit(1);
     }
 
     fs.writeFileSync(path.resolve(root, file.pdf), pdfBuffer);
-    console.log(`  Successfully exported: ${file.pdf} (1 page, scale: ${scale.toFixed(2)})`);
+    console.log(`  Successfully exported: ${file.pdf} (Scale: ${scale.toFixed(2)})`);
   }
 
   await browser.close();

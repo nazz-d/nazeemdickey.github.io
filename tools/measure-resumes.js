@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  const files = ['pages/resume-ats.html', 'pages/resume-styled.html'];
+  const files = ['pages/Massoom_Dickey_Nazeem_Resume_ATS.html', 'pages/Massoom_Dickey_Nazeem_Resume_Styled.html'];
 
   for (const file of files) {
     const url = 'file:///' + path.resolve(root, file).replace(/\\/g, '/');
