@@ -884,7 +884,7 @@ p { color: var(--muted); line-height: 1.72; }
 [data-theme="light"] .theme-toggle .sun { transform: scale(1) rotate(0); opacity: 1; }
 [data-theme="light"] .theme-toggle .moon { transform: scale(0) rotate(90deg); opacity: 0; }
 
-.footer { width: min(1180px, calc(100% - 32px)); margin: 42px auto; text-align: center; color: var(--subtle); }
+.footer { width: min(1180px, calc(100% - 32px)); margin: 42px auto 80px; text-align: center; color: var(--subtle); }
 
 @media (max-width: 1100px) {
   .cert-grid { grid-template-columns: repeat(2, 1fr); }
