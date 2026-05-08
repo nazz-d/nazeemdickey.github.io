@@ -1128,6 +1128,92 @@ pre code { color: var(--muted); }
   color: var(--accent);
 }
 
+/* ── SkillsUSA featured achievement card ─────────────────────────────────── */
+.skillsusa-feature {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 2.5rem;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.07) 0%, var(--glass-bg) 60%);
+  border-radius: 12px;
+  transition: transform 0.22s var(--ease-out), box-shadow 0.22s ease, border-color 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+.skillsusa-feature::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.skillsusa-feature:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--accent-rgb), 0.55);
+  box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.15);
+}
+.skillsusa-medal {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.2), rgba(var(--accent-rgb), 0.08));
+  border: 2px solid rgba(var(--accent-rgb), 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.skillsusa-medal svg {
+  width: 34px;
+  height: 34px;
+}
+.skillsusa-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.skillsusa-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+.skillsusa-feature h3 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.skillsusa-feature h3 span {
+  color: var(--accent);
+}
+.skillsusa-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: 620px;
+  line-height: 1.5;
+}
+.skillsusa-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+  .skillsusa-feature { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  .skillsusa-feature h3 { font-size: 1.3rem; }
+}
+
 /* ── Status badges ───────────────────────────────────────────────────────── */
 .status-badge {
   display: inline-flex;
