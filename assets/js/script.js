@@ -579,14 +579,39 @@ function setupHeroNameCanvas() {
     return Math.min(Math.floor(w * 0.065), 80);
   }
 
+  const ALIAS = "masternazz";
+
+  // Glitch sequence phases after idle:
+  // "corrupt"  — rapid random char scramble, RGB shift
+  // "alias"    — hold "masternazz" clearly for ~40 frames
+  // "recover"  — scramble back to real name
+  // "done"     — back to normal idle
+  const PHASES = ["idle", "corrupt", "alias", "recover"];
+
   let fontSize = getFontSize();
   let charCount = 0;
   let cursorOn = true;
   let cursorTick = 0;
-  let glitching = false;
-  let glitchFrame = 0;
   let idleTimer = 0;
+  let phase = "typing";
+  let phaseFrame = 0;
+  let displayText = "";
   let rafId = null;
+
+  const GLITCH_CHARS = "!@#$%^&*<>?/\\|[]{}~`";
+  function randGlitch() { return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]; }
+
+  function scrambleBetween(from, to, progress) {
+    const len = Math.round(from.length + (to.length - from.length) * progress);
+    let out = "";
+    for (let i = 0; i < len; i++) {
+      const fChar = from[i] || "";
+      const tChar = to[i] || "";
+      if (fChar === tChar) { out += fChar; continue; }
+      out += Math.random() < 0.45 ? randGlitch() : (Math.random() < 0.5 ? fChar : tChar);
+    }
+    return out;
+  }
 
   function resize() {
     fontSize = getFontSize();
@@ -608,103 +633,130 @@ function setupHeroNameCanvas() {
     const font = `${FONT_WEIGHT} ${fontSize}px ${FONT_FAMILY}`;
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
-    const text = NAME.slice(0, charCount);
     const accent = getAccentColor();
     const textColor = getTextColor();
     const baseline = Math.floor(h * 0.82);
+    const isGlitchPhase = phase === "corrupt" || phase === "recover";
 
     ctx.clearRect(0, 0, w, h);
 
-    if (glitching && !reducedMotion) {
-      // RGB chromatic offset glitch
+    if (isGlitchPhase) {
+      // RGB chromatic aberration
       const offsets = [
-        { dx: -3, color: "rgba(255,0,80,0.55)" },
-        { dx:  3, color: "rgba(0,200,255,0.55)" },
+        { dx: -4, color: "rgba(255,0,80,0.5)" },
+        { dx:  4, color: "rgba(0,200,255,0.5)" },
       ];
       offsets.forEach(({ dx, color }) => {
         ctx.save();
         ctx.globalCompositeOperation = "screen";
         ctx.font = font;
         ctx.fillStyle = color;
-        ctx.fillText(text, dx, baseline);
+        ctx.fillText(displayText, dx, baseline);
         ctx.restore();
       });
 
-      // Random scanline bars
-      const barCount = 3 + Math.floor(Math.random() * 4);
+      // Scanlines
+      const barCount = 2 + Math.floor(Math.random() * 4);
       for (let i = 0; i < barCount; i++) {
         const y = Math.random() * h;
-        const barH = 1 + Math.random() * 3;
-        ctx.save();
-        ctx.globalCompositeOperation = "source-over";
-        ctx.fillStyle = `rgba(${Math.random() > 0.5 ? "192,132,252" : "34,211,238"},0.22)`;
-        ctx.fillRect(0, y, w, barH);
-        ctx.restore();
+        ctx.fillStyle = `rgba(${Math.random() > 0.5 ? "192,132,252" : "34,211,238"},0.18)`;
+        ctx.fillRect(0, y, w, 1 + Math.random() * 3);
       }
-
-      // Main text on top
-      ctx.font = font;
-      ctx.fillStyle = textColor;
-      ctx.fillText(text, 0, baseline);
-
-      glitchFrame++;
-      if (glitchFrame > 6) {
-        glitching = false;
-        glitchFrame = 0;
-      }
-    } else {
-      ctx.font = font;
-      ctx.fillStyle = textColor;
-      ctx.fillText(text, 0, baseline);
     }
 
-    // Cursor
-    if (charCount < NAME.length || (cursorOn && charCount === NAME.length)) {
-      const measured = (() => { ctx.font = font; return ctx.measureText(text).width; })();
-      const cursorX = measured + 4;
-      const cursorH = fontSize * 0.78;
-      const cursorY = baseline - fontSize * 0.74;
-      if (cursorOn || charCount < NAME.length) {
-        ctx.fillStyle = accent;
-        ctx.fillRect(cursorX, cursorY, Math.max(3, fontSize * 0.055), cursorH);
-      }
+    // Main text
+    ctx.font = font;
+    ctx.fillStyle = phase === "alias" ? accent : textColor;
+    ctx.fillText(displayText, 0, baseline);
+
+    // Cursor — show during typing and idle, hide during glitch sequence
+    const showCursor = (phase === "typing" || phase === "idle") && cursorOn;
+    if (showCursor) {
+      ctx.font = font;
+      const cx = ctx.measureText(displayText).width + 4;
+      const ch = fontSize * 0.78;
+      const cy = baseline - fontSize * 0.74;
+      ctx.fillStyle = accent;
+      ctx.fillRect(cx, cy, Math.max(3, fontSize * 0.055), ch);
     }
   }
 
   function tick() {
     rafId = null;
-
     cursorTick++;
 
-    // Typing phase
-    if (charCount < NAME.length) {
-      if (cursorTick % 3 === 0) charCount++;
+    if (phase === "typing") {
+      if (cursorTick % 3 === 0 && charCount < NAME.length) charCount++;
       if (cursorTick % 8 === 0) cursorOn = !cursorOn;
+      displayText = NAME.slice(0, charCount);
+      if (charCount >= NAME.length) phase = "idle";
       drawFrame();
       rafId = requestAnimationFrame(tick);
       return;
     }
 
-    // Idle — blink cursor and trigger glitch
-    if (cursorTick % 28 === 0) cursorOn = !cursorOn;
-
-    idleTimer++;
-    if (!reducedMotion && idleTimer > 0 && idleTimer % 220 === 0) {
-      glitching = true;
-      glitchFrame = 0;
+    if (phase === "idle") {
+      if (cursorTick % 28 === 0) cursorOn = !cursorOn;
+      displayText = NAME;
+      idleTimer++;
+      // Trigger glitch sequence every ~8 seconds (480 frames @ 60fps)
+      if (idleTimer > 60 && idleTimer % 480 === 0) {
+        phase = "corrupt";
+        phaseFrame = 0;
+      }
+      drawFrame();
+      rafId = requestAnimationFrame(tick);
+      return;
     }
 
-    drawFrame();
-    rafId = requestAnimationFrame(tick);
+    if (phase === "corrupt") {
+      // 30 frames of scrambling NAME → ALIAS
+      const progress = Math.min(phaseFrame / 30, 1);
+      displayText = scrambleBetween(NAME, ALIAS, progress);
+      phaseFrame++;
+      if (phaseFrame >= 30) { phase = "alias"; phaseFrame = 0; }
+      drawFrame();
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
+
+    if (phase === "alias") {
+      // Hold "masternazz" clearly for 50 frames (~0.8s)
+      displayText = ALIAS;
+      phaseFrame++;
+      if (phaseFrame >= 50) { phase = "recover"; phaseFrame = 0; }
+      drawFrame();
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
+
+    if (phase === "recover") {
+      // 30 frames scrambling ALIAS → NAME
+      const progress = Math.min(phaseFrame / 30, 1);
+      displayText = scrambleBetween(ALIAS, NAME, progress);
+      phaseFrame++;
+      if (phaseFrame >= 30) {
+        phase = "idle";
+        phaseFrame = 0;
+        displayText = NAME;
+        cursorOn = true;
+      }
+      drawFrame();
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
   }
 
   resize();
+  displayText = "";
   drawFrame();
 
   if (!reducedMotion) {
     rafId = requestAnimationFrame(tick);
   } else {
+    phase = "idle";
     charCount = NAME.length;
+    displayText = NAME;
     cursorOn = false;
     drawFrame();
   }
