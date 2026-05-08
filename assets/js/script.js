@@ -1065,6 +1065,8 @@ function setupPageTransitions() {
     });
   });
 
+  let transitioning = false;
+
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (!a) return;
@@ -1073,9 +1075,11 @@ function setupPageTransitions() {
     if (a.target === "_blank") return;
     if (href.startsWith("mailto:") || href.startsWith("tel:")) return;
     if (href.startsWith("#")) return;
-    if (href.includes("#") && a.pathname === window.location.pathname) return;
+    if (href.includes("#") && a.href && new URL(a.href).pathname === window.location.pathname) return;
     if (href.startsWith("http") && !href.includes("masternazz.com")) return;
+    if (transitioning) return;
 
+    transitioning = true;
     e.preventDefault();
     document.body.classList.add("page-fade-out");
     setTimeout(() => { window.location.href = href; }, 200);
