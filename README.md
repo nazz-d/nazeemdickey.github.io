@@ -7,7 +7,7 @@ Live site: https://masternazz.com
 ## What This Shows
 
 - SkillsUSA Florida Internetworking Gold Medal Champion (April 2026) — qualifying for NLSC Nationals in Atlanta, GA.
-- Enterprise-style homelab architecture using Proxmox, OPNsense, Cisco switching, Synology storage, Cloudflare, Authentik, Wazuh, and NPMplus.
+- Enterprise-style homelab architecture using Proxmox, OPNsense, Cisco SG300 + Netgear GS728TP switching, Synology storage, Cloudflare, Authentik, Wazuh, and NPMplus.
 - Public-safe project writeups for firewalling, virtualization, secure remote access, identity, and SIEM workflows.
 - Resume and certification material aimed at helping employers verify hands-on infrastructure work.
 

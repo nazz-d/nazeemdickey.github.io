@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey</title>
-  <meta name="description" content="Technical writeup: Troubleshooting and fixing VLAN 50 trunking on Cisco 3750V2 switches to restore Cloudflare Tunnel connectivity.">
+  <title>VLAN 50 Trunking Path Fix | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Technical writeup: Troubleshooting and fixing VLAN 50 trunking to restore Cloudflare Tunnel connectivity, plus migration validation on SG300 + GS728TP.">
   <link rel="canonical" href="https://masternazz.com/pages/writeup-vlan50.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey">
-  <meta property="og:description" content="Fixing the path: How I resolved a VLAN trunking mismatch between OPNsense and Cisco switching to restore DMZ services.">
+  <meta property="og:title" content="VLAN 50 Trunking Path Fix | Nazeem Massoom Dickey">
+  <meta property="og:description" content="Fixing the path: How I resolved a VLAN trunking mismatch between OPNsense and the switching fabric to restore DMZ services.">
   <meta property="og:url" content="https://masternazz.com/pages/writeup-vlan50.html">
   <meta property="og:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Cisco Trunking & VLAN 50 Fix | Nazeem Massoom Dickey">
-  <meta name="twitter:description" content="Solving real-world networking issues: Troubleshooting VLAN 50 on Catalyst 3750V2 hardware.">
+  <meta name="twitter:title" content="VLAN 50 Trunking Path Fix | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Solving real-world networking issues: Troubleshooting VLAN 50 and validating DMZ pathing after switch migration.">
   <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
   <link rel="stylesheet" href="../assets/css/style.css">
   <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
@@ -49,10 +49,10 @@
 
     <section class="page-hero">
       <p class="eyebrow">Writeup | Networking &amp; Troubleshooting</p>
-      <h1>Cisco Trunking &amp; VLAN 50 Fix</h1>
+      <h1>VLAN 50 Trunking Path Fix</h1>
       <p class="lead">
         A deep dive into identifying and resolving a VLAN trunking mismatch between OPNsense
-        and a two-switch Cisco Catalyst fabric to restore connectivity for a DMZ-isolated
+        and the switching fabric to restore connectivity for a DMZ-isolated
         Cloudflare Tunnel.
       </p>
       <div class="chip-row">

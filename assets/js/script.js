@@ -179,7 +179,7 @@ const INDEX = [
     "url": "pages/homelab.html",
     "icon": "🖥️",
     "desc": "Public-safe overview of Nazeem Massoom Dickey's enterprise-style homelab architecture.",
-    "keywords": "homelab enterprise architecture lab rack cisco proxmox opnsense synology wazuh authentik remote access vlan switching identity monitoring infrastructure overview"
+    "keywords": "homelab enterprise architecture lab rack cisco netgear sg300 gs728tp proxmox opnsense synology wazuh authentik remote access vlan switching identity monitoring infrastructure overview"
   },
   {
     "title": "Authentik Identity Lab",
@@ -193,7 +193,7 @@ const INDEX = [
     "url": "pages/journey.html",
     "icon": "🗺️",
     "desc": "How Nazeem Massoom Dickey went from zero IT background to enterprise homelab, CompTIA trifecta, and SkillsUSA Florida 1st Place in under two years.",
-    "keywords": "journey timeline story background southtech academy zero to enterprise ibm server proxmox cisco rack comptia trifecta skillsusa florida first place failed ccst came back cybersecurity networking"
+    "keywords": "journey timeline story background southtech academy zero to enterprise ibm server proxmox sg300 gs728tp rack comptia trifecta skillsusa florida first place failed ccst came back cybersecurity networking"
   },
   {
     "title": "OPNsense Edge Firewall Project",
@@ -280,11 +280,11 @@ const INDEX = [
     "keywords": "writeups ctf competition recap networking troubleshooting field reports cyberlaunch skillsusa vlan cisco technical writing"
   },
   {
-    "title": "Cisco Trunking & VLAN 50 Fix",
+    "title": "VLAN 50 Trunking Path Fix",
     "url": "pages/writeup-vlan50.html",
     "icon": "🔀",
-    "desc": "Troubleshooting and fixing a VLAN 50 trunking mismatch on Cisco 3750V2 switches to restore Cloudflare Tunnel DMZ connectivity.",
-    "keywords": "vlan50 cisco trunking vlan 50 fix troubleshooting switchport trunk allowed vlan opnsense dmz cloudflare tunnel 3750 catalyst networking"
+    "desc": "Troubleshooting and fixing a VLAN 50 trunking mismatch to restore Cloudflare Tunnel DMZ connectivity and validate post-migration pathing.",
+    "keywords": "vlan50 trunking vlan 50 fix troubleshooting switchport trunk allowed vlan opnsense dmz cloudflare tunnel sg300 gs728tp networking"
   },
   {
     "title": "AI Automation & Agent Research",

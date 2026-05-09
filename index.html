@@ -89,7 +89,7 @@
 
         <div class="signal">
           <span>Core Lab</span>
-          <strong>Proxmox, OPNsense, Cisco switching, Synology NAS, Cloudflare, Authentik</strong>
+          <strong>Proxmox, OPNsense, Cisco SG300 + Netgear GS728TP switching, Synology NAS, Cloudflare, Authentik</strong>
         </div>
 
         <div class="signal">
@@ -179,13 +179,13 @@
 
           <h3>Enterprise Homelab Architecture</h3>
           <p>
-            A production-grade virtualization lab: Proxmox cluster, Cisco switching,
+            A production-grade virtualization lab: Proxmox cluster, multi-vendor Gigabit switching,
             and Synology storage documented with physical and logical topology mapping.
           </p>
 
           <div class="chip-row">
             <span class="chip">Proxmox</span>
-            <span class="chip">Cisco</span>
+            <span class="chip">Cisco + Netgear</span>
             <span class="chip">Inventory</span>
             <span class="chip">Topology</span>
           </div>
@@ -326,10 +326,10 @@
             <span class="status-badge done">Completed</span>
           </div>
 
-          <h3>Cisco Switching &amp; DMZ VLAN</h3>
+          <h3>Gigabit Switching &amp; DMZ VLAN</h3>
           <p>
-            Two Catalyst 3750 V2 switches, trunk port design, and VLAN 50 DMZ
-            isolation for Cloudflare Tunnel public ingress.
+            Cisco SG300-20 core plus Netgear GS728TP PoE access, trunk design,
+            and VLAN 50 DMZ isolation for Cloudflare Tunnel public ingress.
           </p>
 
           <div class="chip-row">
@@ -593,8 +593,8 @@
             </span>
             <span class="project-type">Networking</span>
           </div>
-          <h3>Cisco Trunking &amp; VLAN 50 Fix</h3>
-          <p>Diagnosing a VLAN trunking mismatch on Cisco 3750V2 switches that was silently breaking Cloudflare Tunnel DMZ ingress.</p>
+          <h3>VLAN 50 Trunking Path Fix</h3>
+          <p>Diagnosing a VLAN trunking mismatch that broke Cloudflare Tunnel DMZ ingress, then validating the path after migration to SG300 + GS728TP.</p>
           <span class="card-link">Read writeup &rarr;</span>
         </a>
 
