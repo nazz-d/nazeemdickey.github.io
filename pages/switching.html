@@ -1,19 +1,19 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cisco Switching &amp; DMZ VLAN | Nazeem Massoom Dickey</title>
-  <meta name="description" content="Cisco Catalyst 3750 V2 switching deployment with VLAN 50 DMZ isolation for Cloudflare Tunnel public ingress.">
+  <title>Gigabit Switching &amp; PoE+ Deployment | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Gigabit Ethernet and PoE+ switching upgrade using Cisco SG300 and Netgear GS728TP with VLAN 50 DMZ isolation.">
   <link rel="canonical" href="https://masternazz.com/pages/switching.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Cisco Switching &amp; DMZ VLAN | Nazeem Massoom Dickey">
-  <meta property="og:description" content="Two Cisco Catalyst 3750 V2 switches, trunk port configuration, and VLAN 50 DMZ design for isolated public ingress.">
+  <meta property="og:title" content="Gigabit Switching &amp; PoE+ Deployment | Nazeem Massoom Dickey">
+  <meta property="og:description" content="Modernized switching fabric: Cisco SG300-20 Core and Netgear GS728TP Access switches with 1Gbps uplinks and PoE+ support.">
   <meta property="og:url" content="https://masternazz.com/pages/switching.html">
   <meta property="og:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Cisco Switching &amp; DMZ VLAN | Nazeem Massoom Dickey">
-  <meta name="twitter:description" content="Trunk port design, VLAN 50 DMZ isolation, and change validation on real Cisco Catalyst hardware.">
+  <meta name="twitter:title" content="Gigabit Switching &amp; PoE+ Deployment | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Upgraded from FastEthernet to full Gigabit/PoE+ switching with sophisticated VLAN segmentation.">
   <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
   <link rel="stylesheet" href="../assets/css/style.css">
   <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
@@ -49,19 +49,19 @@
 
     <section class="page-hero">
       <p class="eyebrow">Project | Networking</p>
-      <h1>Cisco Switching &amp; DMZ VLAN</h1>
+      <h1>Gigabit Switching &amp; PoE+ Deployment</h1>
       <p class="lead">
-        Two Cisco Catalyst 3750 V2 switches configured with trunk ports, VLAN 50 DMZ
-        isolation, and SSH-based administration — providing clean traffic separation
-        between the native LAN and a public ingress path for Cloudflare Tunnel.
+        Modernized the lab's switching fabric by upgrading from legacy FastEthernet to a 
+        full Gigabit backbone using Cisco SG300-20 (Core) and Netgear GS728TP (Access) 
+        switches, adding high-speed inter-VLAN routing and PoE+ capabilities.
       </p>
       <div class="chip-row">
-        <span class="chip">Cisco Catalyst 3750 V2</span>
+        <span class="chip">Cisco SG300-20</span>
+        <span class="chip">Netgear GS728TP</span>
+        <span class="chip">Gigabit Ethernet</span>
+        <span class="chip">PoE+ (802.3at)</span>
         <span class="chip">VLAN Segmentation</span>
-        <span class="chip">Trunk Ports</span>
-        <span class="chip">DMZ Design</span>
-        <span class="chip">SSH Administration</span>
-        <span class="chip">Change Validation</span>
+        <span class="chip">L3 Routing</span>
       </div>
     </section>
 
@@ -69,50 +69,48 @@
       <div class="card">
         <h2>What I Built</h2>
         <ul class="list-clean">
-          <li>Deployed two Cisco Catalyst 3750 V2 switches in a main/sub hierarchy — the main switch is the STP root for both VLAN 1 and VLAN 50, with the sub switch uplinked via a trunk port.</li>
-          <li>Designed VLAN 50 as a DMZ for public-facing services, keeping all internet-exposed workloads isolated from the native LAN (VLAN 1) at the switching layer.</li>
-          <li>Configured trunk ports between OPNsense, Proxmox, the main switch, and the sub switch — all carrying VLANs 1 and 50 with VLAN 1 as the native VLAN.</li>
-          <li>Cleaned up switch administration: created a named local account, removed the default <code>admin</code> account, and verified SSH access before removing the old credential.</li>
-          <li>Validated the full path after every change — DHCP lease delivery, ping to the DMZ gateway, tunnel service status, and trunk allowlist review on both switches.</li>
+          <li><strong>Gigabit Upgrade:</strong> Replaced legacy Cisco 3750V2 switches (100 Mbps) with a full Gigabit fabric, restoring 1 Gbps line-rate performance between OPNsense, Proxmox, and storage.</li>
+          <li><strong>Core/Access Hierarchy:</strong> Configured a Cisco SG300-20 as the L3 Core switch and a Netgear GS728TP as the high-density PoE+ Access switch.</li>
+          <li><strong>PoE+ Integration:</strong> Leveraged the Netgear's 802.3at support to power the Ubiquiti Access Point and PoE-ready lab devices via a single data cable.</li>
+          <li><strong>VLAN 50 DMZ:</strong> Maintained sophisticated isolation for public-facing services (Cloudflare Tunnel) using 802.1Q tagging across the multi-vendor switching fabric.</li>
+          <li><strong>Secure Management:</strong> Hardened both switches by disabling Telnet/HTTP, configuring SSH access, and enforcing named local administrator accounts.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h2>Skills Demonstrated</h2>
+        <h2>Rationale for the Upgrade</h2>
         <ul class="list-clean">
-          <li>Cisco IOS VLAN configuration and trunk port setup</li>
-          <li>Multi-switch hierarchy design (STP root placement)</li>
-          <li>DMZ network segmentation and traffic isolation</li>
-          <li>SSH-based switch administration and credential hygiene</li>
-          <li>End-to-end change validation (DHCP, ping, service checks)</li>
-          <li>Network documentation and topology tracking</li>
+          <li><strong>Performance:</strong> The previous 100 Mbps ceiling was a bottleneck for Proxmox migrations and Synology NAS backups.</li>
+          <li><strong>Modern Efficiency:</strong> Moved from power-hungry, noisy enterprise rack-mount gear to more efficient, fan-managed Gigabit hardware.</li>
+          <li><strong>Physical Simplification:</strong> Integrated PoE+ directly into the access layer, eliminating the need for standalone PoE injectors.</li>
+          <li><strong>Multi-Vendor Mastery:</strong> Demonstrated the ability to maintain a consistent VLAN architecture across different network OS environments (Cisco IOS-like and Netgear Smart Managed).</li>
         </ul>
       </div>
     </section>
 
     <section class="section three-column">
       <article class="detail-card glass-panel">
-        <span class="mini-label">Design</span>
-        <h2>Main / Sub Switch Hierarchy</h2>
-        <p>The main Catalyst 3750 V2 acts as the aggregation point — it uplinks directly to OPNsense and Proxmox, and trunks down to the sub switch. Placing the main switch as STP root for both VLANs ensures predictable forwarding and avoids accidental topology loops as the lab grows. The sub switch inherits the same VLAN allowlist through its uplink trunk.</p>
+        <span class="mini-label">Core Layer</span>
+        <h2>Cisco SG300-20 Gateway</h2>
+        <p>The SG300 acts as the high-performance Core. It handles the primary trunks to the OPNsense firewall and the Proxmox compute cluster at full Gigabit speeds. It serves as the STP Root for the environment, ensuring the most stable and fastest path for internal management and DMZ traffic.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Access Layer</span>
+        <h2>Netgear GS728TP PoE+</h2>
+        <p>The Netgear GS728TP provides high-density access and Power over Ethernet. By trunking into the Cisco Core, it extends the DMZ and Management VLANs to the rest of the rack. It powers the wireless infrastructure and provides 24 ports of growth for new physical hosts.</p>
       </article>
 
       <article class="detail-card glass-panel">
         <span class="mini-label">Isolation</span>
-        <h2>VLAN 50 DMZ for Public Ingress</h2>
-        <p>VLAN 50 (Public_DMZ, 192.168.x.x/24) exists to hold the Cloudflare Tunnel container and any other internet-facing workloads. Traffic from the DMZ subnet cannot reach LAN hosts without going through OPNsense firewall rules — the VLAN boundary enforces separation at layer 2 before any routing decision is made. The native LAN stays clean regardless of what happens in the DMZ.</p>
-      </article>
-
-      <article class="detail-card glass-panel">
-        <span class="mini-label">Validation</span>
-        <h2>Testing Every Change</h2>
-        <p>After trunking VLAN 50 through both switches, I confirmed the full path: the DMZ container received a DHCP lease from OPNsense, could ping the DMZ gateway, and the Cloudflare Tunnel service reported active registered connections. I also reviewed the trunk allowlist on both switches over SSH to confirm the config matched intent — not just that the service came up.</p>
+        <h2>VLAN 50 DMZ Continuity</h2>
+        <p>Despite the hardware change, the security architecture remains: VLAN 50 (Public_DMZ) is tagged across both switches. This ensures that the Cloudflare Tunnel container remains logically isolated from the private LAN (VLAN 1) at the hardware level, regardless of the physical port it occupies.</p>
       </article>
     </section>
 
     <section class="section card">
-      <h2>Trunk Port Layout</h2>
-      <p class="table-note">Sanitized port map showing how VLANs 1 and 50 are carried across the switching fabric. All IPs are representative; the native VLAN on every trunk is VLAN 1.</p>
+      <h2>Trunk Port Layout (1 Gbps)</h2>
+      <p class="table-note">Updated port map showing the Gigabit backbone. The Cisco SG300 manages the core compute/gateway links, while the Netgear manages the access layer.</p>
 
       <div class="table-scroll">
         <table class="data-table">
@@ -127,32 +125,39 @@
           </thead>
           <tbody>
             <tr>
-              <td>Main</td>
-              <td>Proxmox trunk</td>
-              <td>Proxmox node</td>
-              <td>trunk</td>
+              <td>Cisco SG300</td>
+              <td>gi1</td>
+              <td>Proxmox Cluster</td>
+              <td>Trunk</td>
               <td>1, 50</td>
             </tr>
             <tr>
-              <td>Main</td>
-              <td>Firewall trunk</td>
-              <td>OPNsense LAN interface</td>
-              <td>trunk</td>
+              <td>Cisco SG300</td>
+              <td>gi19</td>
+              <td>OPNsense LAN</td>
+              <td>Trunk</td>
               <td>1, 50</td>
             </tr>
             <tr>
-              <td>Main</td>
-              <td>Sub switch uplink</td>
-              <td>Sub switch</td>
-              <td>trunk</td>
+              <td>Cisco SG300</td>
+              <td>gi20</td>
+              <td>Netgear g23 (Uplink)</td>
+              <td>Trunk</td>
               <td>1, 50</td>
             </tr>
             <tr>
-              <td>Sub</td>
-              <td>Main switch uplink</td>
-              <td>Main switch</td>
-              <td>trunk</td>
+              <td>Netgear</td>
+              <td>g23</td>
+              <td>Cisco gi20 (Downlink)</td>
+              <td>Trunk</td>
               <td>1, 50</td>
+            </tr>
+            <tr>
+              <td>Netgear</td>
+              <td>g19-21</td>
+              <td>Access / Client Ports</td>
+              <td>Access</td>
+              <td>1 (Native)</td>
             </tr>
           </tbody>
         </table>
@@ -162,12 +167,11 @@
     <section class="section card callout">
       <h2>What This Shows Employers</h2>
       <p>
-        Managed Cisco switching is day-one relevant for junior network admin, NOC, and MSP roles.
-        I configured real Catalyst hardware — not a simulator — and made deliberate design choices:
-        STP root placement, DMZ isolation at layer 2, explicit trunk allowlists, and credential
-        hygiene on the switches themselves. The validation process mirrors what a production change
-        requires: confirm DHCP, confirm routing, confirm the service, review the config. That's
-        the workflow, not just the outcome.
+        This project demonstrates the transition from "learning hardware" to "production-ready infrastructure." 
+        I successfully migrated a live environment from legacy 10/100 equipment to a modern 10/100/1000 
+        fabric without losing security posture. It highlights my ability to manage multi-vendor 
+        environments, troubleshoot inter-switch trunking, and implement power-efficient, performance-oriented 
+        network designs suitable for modern MSP or enterprise environments.
       </p>
     </section>
 
@@ -255,7 +259,7 @@
   </main>
 
   <footer class="footer">
-    <p>Cisco switching project by Nazeem Massoom Dickey.</p>
+    <p>Gigabit Switching project by Nazeem Massoom Dickey.</p>
   </footer>
 
   <script src="../assets/js/script.js"></script>

@@ -252,12 +252,12 @@ const INDEX = [
     "keywords": "status uptime kuma monitoring live services proxmox lxc cloudflare tunnel public dashboard masternazz homelab services online"
   },
   {
-    "title": "Cisco Switching &amp; DMZ VLAN",
+    "title": "Gigabit Switching &amp; PoE+ Deployment",
     "url": "pages/switching.html",
-    "icon": "🔀",
-    "desc": "Cisco Catalyst 3750 V2 switching deployment with VLAN 50 DMZ isolation for Cloudflare Tunnel public ingress.",
-    "keywords": "cisco switching catalyst 3750 v2 vlan 50 dmz trunk ports stp root main sub hierarchy opnsense proxmox ssh administration credential hygiene change validation ios"
-  },
+    "icon": "network",
+    "desc": "Full Gigabit fabric using Cisco SG300 and Netgear GS728TP with PoE+ support and VLAN 50 DMZ isolation.",
+    "keywords": "gigabit switching cisco sg300 netgear gs728tp poe+ vlan 50 dmz trunk ports stp core access hierarchy opnsense proxmox ssh administration"
+    },
   {
     "title": "Wazuh SIEM/XDR Lab",
     "url": "pages/wazuh.html",
