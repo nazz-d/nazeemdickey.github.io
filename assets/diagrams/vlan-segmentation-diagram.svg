@@ -44,58 +44,62 @@
   <text x="550" y="34" text-anchor="middle" fill="#e2d9f3" font-size="14" font-weight="700" letter-spacing="2" opacity="0.9">10-VLAN PRODUCTION SEGMENTATION  ·  10.226.X.0/24</text>
 
   <!-- ═══════════════════════════════════════════
-       ROW 1 — Internet + OPNsense + Switches
-       y=50–130
+       ROW 1 — Internet + ISP GW + OPNsense + SG300 + Netgear
+       Layout: 5 equal columns of 220px across 1100px canvas
+       Col centers: 110, 330, 550, 770, 990
+       Internet=110  ISP GW=330  OPNsense=550  SG300=770  Netgear=990
+       OPNsense/SG300/Netgear align to VLAN col centers below
   ═══════════════════════════════════════════ -->
 
-  <!-- Internet — upstream of everything, no connection to trunk bus -->
-  <rect x="20" y="50" width="110" height="72" rx="8" fill="url(#cardg)" stroke="#374151" stroke-width="1.2"/>
-  <text x="75" y="76" text-anchor="middle" fill="#9ca3af" font-size="10.5" font-weight="700">INTERNET</text>
-  <text x="75" y="92" text-anchor="middle" fill="#6b7280" font-size="9">WAN / ISP</text>
-  <text x="75" y="107" text-anchor="middle" fill="#374151" font-size="8.5">Upstream Gateway</text>
+  <!-- Internet — col 1, center x=110 -->
+  <rect x="20" y="50" width="180" height="72" rx="8" fill="url(#cardg)" stroke="#374151" stroke-width="1.2"/>
+  <text x="110" y="76" text-anchor="middle" fill="#9ca3af" font-size="10.5" font-weight="700">INTERNET</text>
+  <text x="110" y="92" text-anchor="middle" fill="#6b7280" font-size="9">WAN / ISP</text>
+  <text x="110" y="107" text-anchor="middle" fill="#374151" font-size="8.5">Upstream Gateway</text>
 
-  <!-- Internet → ISP GW -->
-  <line x1="130" y1="86" x2="152" y2="86" stroke="#6b7280" stroke-width="1.3" stroke-dasharray="3,3" marker-end="url(#arr)" opacity="0.5"/>
+  <!-- Internet → ISP GW — gap: x=200 to x=240, label midpoint x=220 -->
+  <line x1="200" y1="86" x2="236" y2="86" stroke="#6b7280" stroke-width="1.3" stroke-dasharray="3,3" marker-end="url(#arr)" opacity="0.5"/>
 
-  <!-- ISP Gateway — NAT, provides internal WAN IP to OPNsense -->
-  <rect x="152" y="50" width="118" height="72" rx="8" fill="url(#cardg)" stroke="#4b5563" stroke-width="1.2"/>
-  <text x="211" y="73" text-anchor="middle" fill="#9ca3af" font-size="10" font-weight="700">ISP Gateway</text>
-  <text x="211" y="88" text-anchor="middle" fill="#4b5563" font-size="8.5">NAT / CGNAT</text>
-  <text x="211" y="101" text-anchor="middle" fill="#374151" font-size="8">10.x.x.x → WAN</text>
-  <text x="211" y="114" text-anchor="middle" fill="#374151" font-size="8">OPNsense WAN</text>
+  <!-- ISP Gateway — col 2, center x=330 -->
+  <rect x="240" y="50" width="180" height="72" rx="8" fill="url(#cardg)" stroke="#4b5563" stroke-width="1.2"/>
+  <text x="330" y="73" text-anchor="middle" fill="#9ca3af" font-size="10" font-weight="700">ISP Gateway</text>
+  <text x="330" y="88" text-anchor="middle" fill="#4b5563" font-size="8.5">NAT / CGNAT</text>
+  <text x="330" y="101" text-anchor="middle" fill="#374151" font-size="8">10.x.x.x → WAN</text>
+  <text x="330" y="114" text-anchor="middle" fill="#374151" font-size="8">OPNsense WAN</text>
 
-  <!-- ISP GW → OPNsense -->
-  <line x1="270" y1="86" x2="292" y2="86" stroke="#9333ea" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#arr)" opacity="0.7"/>
+  <!-- ISP GW → OPNsense — gap: x=420 to x=460, label above midpoint x=440 -->
+  <line x1="420" y1="86" x2="456" y2="86" stroke="#9333ea" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#arr)" opacity="0.7"/>
+  <text x="438" y="79" text-anchor="middle" fill="#7c3aed" font-size="8">WAN</text>
 
-  <!-- OPNsense — centered at x=392 -->
-  <rect x="292" y="50" width="200" height="72" rx="8" fill="url(#cardg)" stroke="#9333ea" stroke-width="1.8"/>
-  <rect x="292" y="50" width="200" height="4" rx="2" fill="url(#purpleBar)"/>
-  <rect x="292" y="50" width="200" height="72" rx="8" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.3" filter="url(#softglow)"/>
-  <text x="392" y="76" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">OPNsense Firewall</text>
-  <text x="392" y="92" text-anchor="middle" fill="#7c3aed" font-size="9.5">Default-Deny · 80+ Rules</text>
-  <text x="392" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">AdGuard DNS · Suricata · ACME TLS</text>
+  <!-- OPNsense — col 3, center x=550 -->
+  <rect x="460" y="50" width="180" height="72" rx="8" fill="url(#cardg)" stroke="#9333ea" stroke-width="1.8"/>
+  <rect x="460" y="50" width="180" height="4" rx="2" fill="url(#purpleBar)"/>
+  <rect x="460" y="50" width="180" height="72" rx="8" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.3" filter="url(#softglow)"/>
+  <text x="550" y="76" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">OPNsense Firewall</text>
+  <text x="550" y="92" text-anchor="middle" fill="#7c3aed" font-size="9.5">Default-Deny · 80+ Rules</text>
+  <text x="550" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">AdGuard DNS · Suricata · ACME TLS</text>
 
-  <!-- OPNsense → SG300 -->
-  <line x1="492" y1="86" x2="514" y2="86" stroke="#9333ea" stroke-width="1.8" marker-end="url(#arr)"/>
-  <text x="503" y="80" text-anchor="middle" fill="#7c3aed" font-size="8.5">trunk</text>
+  <!-- OPNsense → SG300 — gap: x=640 to x=680, label above midpoint x=660 -->
+  <line x1="640" y1="86" x2="676" y2="86" stroke="#9333ea" stroke-width="1.8" marker-end="url(#arr)"/>
+  <text x="658" y="79" text-anchor="middle" fill="#7c3aed" font-size="8">trunk</text>
 
-  <!-- SG300 — centered at x=619 -->
-  <rect x="514" y="50" width="210" height="72" rx="8" fill="url(#cardg)" stroke="#6366f1" stroke-width="1.5"/>
-  <rect x="514" y="50" width="210" height="4" rx="2" fill="#4338ca"/>
-  <text x="619" y="76" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="700">Cisco SG300-20</text>
-  <text x="619" y="92" text-anchor="middle" fill="#6366f1" font-size="9.5">Core Switch · L3</text>
-  <text x="619" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">802.1Q · gi1 / gi19 / gi20</text>
+  <!-- SG300 — col 4, center x=770 -->
+  <rect x="680" y="50" width="180" height="72" rx="8" fill="url(#cardg)" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="680" y="50" width="180" height="4" rx="2" fill="#4338ca"/>
+  <text x="770" y="76" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="700">Cisco SG300-20</text>
+  <text x="770" y="92" text-anchor="middle" fill="#6366f1" font-size="9.5">Core Switch · L3</text>
+  <text x="770" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">802.1Q · gi1 / gi19 / gi20</text>
 
-  <!-- SG300 → Netgear -->
-  <line x1="724" y1="86" x2="746" y2="86" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arr)"/>
-  <text x="735" y="80" text-anchor="middle" fill="#6366f1" font-size="8.5">gi20↔g23</text>
+  <!-- SG300 → Netgear — gap: x=860 to x=900, label above midpoint x=880 -->
+  <line x1="860" y1="86" x2="896" y2="86" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="878" y="79" text-anchor="middle" fill="#6366f1" font-size="8">gi20↔g23</text>
 
-  <!-- Netgear — centered at x=868 -->
-  <rect x="746" y="50" width="334" height="72" rx="8" fill="url(#cardg)" stroke="#6366f1" stroke-width="1.5"/>
-  <rect x="746" y="50" width="334" height="4" rx="2" fill="#4338ca"/>
-  <text x="913" y="76" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="700">Netgear GS728TP</text>
-  <text x="913" y="92" text-anchor="middle" fill="#6366f1" font-size="9.5">Access Switch · PoE+</text>
-  <text x="913" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">802.3at · 24-port access</text>
+  <!-- Netgear — col 5, center x=990 -->
+  <rect x="900" y="50" width="180" height="72" rx="8" fill="url(#cardg)" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="900" y="50" width="180" height="4" rx="2" fill="#4338ca"/>
+  <text x="990" y="76" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="700">Netgear GS728TP</text>
+  <text x="990" y="92" text-anchor="middle" fill="#6366f1" font-size="9.5">Access Switch · PoE+</text>
+  <text x="990" y="107" text-anchor="middle" fill="#6b7280" font-size="8.5">802.3at · 24-port access</text>
 
   <!-- ═══════════════════════════════════════════
        TRUNK BUS — y=138–158
@@ -105,83 +109,81 @@
   <rect x="55" y="140" width="990" height="16" rx="8" fill="none" stroke="#3d2080" stroke-width="0.8" opacity="0.6"/>
   <text x="550" y="152" text-anchor="middle" fill="#6b40c4" font-size="8" font-weight="600" letter-spacing="1.5">802.1Q TRUNK BUS — ALL VLANs</text>
 
-  <!-- Device drops to bus — OPNsense, SG300, Netgear only. Internet/ISP GW are upstream, not on trunk. -->
-  <!-- OPNsense (center=392) → bus -->
-  <line x1="392" y1="122" x2="392" y2="140" stroke="#9333ea" stroke-width="1.5" opacity="0.8"/>
-  <!-- SG300 (center=619) → bus -->
-  <line x1="619" y1="122" x2="619" y2="140" stroke="#6366f1" stroke-width="1.5" opacity="0.8"/>
-  <!-- Netgear (center=913) → bus -->
-  <line x1="913" y1="122" x2="913" y2="140" stroke="#6366f1" stroke-width="1.5" opacity="0.7"/>
+  <!-- Device drops to bus — OPNsense (550), SG300 (770), Netgear (990). Internet/ISP GW upstream only. -->
+  <line x1="550" y1="122" x2="550" y2="140" stroke="#9333ea" stroke-width="1.5" opacity="0.8"/>
+  <line x1="770" y1="122" x2="770" y2="140" stroke="#6366f1" stroke-width="1.5" opacity="0.8"/>
+  <line x1="990" y1="122" x2="990" y2="140" stroke="#6366f1" stroke-width="1.5" opacity="0.7"/>
 
   <!-- ═══════════════════════════════════════════
-       ROW 2 — VLAN cards top row
-       y=175–295  (5 cards, uniform 190w, 12px gap)
-       cols: x=30, 232, 434, 636, 838
+       ROW 2 — VLAN cards top row  y=175–293
+       5 cols, 190w each, 10px gap
+       col centers: 110, 330, 550, 770, 990  (match device row above)
+       x positions:  15, 235, 455, 675, 895
   ═══════════════════════════════════════════ -->
 
-  <!-- Bus → VLAN row 1 (top) drops — VLANs 7,8,9,10,20 -->
-  <line x1="125" y1="156" x2="125" y2="175" stroke="#3b82f6" stroke-width="1.4" opacity="0.7"/>
-  <line x1="327" y1="156" x2="327" y2="175" stroke="#ec4899" stroke-width="1.4" opacity="0.7"/>
-  <line x1="529" y1="156" x2="529" y2="175" stroke="#f97316" stroke-width="1.4" opacity="0.7"/>
-  <line x1="731" y1="156" x2="731" y2="175" stroke="#3b82f6" stroke-width="1.4" opacity="0.7"/>
-  <line x1="954" y1="156" x2="954" y2="175" stroke="#06b6d4" stroke-width="1.4" opacity="0.7"/>
+  <!-- Bus → VLAN row 1 (top) drops — cols 110, 330, 550, 770, 990 -->
+  <line x1="110" y1="156" x2="110" y2="175" stroke="#14b8a6" stroke-width="1.4" opacity="0.7"/>
+  <line x1="330" y1="156" x2="330" y2="175" stroke="#ec4899" stroke-width="1.4" opacity="0.7"/>
+  <line x1="550" y1="156" x2="550" y2="175" stroke="#f97316" stroke-width="1.4" opacity="0.7"/>
+  <line x1="770" y1="156" x2="770" y2="175" stroke="#3b82f6" stroke-width="1.4" opacity="0.7"/>
+  <line x1="990" y1="156" x2="990" y2="175" stroke="#06b6d4" stroke-width="1.4" opacity="0.7"/>
 
-  <!-- ROW 1 (top) — VLANs 7, 8, 9, 10, 20  (higher IDs up top) -->
+  <!-- ROW 1 (top) — VLANs 7, 8, 9, 10, 20 -->
 
-  <!-- VLAN 7 — DMZ -->
-  <rect x="30" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#14b8a6" stroke-width="1.5"/>
-  <rect x="30" y="175" width="190" height="4" rx="2" fill="#0f766e"/>
-  <text x="125" y="198" text-anchor="middle" fill="#5eead4" font-size="10.5" font-weight="700">VLAN 7 — DMZ</text>
-  <text x="125" y="213" text-anchor="middle" fill="#14b8a6" font-size="9">10.226.7.0/24</text>
-  <line x1="46" y1="219" x2="204" y2="219" stroke="#14b8a6" stroke-width="0.5" opacity="0.3"/>
-  <text x="125" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">cloudflared · NPMplus</text>
-  <text x="125" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Public ingress only</text>
-  <rect x="46" y="258" width="158" height="22" rx="4" fill="#002820" opacity="0.7"/>
-  <text x="125" y="273" text-anchor="middle" fill="#5eead4" font-size="8" font-weight="600">cloudflared → NPMplus only</text>
+  <!-- VLAN 7 — DMZ  col center=110, x=15 -->
+  <rect x="15" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#14b8a6" stroke-width="1.5"/>
+  <rect x="15" y="175" width="190" height="4" rx="2" fill="#0f766e"/>
+  <text x="110" y="198" text-anchor="middle" fill="#5eead4" font-size="10.5" font-weight="700">VLAN 7 — DMZ</text>
+  <text x="110" y="213" text-anchor="middle" fill="#14b8a6" font-size="9">10.226.7.0/24</text>
+  <line x1="31" y1="219" x2="189" y2="219" stroke="#14b8a6" stroke-width="0.5" opacity="0.3"/>
+  <text x="110" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">cloudflared · NPMplus</text>
+  <text x="110" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Public ingress only</text>
+  <rect x="31" y="258" width="158" height="22" rx="4" fill="#002820" opacity="0.7"/>
+  <text x="110" y="273" text-anchor="middle" fill="#5eead4" font-size="8" font-weight="600">cloudflared → NPMplus only</text>
 
-  <!-- VLAN 8 — Guest -->
-  <rect x="232" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#ec4899" stroke-width="1.5"/>
-  <rect x="232" y="175" width="190" height="4" rx="2" fill="#be185d"/>
-  <text x="327" y="198" text-anchor="middle" fill="#f9a8d4" font-size="10.5" font-weight="700">VLAN 8 — Guest</text>
-  <text x="327" y="213" text-anchor="middle" fill="#ec4899" font-size="9">10.226.8.0/24</text>
-  <line x1="248" y1="219" x2="406" y2="219" stroke="#ec4899" stroke-width="0.5" opacity="0.3"/>
-  <text x="327" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Visitor WiFi · Captive portal</text>
-  <text x="327" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Hard-blocked from all infra</text>
-  <rect x="248" y="258" width="158" height="22" rx="4" fill="#2e001a" opacity="0.7"/>
-  <text x="327" y="273" text-anchor="middle" fill="#f9a8d4" font-size="8" font-weight="600">Internet only · RFC1918 blocked</text>
+  <!-- VLAN 8 — Guest  col center=330, x=235 -->
+  <rect x="235" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#ec4899" stroke-width="1.5"/>
+  <rect x="235" y="175" width="190" height="4" rx="2" fill="#be185d"/>
+  <text x="330" y="198" text-anchor="middle" fill="#f9a8d4" font-size="10.5" font-weight="700">VLAN 8 — Guest</text>
+  <text x="330" y="213" text-anchor="middle" fill="#ec4899" font-size="9">10.226.8.0/24</text>
+  <line x1="251" y1="219" x2="409" y2="219" stroke="#ec4899" stroke-width="0.5" opacity="0.3"/>
+  <text x="330" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Visitor WiFi · Captive portal</text>
+  <text x="330" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Hard-blocked from all infra</text>
+  <rect x="251" y="258" width="158" height="22" rx="4" fill="#2e001a" opacity="0.7"/>
+  <text x="330" y="273" text-anchor="middle" fill="#f9a8d4" font-size="8" font-weight="600">Internet only · RFC1918 blocked</text>
 
-  <!-- VLAN 9 — OOB Mgmt -->
-  <rect x="434" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#f97316" stroke-width="1.5"/>
-  <rect x="434" y="175" width="190" height="4" rx="2" fill="#ea580c"/>
-  <text x="529" y="198" text-anchor="middle" fill="#fdba74" font-size="10.5" font-weight="700">VLAN 9 — OOB Mgmt</text>
-  <text x="529" y="213" text-anchor="middle" fill="#f97316" font-size="9">10.226.9.0/24</text>
-  <line x1="450" y1="219" x2="608" y2="219" stroke="#f97316" stroke-width="0.5" opacity="0.3"/>
-  <text x="529" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">IPMI · iDRAC · IMM2</text>
-  <text x="529" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Out-of-band server console</text>
-  <rect x="450" y="258" width="158" height="22" rx="4" fill="#2a1000" opacity="0.7"/>
-  <text x="529" y="273" text-anchor="middle" fill="#fdba74" font-size="8" font-weight="600">VLAN 10 access only · no internet</text>
+  <!-- VLAN 9 — OOB Mgmt  col center=550, x=455 -->
+  <rect x="455" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#f97316" stroke-width="1.5"/>
+  <rect x="455" y="175" width="190" height="4" rx="2" fill="#ea580c"/>
+  <text x="550" y="198" text-anchor="middle" fill="#fdba74" font-size="10.5" font-weight="700">VLAN 9 — OOB Mgmt</text>
+  <text x="550" y="213" text-anchor="middle" fill="#f97316" font-size="9">10.226.9.0/24</text>
+  <line x1="471" y1="219" x2="629" y2="219" stroke="#f97316" stroke-width="0.5" opacity="0.3"/>
+  <text x="550" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">IPMI · iDRAC · IMM2</text>
+  <text x="550" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Out-of-band server console</text>
+  <rect x="471" y="258" width="158" height="22" rx="4" fill="#2a1000" opacity="0.7"/>
+  <text x="550" y="273" text-anchor="middle" fill="#fdba74" font-size="8" font-weight="600">VLAN 10 access only · no internet</text>
 
-  <!-- VLAN 10 — Management -->
-  <rect x="636" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#3b82f6" stroke-width="1.5"/>
-  <rect x="636" y="175" width="190" height="4" rx="2" fill="#2563eb"/>
-  <text x="731" y="198" text-anchor="middle" fill="#93c5fd" font-size="10.5" font-weight="700">VLAN 10 — Management</text>
-  <text x="731" y="213" text-anchor="middle" fill="#3b82f6" font-size="9">10.226.10.0/24</text>
-  <line x1="652" y1="219" x2="810" y2="219" stroke="#3b82f6" stroke-width="0.5" opacity="0.3"/>
-  <text x="731" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Admin PC · Proxmox nodes</text>
-  <text x="731" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">OPNsense mgmt · Switches</text>
-  <rect x="652" y="258" width="158" height="22" rx="4" fill="#1a337a" opacity="0.7"/>
-  <text x="731" y="273" text-anchor="middle" fill="#93c5fd" font-size="8" font-weight="600">Full access · initiates to all</text>
+  <!-- VLAN 10 — Management  col center=770, x=675 -->
+  <rect x="675" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="675" y="175" width="190" height="4" rx="2" fill="#2563eb"/>
+  <text x="770" y="198" text-anchor="middle" fill="#93c5fd" font-size="10.5" font-weight="700">VLAN 10 — Management</text>
+  <text x="770" y="213" text-anchor="middle" fill="#3b82f6" font-size="9">10.226.10.0/24</text>
+  <line x1="691" y1="219" x2="849" y2="219" stroke="#3b82f6" stroke-width="0.5" opacity="0.3"/>
+  <text x="770" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Admin PC · Proxmox nodes</text>
+  <text x="770" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">OPNsense mgmt · Switches</text>
+  <rect x="691" y="258" width="158" height="22" rx="4" fill="#1a337a" opacity="0.7"/>
+  <text x="770" y="273" text-anchor="middle" fill="#93c5fd" font-size="8" font-weight="600">Full access · initiates to all</text>
 
-  <!-- VLAN 20 — Storage -->
-  <rect x="838" y="175" width="232" height="118" rx="8" fill="url(#cardg)" stroke="#06b6d4" stroke-width="1.5"/>
-  <rect x="838" y="175" width="232" height="4" rx="2" fill="#0891b2"/>
-  <text x="954" y="198" text-anchor="middle" fill="#67e8f9" font-size="10.5" font-weight="700">VLAN 20 — Storage</text>
-  <text x="954" y="213" text-anchor="middle" fill="#06b6d4" font-size="9">10.226.20.0/24</text>
-  <line x1="854" y1="219" x2="1054" y2="219" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
-  <text x="954" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Synology NAS · QNAP</text>
-  <text x="954" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Thecus PBS · NFS exports</text>
-  <rect x="854" y="258" width="200" height="22" rx="4" fill="#002830" opacity="0.7"/>
-  <text x="954" y="273" text-anchor="middle" fill="#67e8f9" font-size="8" font-weight="600">No internet initiation</text>
+  <!-- VLAN 20 — Storage  col center=990, x=895 -->
+  <rect x="895" y="175" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#06b6d4" stroke-width="1.5"/>
+  <rect x="895" y="175" width="190" height="4" rx="2" fill="#0891b2"/>
+  <text x="990" y="198" text-anchor="middle" fill="#67e8f9" font-size="10.5" font-weight="700">VLAN 20 — Storage</text>
+  <text x="990" y="213" text-anchor="middle" fill="#06b6d4" font-size="9">10.226.20.0/24</text>
+  <line x1="911" y1="219" x2="1069" y2="219" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+  <text x="990" y="232" text-anchor="middle" fill="#9ca3af" font-size="8.5">Synology NAS · QNAP</text>
+  <text x="990" y="246" text-anchor="middle" fill="#9ca3af" font-size="8.5">Thecus PBS · NFS exports</text>
+  <rect x="911" y="258" width="158" height="22" rx="4" fill="#002830" opacity="0.7"/>
+  <text x="990" y="273" text-anchor="middle" fill="#67e8f9" font-size="8" font-weight="600">No internet initiation</text>
 
   <!-- ═══════════════════════════════════════════
        SECOND TRUNK BUS — y=308–324
@@ -191,76 +193,76 @@
   <rect x="55" y="308" width="990" height="16" rx="8" fill="none" stroke="#3d2080" stroke-width="0.8" opacity="0.6"/>
   <text x="550" y="320" text-anchor="middle" fill="#6b40c4" font-size="8" font-weight="600" letter-spacing="1.5">802.1Q TRUNK BUS — ALL VLANs</text>
 
-  <!-- Row 1 bottom → bus -->
-  <line x1="125" y1="293" x2="125" y2="308" stroke="#14b8a6" stroke-width="1.4" opacity="0.6"/>
-  <line x1="327" y1="293" x2="327" y2="308" stroke="#ec4899" stroke-width="1.4" opacity="0.6"/>
-  <line x1="529" y1="293" x2="529" y2="308" stroke="#f97316" stroke-width="1.4" opacity="0.6"/>
-  <line x1="731" y1="293" x2="731" y2="308" stroke="#3b82f6" stroke-width="1.4" opacity="0.6"/>
-  <line x1="954" y1="293" x2="954" y2="308" stroke="#06b6d4" stroke-width="1.4" opacity="0.6"/>
+  <!-- Row 1 bottom → bus — same col centers 110,330,550,770,990 -->
+  <line x1="110" y1="293" x2="110" y2="308" stroke="#14b8a6" stroke-width="1.4" opacity="0.6"/>
+  <line x1="330" y1="293" x2="330" y2="308" stroke="#ec4899" stroke-width="1.4" opacity="0.6"/>
+  <line x1="550" y1="293" x2="550" y2="308" stroke="#f97316" stroke-width="1.4" opacity="0.6"/>
+  <line x1="770" y1="293" x2="770" y2="308" stroke="#3b82f6" stroke-width="1.4" opacity="0.6"/>
+  <line x1="990" y1="293" x2="990" y2="308" stroke="#06b6d4" stroke-width="1.4" opacity="0.6"/>
 
-  <!-- Bus → row 2 (bottom) — VLANs 2,3,4,5,6 -->
-  <line x1="125" y1="324" x2="125" y2="343" stroke="#f59e0b" stroke-width="1.4" opacity="0.7"/>
-  <line x1="327" y1="324" x2="327" y2="343" stroke="#ef4444" stroke-width="1.4" opacity="0.7"/>
-  <line x1="529" y1="324" x2="529" y2="343" stroke="#6b7280" stroke-width="1.4" opacity="0.7"/>
-  <line x1="731" y1="324" x2="731" y2="343" stroke="#22c55e" stroke-width="1.4" opacity="0.7"/>
-  <line x1="954" y1="324" x2="954" y2="343" stroke="#a855f7" stroke-width="1.4" opacity="0.7"/>
+  <!-- Bus → row 2 (bottom) — VLANs 2,3,4,5,6 — same cols -->
+  <line x1="110" y1="324" x2="110" y2="343" stroke="#f59e0b" stroke-width="1.4" opacity="0.7"/>
+  <line x1="330" y1="324" x2="330" y2="343" stroke="#ef4444" stroke-width="1.4" opacity="0.7"/>
+  <line x1="550" y1="324" x2="550" y2="343" stroke="#6b7280" stroke-width="1.4" opacity="0.7"/>
+  <line x1="770" y1="324" x2="770" y2="343" stroke="#22c55e" stroke-width="1.4" opacity="0.7"/>
+  <line x1="990" y1="324" x2="990" y2="343" stroke="#a855f7" stroke-width="1.4" opacity="0.7"/>
 
-  <!-- ROW 2 (bottom) — VLANs 2, 3, 4, 5, 6  (lower IDs at bottom) -->
+  <!-- ROW 2 (bottom) — VLANs 2, 3, 4, 5, 6 -->
 
-  <!-- VLAN 2 — Game Servers -->
-  <rect x="30" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#f59e0b" stroke-width="1.5"/>
-  <rect x="30" y="343" width="190" height="4" rx="2" fill="#d97706"/>
-  <text x="125" y="366" text-anchor="middle" fill="#fcd34d" font-size="10.5" font-weight="700">VLAN 2 — Game Servers</text>
-  <text x="125" y="381" text-anchor="middle" fill="#f59e0b" font-size="9">10.226.2.0/24</text>
-  <line x1="46" y1="387" x2="204" y2="387" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
-  <text x="125" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Pelican Panel · Wings</text>
-  <text x="125" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">MC server · Discord bot</text>
-  <rect x="46" y="426" width="158" height="22" rx="4" fill="#3d2600" opacity="0.7"/>
-  <text x="125" y="441" text-anchor="middle" fill="#fcd34d" font-size="8" font-weight="600">Internet ✓ · Internal blocked</text>
+  <!-- VLAN 2 — Game Servers  col center=110, x=15 -->
+  <rect x="15" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="15" y="343" width="190" height="4" rx="2" fill="#d97706"/>
+  <text x="110" y="366" text-anchor="middle" fill="#fcd34d" font-size="10.5" font-weight="700">VLAN 2 — Game Servers</text>
+  <text x="110" y="381" text-anchor="middle" fill="#f59e0b" font-size="9">10.226.2.0/24</text>
+  <line x1="31" y1="387" x2="189" y2="387" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+  <text x="110" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Pelican Panel · Wings</text>
+  <text x="110" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">MC server · Discord bot</text>
+  <rect x="31" y="426" width="158" height="22" rx="4" fill="#3d2600" opacity="0.7"/>
+  <text x="110" y="441" text-anchor="middle" fill="#fcd34d" font-size="8" font-weight="600">Internet ✓ · Internal blocked</text>
 
-  <!-- VLAN 3 — Servers / SIEM -->
-  <rect x="232" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#ef4444" stroke-width="1.5"/>
-  <rect x="232" y="343" width="190" height="4" rx="2" fill="#dc2626"/>
-  <text x="327" y="366" text-anchor="middle" fill="#fca5a5" font-size="10.5" font-weight="700">VLAN 3 — Servers / SIEM</text>
-  <text x="327" y="381" text-anchor="middle" fill="#ef4444" font-size="9">10.226.3.0/24</text>
-  <line x1="248" y1="387" x2="406" y2="387" stroke="#ef4444" stroke-width="0.5" opacity="0.3"/>
-  <text x="327" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Wazuh SIEM · Windows Server</text>
-  <text x="327" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Receives logs from all VLANs</text>
-  <rect x="248" y="426" width="158" height="22" rx="4" fill="#2a0000" opacity="0.7"/>
-  <text x="327" y="441" text-anchor="middle" fill="#fca5a5" font-size="8" font-weight="600">All VLANs → Wazuh 1514/1515</text>
+  <!-- VLAN 3 — Servers / SIEM  col center=330, x=235 -->
+  <rect x="235" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="235" y="343" width="190" height="4" rx="2" fill="#dc2626"/>
+  <text x="330" y="366" text-anchor="middle" fill="#fca5a5" font-size="10.5" font-weight="700">VLAN 3 — Servers / SIEM</text>
+  <text x="330" y="381" text-anchor="middle" fill="#ef4444" font-size="9">10.226.3.0/24</text>
+  <line x1="251" y1="387" x2="409" y2="387" stroke="#ef4444" stroke-width="0.5" opacity="0.3"/>
+  <text x="330" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Wazuh SIEM · Windows Server</text>
+  <text x="330" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Receives logs from all VLANs</text>
+  <rect x="251" y="426" width="158" height="22" rx="4" fill="#2a0000" opacity="0.7"/>
+  <text x="330" y="441" text-anchor="middle" fill="#fca5a5" font-size="8" font-weight="600">All VLANs → Wazuh 1514/1515</text>
 
-  <!-- VLAN 4 — Testing -->
-  <rect x="434" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#6b7280" stroke-width="1.5"/>
-  <rect x="434" y="343" width="190" height="4" rx="2" fill="#4b5563"/>
-  <text x="529" y="366" text-anchor="middle" fill="#d1d5db" font-size="10.5" font-weight="700">VLAN 4 — Testing</text>
-  <text x="529" y="381" text-anchor="middle" fill="#9ca3af" font-size="9">10.226.4.0/24</text>
-  <line x1="450" y1="387" x2="608" y2="387" stroke="#6b7280" stroke-width="0.5" opacity="0.3"/>
-  <text x="529" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Lab VMs · Kali · Sandboxed</text>
-  <text x="529" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Test containers</text>
-  <rect x="450" y="426" width="158" height="22" rx="4" fill="#1a1a1a" opacity="0.7"/>
-  <text x="529" y="441" text-anchor="middle" fill="#d1d5db" font-size="8" font-weight="600">Isolated · no prod access</text>
+  <!-- VLAN 4 — Testing  col center=550, x=455 -->
+  <rect x="455" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#6b7280" stroke-width="1.5"/>
+  <rect x="455" y="343" width="190" height="4" rx="2" fill="#4b5563"/>
+  <text x="550" y="366" text-anchor="middle" fill="#d1d5db" font-size="10.5" font-weight="700">VLAN 4 — Testing</text>
+  <text x="550" y="381" text-anchor="middle" fill="#9ca3af" font-size="9">10.226.4.0/24</text>
+  <line x1="471" y1="387" x2="629" y2="387" stroke="#6b7280" stroke-width="0.5" opacity="0.3"/>
+  <text x="550" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Lab VMs · Kali · Sandboxed</text>
+  <text x="550" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Test containers</text>
+  <rect x="471" y="426" width="158" height="22" rx="4" fill="#1a1a1a" opacity="0.7"/>
+  <text x="550" y="441" text-anchor="middle" fill="#d1d5db" font-size="8" font-weight="600">Isolated · no prod access</text>
 
-  <!-- VLAN 5 — IoT -->
-  <rect x="636" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#22c55e" stroke-width="1.5"/>
-  <rect x="636" y="343" width="190" height="4" rx="2" fill="#16a34a"/>
-  <text x="731" y="366" text-anchor="middle" fill="#86efac" font-size="10.5" font-weight="700">VLAN 5 — IoT</text>
-  <text x="731" y="381" text-anchor="middle" fill="#22c55e" font-size="9">10.226.5.0/24</text>
-  <line x1="652" y1="387" x2="810" y2="387" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
-  <text x="731" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Smart home · Cameras</text>
-  <text x="731" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Isolated from all infra</text>
-  <rect x="652" y="426" width="158" height="22" rx="4" fill="#002800" opacity="0.7"/>
-  <text x="731" y="441" text-anchor="middle" fill="#86efac" font-size="8" font-weight="600">Internet only · RFC1918 blocked</text>
+  <!-- VLAN 5 — IoT  col center=770, x=675 -->
+  <rect x="675" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#22c55e" stroke-width="1.5"/>
+  <rect x="675" y="343" width="190" height="4" rx="2" fill="#16a34a"/>
+  <text x="770" y="366" text-anchor="middle" fill="#86efac" font-size="10.5" font-weight="700">VLAN 5 — IoT</text>
+  <text x="770" y="381" text-anchor="middle" fill="#22c55e" font-size="9">10.226.5.0/24</text>
+  <line x1="691" y1="387" x2="849" y2="387" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+  <text x="770" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Smart home · Cameras</text>
+  <text x="770" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Isolated from all infra</text>
+  <rect x="691" y="426" width="158" height="22" rx="4" fill="#002800" opacity="0.7"/>
+  <text x="770" y="441" text-anchor="middle" fill="#86efac" font-size="8" font-weight="600">Internet only · RFC1918 blocked</text>
 
-  <!-- VLAN 6 — Services -->
-  <rect x="838" y="343" width="232" height="118" rx="8" fill="url(#cardg)" stroke="#a855f7" stroke-width="1.5"/>
-  <rect x="838" y="343" width="232" height="4" rx="2" fill="#7e22ce"/>
-  <text x="954" y="366" text-anchor="middle" fill="#d8b4fe" font-size="10.5" font-weight="700">VLAN 6 — Services</text>
-  <text x="954" y="381" text-anchor="middle" fill="#a855f7" font-size="9">10.226.6.0/24</text>
-  <line x1="854" y1="387" x2="1054" y2="387" stroke="#a855f7" stroke-width="0.5" opacity="0.3"/>
-  <text x="954" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Authentik SSO · Jellyfin</text>
-  <text x="954" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Headscale · AI inference</text>
-  <rect x="854" y="426" width="200" height="22" rx="4" fill="#1e003a" opacity="0.7"/>
-  <text x="954" y="441" text-anchor="middle" fill="#d8b4fe" font-size="8" font-weight="600">Internal · SSO-gated</text>
+  <!-- VLAN 6 — Services  col center=990, x=895 -->
+  <rect x="895" y="343" width="190" height="118" rx="8" fill="url(#cardg)" stroke="#a855f7" stroke-width="1.5"/>
+  <rect x="895" y="343" width="190" height="4" rx="2" fill="#7e22ce"/>
+  <text x="990" y="366" text-anchor="middle" fill="#d8b4fe" font-size="10.5" font-weight="700">VLAN 6 — Services</text>
+  <text x="990" y="381" text-anchor="middle" fill="#a855f7" font-size="9">10.226.6.0/24</text>
+  <line x1="911" y1="387" x2="1069" y2="387" stroke="#a855f7" stroke-width="0.5" opacity="0.3"/>
+  <text x="990" y="400" text-anchor="middle" fill="#9ca3af" font-size="8.5">Authentik SSO · Jellyfin</text>
+  <text x="990" y="414" text-anchor="middle" fill="#9ca3af" font-size="8.5">Headscale · AI inference</text>
+  <rect x="911" y="426" width="158" height="22" rx="4" fill="#1e003a" opacity="0.7"/>
+  <text x="990" y="441" text-anchor="middle" fill="#d8b4fe" font-size="8" font-weight="600">Internal · SSO-gated</text>
 
   <!-- ═══════════════════════════════════════════
        STATS BAR — y=485–555
