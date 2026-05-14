@@ -99,7 +99,7 @@
       <p>
         Before I could add DNS rewrites, I had to actually reach the AdGuard Home web UI. The reverse proxy
         entry for <code>adguard.masternazz.com</code> was returning a 504 gateway timeout. NPMplus (the
-        nginx-based reverse proxy running in LXC 123) had a stale backend IP in its nginx config.
+        nginx-based reverse proxy in its LXC) had a stale backend IP in its nginx config.
       </p>
       <p>
         The fix required finding the right config file inside the container, then finding nginx inside the
@@ -302,7 +302,7 @@ private static function stripWellKnown($providerUrl) {
       <p>
         <code>OIDCContainer.php</code> is owned by <code>root:wheel</code> with permissions
         <code>644</code> — readable but not writable by anyone except root. I only had the
-        <code>aiassistant</code> account (wheel, no sudo). Standard file editing was blocked.
+        API account (wheel, no sudo). Standard file editing was blocked.
       </p>
       <p>
         The solution: build a patched FreeBSD package and install it via OPNsense's
@@ -355,8 +355,8 @@ Received:   https://opnsense.masternazz.com/api/oidc/auth/callback</code></pre>
         provider only had <code>/api/oidc/authorization/callback</code> registered. The fix was
         adding the correct URI to the Authentik provider via the Django management shell:
       </p>
-      <pre><code># On Proxmox, exec into the Authentik LXC (LXC 102)
-pct exec 102 -- su authentik -s /bin/sh -c "
+      <pre><code># On Proxmox, exec into the Authentik LXC
+pct exec [lxc-id] -- su authentik -s /bin/sh -c "
   /opt/authentik/.venv/bin/python3 /opt/authentik/manage.py shell -c '
 from authentik.providers.oauth2.models import OAuth2Provider
 p = OAuth2Provider.objects.get(name=\"opnsense-oidc\")
