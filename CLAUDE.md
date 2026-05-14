@@ -37,6 +37,8 @@ Always use the facts above. Never guess, invent, or assume names or URLs. If uns
 - `pages/journey.html` — Career timeline
 - `pages/writeups.html` — Writeups index
 - `pages/writeup-cyberlaunch-2026.html` — CyberLaunch USF 2026 CTF writeup
+- `pages/writeup-vlan-migration.html` — Enterprise VLAN segmentation migration writeup
+- `pages/writeup-opnsense-oidc.html` — OPNsense OIDC SSO fix & DNS migration writeup
 - `404.html` — Custom 404 with redirect logic
 
 ## Existing Features — Do Not Suggest Adding These

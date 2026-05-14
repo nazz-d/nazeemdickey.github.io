@@ -147,7 +147,7 @@ wr mem</code></pre>
 
       <h3>4. Migration Validation (SG300 + GS728TP)</h3>
       <p>
-        After replacing the 3750 pair with a Cisco SG300-20 core (<code>192.168.1.179</code>) and Netgear GS728TP access switch (<code>192.168.1.131</code>), I revalidated VLAN 50 continuity. The critical correction was ensuring VLAN 50 remained tagged on the Proxmox-facing SG300 trunk (<code>gi1</code>) while preserving tagged pathing on <code>gi19</code> (OPNsense) and uplink to Netgear.
+        After replacing the 3750 pair with a Cisco SG300-20 core (<code>10.226.10.55</code>) and Netgear GS728TP access switch (<code>10.226.10.56</code>), I revalidated VLAN 50 continuity. The critical correction was ensuring VLAN 50 remained tagged on the Proxmox-facing SG300 trunk (<code>gi1</code>) while preserving tagged pathing on <code>gi19</code> (OPNsense) and uplink to Netgear.
       </p>
 
       <hr class="section-divider">

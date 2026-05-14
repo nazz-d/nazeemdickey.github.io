@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Server Hosting & Discord Automation | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Self-hosted game server infrastructure using Pelican Panel, Docker, and a custom Discord bot built from scratch.">
+  <link rel="canonical" href="https://masternazz.com/pages/game-hosting.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Game Server Hosting & Discord Automation | Nazeem Massoom Dickey">
+  <meta property="og:description" content="Pelican Panel game server infrastructure with a custom Discord bot that monitors live server stats via RCON and Docker.">
+  <meta property="og:url" content="https://masternazz.com/pages/game-hosting.html">
+  <meta property="og:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Game Server Hosting & Discord Automation | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Pelican Panel game server infrastructure with a custom Discord bot monitoring live stats via RCON and Docker.">
+  <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f9ff" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="../index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="writeups.html">Writeups</a>
+      <a href="#contact">Contact</a>
+      <button class="search-trigger" aria-label="Search pages (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search <kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="page-hero">
+      <p class="eyebrow">Project | Automation & Infrastructure</p>
+      <h1>Game Hosting &amp; Discord Automation</h1>
+      <p class="lead">
+        Self-hosted Minecraft server infrastructure running on Pelican Panel and Docker inside
+        a Proxmox LXC. Built a Discord bot from scratch that pulls live server stats via RCON
+        and Docker metrics — deployed on its own dedicated LXC with a systemd service.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Pelican Panel</span>
+        <span class="chip">Docker</span>
+        <span class="chip">Python</span>
+        <span class="chip">Discord API</span>
+        <span class="chip">RCON Protocol</span>
+        <span class="chip">Proxmox LXC</span>
+        <span class="chip">systemd</span>
+      </div>
+    </section>
+
+    <section class="section card">
+      <div class="diagram-card">
+        <img src="../assets/diagrams/game-hosting-diagram.svg" alt="Game hosting and Discord bot architecture diagram">
+      </div>
+    </section>
+
+    <section class="section two-column">
+      <div class="card">
+        <h2>Game Server Infrastructure</h2>
+        <ul class="list-clean">
+          <li>Deployed Pelican Panel (open-source successor to Pterodactyl) across two dedicated LXC containers — one for the panel, one for the Wings daemon.</li>
+          <li>Wings runs game servers as isolated Docker containers, giving each server its own resource limits, filesystem, and network namespace.</li>
+          <li>Minecraft server runs on Fabric 1.21 with custom mods (Spark performance profiling, etc.) inside the Docker container managed by Wings.</li>
+          <li>RCON enabled for remote command execution, used by the Discord bot to query live game state.</li>
+          <li>Port allocations managed through the Pelican admin panel — game port (25565) and RCON explicitly allocated and forwarded.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Discord Bot — Built From Scratch</h2>
+        <ul class="list-clean">
+          <li>Wrote a custom RCON client in pure Python implementing the Minecraft RCON wire protocol — no external RCON libraries.</li>
+          <li>Bot polls the server every 5 minutes and edits a single pinned embed (no channel spam) showing live player count, online players, in-game time of day, day number, difficulty, uptime, CPU, memory, and disk usage.</li>
+          <li>CPU / memory pulled from <code>docker stats</code>; disk from <code>df</code> inside the container; uptime from Docker's <code>StartedAt</code> timestamp — all via SSH chain through Proxmox.</li>
+          <li>Slash commands: <code>/status</code> (full embed on demand) and <code>/players</code> (quick player list).</li>
+          <li>Bot's own Discord status updates dynamically: green "Playing mc.masternazz.com • N/20 online" when up, red "Offline" when down.</li>
+          <li>Deployed on a dedicated Debian LXC as a systemd service — starts on boot, auto-restarts on failure.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section three-column">
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Protocol</span>
+        <h2>Custom RCON Client</h2>
+        <p>The Minecraft RCON wire protocol is a binary TCP protocol. Rather than pulling in a library, I implemented it from scratch in Python — packet framing, struct packing, auth handshake, and response parsing. This lets the bot query any RCON command: player list, in-game time, difficulty, and day number.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Observability</span>
+        <h2>Docker Metrics via SSH Chain</h2>
+        <p>The bot LXC can't reach the Docker socket directly. Instead it SSH's into the Proxmox host, which uses <code>pct exec</code> to run <code>docker stats</code> and <code>docker inspect</code> inside the Wings LXC — pulling real CPU, memory, disk, and exact uptime for the MC container and surfacing them in Discord.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Deployment</span>
+        <h2>Isolated LXC + systemd</h2>
+        <p>The bot runs on its own Debian LXC (VMID 122) — not bundled into the Wings host or any other service container. A systemd unit file handles startup, restart-on-failure, and boot persistence. Python venv keeps dependencies isolated. The whole thing is self-contained and independent of the game server lifecycle.</p>
+      </article>
+    </section>
+
+    <section class="section card">
+      <h2>How It All Connects</h2>
+      <div class="flow-diagram" style="font-family:monospace;font-size:0.85rem;line-height:2;color:var(--text-secondary);overflow-x:auto;">
+        <pre style="margin:0;background:none;padding:0;">
+Discord Channel
+    ↑  embed edit / slash command response
+    │
+mc-bot LXC
+    ├─ RCON → Pelican Wings LXC
+    │           └─ Docker container: Minecraft server
+    │               ├─ player list, time, day, difficulty
+    └─ SSH → firstmoon Proxmox
+                └─ pct exec → Wings LXC
+                    └─ docker stats / docker inspect
+                        ├─ CPU, memory, disk
+                        └─ exact container uptime
+        </pre>
+      </div>
+    </section>
+
+    <section class="section card callout">
+      <h2>What This Shows Employers</h2>
+      <p>
+        This isn't a "spin up a server and forget it" project. I built the monitoring layer myself — implemented a binary protocol, chained SSH through Proxmox to reach a Docker socket I didn't have direct access to, wrote async Python for the Discord API, and deployed it as a proper systemd service on dedicated infrastructure. It's the kind of pragmatic problem-solving and end-to-end ownership that infrastructure and DevOps roles expect.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Explore More Projects</h2>
+          <p>Project pages that focus on specific services and security layers.</p>
+        </div>
+      </div>
+
+      <div class="project-grid">
+
+        <a href="proxmox.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </span>
+            <span class="project-type">Infrastructure</span>
+          </div>
+          <h3>Proxmox Infrastructure</h3>
+          <p>The cluster that hosts the game server and bot LXCs — three nodes, 22 VMs/containers, enterprise rack hardware.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="ai-automation.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
+            </span>
+            <span class="project-type">Automation</span>
+          </div>
+          <h3>AI Automation Research</h3>
+          <p>Agentic AI workflows applied to IT infrastructure — same automation-first mindset behind the Discord bot.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="remote-access.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            </span>
+            <span class="project-type">Network</span>
+          </div>
+          <h3>Zero-Trust Remote Access</h3>
+          <p>Headscale mesh and Cloudflare Tunnel — how the game server is reachable publicly with zero WAN ports exposed.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="status.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </span>
+            <span class="project-type">Monitoring</span>
+          </div>
+          <h3>Live Service Status</h3>
+          <p>Uptime Kuma monitoring all production services — including the MC server and bot LXC.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="../index.html#projects">&larr; Back to projects</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Game hosting project by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

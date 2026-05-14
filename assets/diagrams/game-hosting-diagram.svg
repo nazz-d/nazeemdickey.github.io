@@ -1,0 +1,161 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#0d0a18"/>
+      <stop offset="100%" stop-color="#030208"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#1a1030"/>
+      <stop offset="100%" stop-color="#0a0818"/>
+    </linearGradient>
+    <linearGradient id="purpleBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+    <linearGradient id="blueBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="greenBar" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#9333ea" stroke-width="0.4" opacity="0.2"/>
+    </pattern>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#7c3aed" opacity="0.85"/>
+    </marker>
+    <marker id="arrBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#4f46e5" opacity="0.85"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#10b981" opacity="0.85"/>
+    </marker>
+    <marker id="arrDiscord" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#5865F2" opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="url(#bg)"/>
+  <rect width="900" height="600" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" fill="#c084fc" font-size="15" font-weight="700" letter-spacing="2">Game Hosting &amp; Discord Automation</text>
+  <text x="450" y="50" text-anchor="middle" fill="#4b4266" font-size="10" letter-spacing="1">masternazz.com homelab · Pelican Panel · Docker · Python · Discord API</text>
+
+  <!-- ══════════════════════════════════════════════
+       ROW 1 — DISCORD  (centered, top)
+  ══════════════════════════════════════════════ -->
+  <rect x="300" y="64" width="300" height="72" rx="8" fill="url(#card)" stroke="#5865F2" stroke-width="1.8" filter="url(#glow)"/>
+  <rect x="300" y="64" width="300" height="5"  rx="4" fill="#5865F2"/>
+  <text x="450" y="88"  text-anchor="middle" fill="#f6f3ff"  font-size="12" font-weight="700">Discord</text>
+  <text x="450" y="106" text-anchor="middle" fill="#9488ad"  font-size="10">mc-status channel · pinned embed</text>
+  <text x="450" y="122" text-anchor="middle" fill="#4b4266"  font-size="9">/status &amp; /players slash commands</text>
+
+  <!-- Discord → mc-bot (straight down) -->
+  <line x1="450" y1="136" x2="450" y2="160" stroke="#5865F2" stroke-width="1.8" opacity="0.7" marker-end="url(#arrDiscord)"/>
+
+  <!-- ══════════════════════════════════════════════
+       ROW 2 — MC-BOT LXC  (centered)
+  ══════════════════════════════════════════════ -->
+  <rect x="175" y="160" width="550" height="76" rx="8" fill="url(#card)" stroke="#9333ea" stroke-width="1.8" filter="url(#glow)"/>
+  <rect x="175" y="160" width="550" height="5"  rx="4" fill="url(#purpleBar)"/>
+  <text x="450" y="184" text-anchor="middle" fill="#f6f3ff"  font-size="12" font-weight="700">mc-bot LXC — Dedicated Debian Container</text>
+  <text x="450" y="202" text-anchor="middle" fill="#a78bfa"  font-size="10">Python Discord Bot · discord.py · asyncio · systemd service</text>
+  <text x="450" y="218" text-anchor="middle" fill="#4b4266"  font-size="9">Custom RCON wire-protocol client · SSH chain to Proxmox host for container metrics</text>
+
+  <!-- mc-bot left branch: straight down to x=218, then down to Wings -->
+  <line x1="310" y1="236" x2="310" y2="296" stroke="#7c3aed" stroke-width="1.6" opacity="0.7" marker-end="url(#arr)"/>
+  <text x="310" y="272" text-anchor="middle" fill="#a78bfa" font-size="9" font-weight="600" dy="-4">RCON</text>
+
+  <!-- mc-bot right branch: straight down to x=590, then down to Proxmox -->
+  <line x1="590" y1="236" x2="590" y2="296" stroke="#4f46e5" stroke-width="1.6" opacity="0.7" marker-end="url(#arrBlue)"/>
+  <text x="590" y="272" text-anchor="middle" fill="#a5b4fc" font-size="9" font-weight="600" dy="-4">SSH</text>
+
+  <!-- ══════════════════════════════════════════════
+       ROW 3 — WINGS (left)  +  PROXMOX (right)
+  ══════════════════════════════════════════════ -->
+
+  <!-- Wings LXC -->
+  <rect x="38" y="296" width="380" height="110" rx="8" fill="url(#card)" stroke="#7c3aed" stroke-width="1.8"/>
+  <rect x="38" y="296" width="380" height="5"   rx="4" fill="url(#purpleBar)"/>
+  <text x="228" y="318" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">Pelican Wings LXC</text>
+  <text x="228" y="336" text-anchor="middle" fill="#a78bfa" font-size="10">Wings daemon · Docker runtime</text>
+
+  <!-- Docker container chip — inside Wings, no ports listed -->
+  <rect x="58" y="346" width="340" height="50" rx="6" fill="#110d22" stroke="#10b981" stroke-width="1.4"/>
+  <rect x="58" y="346" width="340" height="4"  rx="4" fill="url(#greenBar)"/>
+  <text x="228" y="364" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="700">Docker Container — Minecraft Server</text>
+  <text x="228" y="379" text-anchor="middle" fill="#9488ad" font-size="10">Fabric · isolated filesystem · resource limits</text>
+  <text x="228" y="393" text-anchor="middle" fill="#10b981" font-size="9" font-weight="600">mc.masternazz.com : 25565</text>
+
+  <!-- Proxmox host -->
+  <rect x="482" y="296" width="380" height="110" rx="8" fill="url(#card)" stroke="#4f46e5" stroke-width="1.8"/>
+  <rect x="482" y="296" width="380" height="5"   rx="4" fill="url(#blueBar)"/>
+  <text x="672" y="318" text-anchor="middle" fill="#f6f3ff" font-size="12" font-weight="700">Proxmox Host — firstmoon</text>
+  <text x="672" y="336" text-anchor="middle" fill="#a78bfa" font-size="10">pct exec into Wings LXC</text>
+
+  <!-- Docker metrics chip -->
+  <rect x="502" y="346" width="340" height="50" rx="6" fill="#110d22" stroke="#4f46e5" stroke-width="1.4"/>
+  <rect x="502" y="346" width="340" height="4"  rx="4" fill="url(#blueBar)"/>
+  <text x="672" y="366" text-anchor="middle" fill="#a5b4fc" font-size="11" font-weight="700">docker stats · docker inspect</text>
+  <text x="672" y="382" text-anchor="middle" fill="#9488ad" font-size="10">CPU · Memory · Disk · Container uptime</text>
+  <text x="672" y="395" text-anchor="middle" fill="#4b4266" font-size="8.5">Pulled via SSH chain, no direct socket access needed</text>
+
+  <!-- ══════════════════════════════════════════════
+       ROW 4 — DATA SOURCES  (two chips, centered)
+  ══════════════════════════════════════════════ -->
+
+  <!-- Straight lines down from Wings center and Proxmox center -->
+  <line x1="228" y1="406" x2="228" y2="436" stroke="#7c3aed" stroke-width="1.4" opacity="0.6" marker-end="url(#arr)"/>
+  <line x1="672" y1="406" x2="672" y2="436" stroke="#4f46e5" stroke-width="1.4" opacity="0.6" marker-end="url(#arrBlue)"/>
+
+  <!-- RCON data chip -->
+  <rect x="58" y="436" width="340" height="52" rx="6" fill="#110d22" stroke="#9333ea" stroke-width="1.2"/>
+  <rect x="58" y="436" width="340" height="4"  rx="4" fill="url(#purpleBar)"/>
+  <text x="228" y="456" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="700">Game State via RCON</text>
+  <text x="228" y="472" text-anchor="middle" fill="#9488ad" font-size="9.5">Player list · Online count · Time of day</text>
+  <text x="228" y="483" text-anchor="middle" fill="#4b4266" font-size="8.5">Day number · Difficulty</text>
+
+  <!-- Container metrics chip -->
+  <rect x="502" y="436" width="340" height="52" rx="6" fill="#110d22" stroke="#4f46e5" stroke-width="1.2"/>
+  <rect x="502" y="436" width="340" height="4"  rx="4" fill="url(#blueBar)"/>
+  <text x="672" y="456" text-anchor="middle" fill="#a5b4fc" font-size="11" font-weight="700">Container Metrics</text>
+  <text x="672" y="472" text-anchor="middle" fill="#9488ad" font-size="9.5">CPU usage · Memory · Disk</text>
+  <text x="672" y="483" text-anchor="middle" fill="#4b4266" font-size="8.5">Uptime from container start timestamp</text>
+
+  <!-- Both converge to Discord embed — elbow right angles -->
+  <!-- RCON chip bottom-center → right to mid → up to embed bottom -->
+  <line x1="228" y1="488" x2="228" y2="530" stroke="#7c3aed"  stroke-width="1.4" opacity="0.55"/>
+  <line x1="228" y1="530" x2="450" y2="530" stroke="#7c3aed"  stroke-width="1.4" opacity="0.55"/>
+  <line x1="672" y1="488" x2="672" y2="530" stroke="#4f46e5"  stroke-width="1.4" opacity="0.55"/>
+  <line x1="672" y1="530" x2="450" y2="530" stroke="#4f46e5"  stroke-width="1.4" opacity="0.55"/>
+  <line x1="450" y1="530" x2="450" y2="554" stroke="#5865F2"  stroke-width="1.8" opacity="0.7" marker-end="url(#arrDiscord)"/>
+
+  <!-- ══════════════════════════════════════════════
+       ROW 5 — DISCORD EMBED (bottom, centered)
+  ══════════════════════════════════════════════ -->
+  <rect x="250" y="554" width="400" height="30" rx="8" fill="#110d22" stroke="#5865F2" stroke-width="1.4"/>
+  <rect x="250" y="554" width="400" height="4"  rx="4" fill="#5865F2"/>
+  <text x="450" y="575" text-anchor="middle" fill="#a5b4fc" font-size="10" font-weight="700">Discord Embed — auto-updates every 5 minutes · edits same pinned message</text>
+
+  <!-- ══════════════════════════════════════════════
+       PELICAN PANEL chip (bottom-left, standalone)
+  ══════════════════════════════════════════════ -->
+  <rect x="38" y="500" width="200" height="42" rx="6" fill="#110d22" stroke="#7c3aed" stroke-width="1.0"/>
+  <rect x="38" y="500" width="200" height="4"  rx="4" fill="url(#purpleBar)"/>
+  <text x="138" y="520" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="700">Pelican Panel</text>
+  <text x="138" y="534" text-anchor="middle" fill="#4b4266" font-size="8.5">Web UI · server mgmt · port allocations</text>
+
+  <!-- dashed connector Panel → Wings (straight up) -->
+  <line x1="138" y1="500" x2="138" y2="406" stroke="#7c3aed" stroke-width="1.0" stroke-dasharray="4,3" opacity="0.4"/>
+
+  <!-- Footer -->
+  <text x="450" y="592" text-anchor="middle" fill="#4b4266" font-size="8.5">Bot runs as systemd service on dedicated LXC · auto-starts on boot · restarts on failure</text>
+</svg>

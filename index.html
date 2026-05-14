@@ -164,6 +164,7 @@
         <button type="button" class="filter-button" data-filter="security">Security</button>
         <button type="button" class="filter-button" data-filter="infrastructure">Infrastructure</button>
         <button type="button" class="filter-button" data-filter="identity">Identity</button>
+        <button type="button" class="filter-button" data-filter="automation">Automation</button>
       </div>
 
       <div class="project-grid">
@@ -362,6 +363,30 @@
             <span class="chip">Proxmox LXC</span>
             <span class="chip">SQLite</span>
             <span class="chip">API Automation</span>
+          </div>
+
+          <span class="card-link">View project -&gt;</span>
+        </a>
+
+        <a href="pages/game-hosting.html" class="project-card glass-panel" data-tags="all infrastructure automation">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M7 12h.01"/><path d="M17 12h.01"/><path d="M12 8v8"/></svg>
+            </span>
+            <span class="project-type">Automation</span>
+            <span class="status-badge active">Active</span>
+          </div>
+
+          <h3>Game Hosting &amp; Discord Bot</h3>
+          <p>
+            Pelican Panel game server infrastructure with a custom Python Discord bot — built from scratch using RCON and Docker metrics to post live server stats.
+          </p>
+
+          <div class="chip-row">
+            <span class="chip">Pelican Panel</span>
+            <span class="chip">Docker</span>
+            <span class="chip">Python</span>
+            <span class="chip">Discord API</span>
           </div>
 
           <span class="card-link">View project -&gt;</span>
@@ -586,6 +611,30 @@
       </div>
 
       <div class="project-grid">
+        <a href="pages/writeup-vlan-migration.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="4" rx="1"/><rect x="2" y="14" width="20" height="4" rx="1"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="6" y1="16" x2="6" y2="16"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="10" y1="16" x2="10" y2="16"/></svg>
+            </span>
+            <span class="project-type">Networking</span>
+          </div>
+          <h3>Enterprise VLAN Segmentation Migration</h3>
+          <p>Flat 192.168.1.0/24 to 10 production VLANs — Cisco switch hardware swap, Proxmox quorum recovery, 30+ services migrated, and firewall default-deny enforced across the entire network.</p>
+          <span class="card-link">Read writeup &rarr;</span>
+        </a>
+
+        <a href="pages/writeup-opnsense-oidc.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span class="project-type">Security</span>
+          </div>
+          <h3>OPNsense OIDC SSO Fix &amp; DNS Migration</h3>
+          <p>Finding a PHP SimpleXML bug that hid the Authentik SSO button, applying a rootless fix via FreeBSD package tooling, and migrating all service configs from hardcoded IPs to DNS names.</p>
+          <span class="card-link">Read writeup &rarr;</span>
+        </a>
+
         <a href="pages/writeup-vlan50.html" class="project-card glass-panel">
           <div class="project-top">
             <span class="project-icon">
