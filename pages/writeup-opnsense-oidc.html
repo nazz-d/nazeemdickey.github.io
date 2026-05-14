@@ -82,8 +82,8 @@
       <h2>The Goal: DNS Over IPs</h2>
       <p>
         My homelab services were all talking to each other by raw IP address — LDAP authentication at
-        <code>10.226.6.50</code>, the OIDC provider URL with the same IP, SFTP backups going to
-        <code>10.226.20.51</code>. That works fine until you move a VM, renumber a subnet, or rebuild
+        a hardcoded VLAN 6 IP, the OIDC provider URL with the same IP, SFTP backups going to
+        a hardcoded VLAN 20 IP. That works fine until you move a VM, renumber a subnet, or rebuild
         a service on a new node. Then every config that baked in that IP needs to be hunted down and updated.
       </p>
       <p>
@@ -105,18 +105,18 @@
         The fix required finding the right config file inside the container, then finding nginx inside the
         Docker container that NPMplus runs — it's not in the system PATH.
       </p>
-      <pre><code># Find the NPMplus proxy config for AdGuard (proxy host 25)
-pct exec 123 -- cat /opt/npmplus/nginx/proxy_host/25.conf
-# Old: server 10.226.10.1:3001 resolve;
-# New: server 192.168.1.1:3001 resolve;
+      <pre><code># Find the NPMplus proxy config for AdGuard
+pct exec [lxc-id] -- cat /opt/npmplus/nginx/proxy_host/[host-id].conf
+# Old: server [adguard-ip]:3001 resolve;
+# New: server [new-adguard-ip]:3001 resolve;
 
 # Apply with sed
-pct exec 123 -- sed -i \
-  "s|server 10.226.10.1:3001 resolve;|server 192.168.1.1:3001 resolve;|g" \
-  /opt/npmplus/nginx/proxy_host/25.conf
+pct exec [lxc-id] -- sed -i \
+  "s|server [adguard-ip]:3001 resolve;|server [new-adguard-ip]:3001 resolve;|g" \
+  /opt/npmplus/nginx/proxy_host/[host-id].conf
 
 # Reload nginx — it runs inside a Docker container named 'npmplus'
-pct exec 123 -- bash -c \
+pct exec [lxc-id] -- bash -c \
   "docker exec npmplus /usr/local/nginx/sbin/nginx -s reload"</code></pre>
       <p>
         The key thing I learned: NPMplus runs nginx inside Docker, and the binary isn't exposed on the
@@ -132,15 +132,15 @@ pct exec 123 -- bash -c \
         each <code>-svc</code> hostname:
       </p>
       <pre><code># Each service gets its own DNS name pointing to the actual IP
-curl -sk -u "masternazz:..." \
-  -X POST http://192.168.1.1:3001/control/rewrite/add \
+curl -sk -u "user:..." \
+  -X POST http://[adguard-ip]/control/rewrite/add \
   -H "Content-Type: application/json" \
-  -d '{"domain":"authentik-svc.masternazz.com","answer":"10.226.6.50"}'
+  -d '{"domain":"authentik-svc.masternazz.com","answer":"[authentik-vlan6-ip]"}'
 
-# Wildcard catch-all routes *.masternazz.com -> NPMplus (10.226.7.51)
+# Wildcard catch-all routes *.masternazz.com -> NPMplus in VLAN 7
 # Specific -svc entries override it for direct internal connections</code></pre>
       <p>
-        I also have a wildcard <code>*.masternazz.com → 10.226.7.51</code> (NPMplus) as the base entry.
+        I also have a wildcard <code>*.masternazz.com → [npmplus-vlan7-ip]</code> (NPMplus) as the base entry.
         The specific <code>-svc</code> rewrites take priority over it, so internal service-to-service
         traffic routes directly while public subdomains still go through the reverse proxy.
       </p>
@@ -150,7 +150,7 @@ curl -sk -u "masternazz:..." \
       <h2>Step 3 — Migrate OPNsense Service Configs to DNS</h2>
       <p>
         OPNsense stores everything in <code>/conf/config.xml</code>. Direct edits require root, and
-        I only had an <code>aiassistant</code> account (wheel, but no sudo on OPNsense). The safest
+        I only had an API account (wheel, but no sudo on OPNsense). The safest
         method: use the <code>diag_backup.php</code> web restore API, which runs as the web GUI user
         (<code>wwwonly</code>) and calls the config reload on success.
       </p>
@@ -158,7 +158,7 @@ curl -sk -u "masternazz:..." \
         The process: download the current config, patch it in Python, restore it via POST:
       </p>
       <pre><code># Authenticate and get CSRF token
-curl -sk -c /tmp/cookies.txt https://127.0.0.1:8443/ -o /tmp/login.html
+curl -sk -c /tmp/cookies.txt https://127.0.0.1/diag_backup.php -o /tmp/login.html
 CSRF_TOKEN=$(grep -o 'value="[^"]*" autocomplete="new-password"' \
   /tmp/login.html | sed 's/value="\([^"]*\)".*/\1/')
 
@@ -168,17 +168,17 @@ with open("/tmp/config_dns.xml") as f:
     content = f.read()
 # LDAP host
 content = content.replace(
-    "&lt;host&gt;10.226.6.50&lt;/host&gt;",
+    "&lt;host&gt;[authentik-vlan6-ip]&lt;/host&gt;",
     "&lt;host&gt;authentik-svc.masternazz.com&lt;/host&gt;"
 )
 # OIDC provider URL
 content = content.replace(
-    "http://10.226.6.50:9000/application/o/opnsense-oidc/",
+    "http://[authentik-vlan6-ip]:9000/application/o/opnsense-oidc/",
     "http://authentik-svc.masternazz.com:9000/application/o/opnsense-oidc/"
 )
 # SFTP backup URL
 content = content.replace(
-    "sftp://Opnsense_Backups@10.226.20.51//",
+    "sftp://Opnsense_Backups@[synology-vlan20-ip]//",
     "sftp://Opnsense_Backups@synology-backup-svc.masternazz.com//"
 )
 with open("/tmp/config_dns.xml", "w") as f:
@@ -187,7 +187,7 @@ EOF
 
 # Restore via diag_backup.php
 curl -sk -c /tmp/cookies.txt \
-  -X POST https://127.0.0.1:8443/diag_backup.php \
+  -X POST https://127.0.0.1/diag_backup.php \
   -F "restore=Restore configuration" \
   -F "${CSRF_KEY}=${CSRF_TOKEN}" \
   -F "conffile=@/tmp/config_dns.xml;type=text/xml"</code></pre>

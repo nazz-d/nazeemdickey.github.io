@@ -141,9 +141,9 @@
   <rect x="60" y="580" width="980" height="58" rx="7" fill="url(#vmcard)" stroke="#4b4266" stroke-width="1.5"/>
   <rect x="60" y="580" width="980" height="3" rx="2" fill="#4b4266"/>
   <text x="550" y="600" text-anchor="middle" fill="#9488ad" font-size="12" font-weight="700">Switching Layer</text>
-  <text x="270" y="618" text-anchor="middle" fill="#7c6a99" font-size="10">Cisco SG300-20 Core  10.226.10.55</text>
+  <text x="270" y="618" text-anchor="middle" fill="#7c6a99" font-size="10">Cisco SG300-20 Core  (VLAN 10 mgmt)</text>
   <text x="270" y="630" text-anchor="middle" fill="#4b4266" font-size="9">gi19→OPNsense · gi1-3→Proxmox nodes · gi20→Netgear uplink</text>
-  <text x="790" y="618" text-anchor="middle" fill="#7c6a99" font-size="10">Netgear GS728TP Access  10.226.10.56</text>
+  <text x="790" y="618" text-anchor="middle" fill="#7c6a99" font-size="10">Netgear GS728TP Access  (VLAN 10 mgmt)</text>
   <text x="790" y="630" text-anchor="middle" fill="#4b4266" font-size="9">PoE · access layer · 28-port · uplink g23→SG300 gi20</text>
   <line x1="550" y1="586" x2="550" y2="636" stroke="#4b4266" stroke-width="1" opacity="0.5"/>
 
