@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise VLAN Segmentation | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Full enterprise VLAN segmentation project — 10-VLAN production design, OPNsense default-deny firewall, Cisco SG300 core switching, and 30+ services migrated from a flat 192.168.1.0/24 network.">
+  <link rel="canonical" href="https://masternazz.com/pages/vlan-segmentation.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Enterprise VLAN Segmentation | Nazeem Massoom Dickey">
+  <meta property="og:description" content="10-VLAN production network design with OPNsense default-deny enforcement, Cisco SG300 core switching, and full service migration.">
+  <meta property="og:url" content="https://masternazz.com/pages/vlan-segmentation.html">
+  <meta property="og:image" content="https://masternazz.com/assets/diagrams/vlan-segmentation-diagram.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Enterprise VLAN Segmentation | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="Flat 192.168.1.0/24 to 10 production VLANs — firewall enforcement, switch swap, quorum recovery, 30+ services migrated.">
+  <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/vlan-segmentation-diagram.svg">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f9ff" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="../index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="writeups.html">Writeups</a>
+      <a href="#contact">Contact</a>
+      <button class="search-trigger" aria-label="Search pages (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search <kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Project | Networking &amp; Security</p>
+      <h1>Enterprise VLAN Segmentation</h1>
+      <p class="lead">
+        Redesigned a flat homelab network from a single 192.168.1.0/24 broadcast domain to a
+        fully segmented 10-VLAN production architecture — each VLAN with a defined security
+        posture, explicit OPNsense firewall rules, and zero unnecessary cross-VLAN exposure.
+        30+ services migrated, 80+ firewall rules enforced.
+      </p>
+      <div class="chip-row">
+        <span class="chip">OPNsense</span>
+        <span class="chip">802.1Q VLANs</span>
+        <span class="chip">Cisco SG300-20</span>
+        <span class="chip">Netgear GS728TP</span>
+        <span class="chip">Firewall Design</span>
+        <span class="chip">Default-Deny</span>
+        <span class="chip">DNS Migration</span>
+        <span class="chip">Proxmox</span>
+      </div>
+    </section>
+
+    <section class="section card">
+      <div class="diagram-card">
+        <img src="../assets/diagrams/vlan-segmentation-diagram.svg" alt="10-VLAN production segmentation architecture diagram" loading="lazy">
+      </div>
+    </section>
+
+    <section class="section two-column">
+      <div class="card">
+        <h2>What I Built</h2>
+        <ul class="list-clean">
+          <li><strong>10-VLAN Design:</strong> Segmented the entire lab across 10 VLANs on a <code>10.226.X.0/24</code> scheme — management, game servers, DMZ, services, storage, servers, IoT, testing, guest, and OOB management each isolated at the firewall.</li>
+          <li><strong>OPNsense Default-Deny:</strong> Enforced 80+ explicit allow rules across all VLAN interfaces — if there is no rule, traffic is blocked. Every cross-VLAN path that needs to work is documented as a firewall rule.</li>
+          <li><strong>Switch Hardware Swap:</strong> Replaced legacy Cisco Catalyst 3750V2 (100 Mbps) switches mid-migration with Cisco SG300-20 core + Netgear GS728TP PoE+ access. Re-trunked all VLANs from scratch.</li>
+          <li><strong>Proxmox Quorum Recovery:</strong> Restored 3/3 corosync quorum after the switch swap left VLAN 10 absent from Proxmox node ports — identified via LLDP, fixed via SG300 trunk config.</li>
+          <li><strong>Bulk Service Migration:</strong> Moved 30+ VMs and LXC containers to correct VLANs, updated 25 DNS host overrides via OPNsense API, reconfigured 18 NPMplus reverse proxy backends, and updated 7 NAT port-forward rules.</li>
+          <li><strong>DMZ Architecture:</strong> cloudflared and NPMplus isolated in VLAN 7. NPMplus proxies to approved backend IPs only — no DMZ host can initiate connections to management or storage.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Security Design Decisions</h2>
+        <ul class="list-clean">
+          <li><strong>VLAN 10 — Management:</strong> Admin PC, Proxmox nodes, switches, and OPNsense management interface. The only VLAN allowed to initiate connections everywhere else. No service VLAN can reach VLAN 10 without an explicit rule.</li>
+          <li><strong>VLAN 7 — DMZ:</strong> cloudflared (Cloudflare Tunnel) and NPMplus (reverse proxy) are the only hosts. cloudflared is permitted to reach NPMplus only. NPMplus is permitted to reach approved backend IPs on specific ports. Nothing in DMZ initiates to management.</li>
+          <li><strong>VLAN 20 — Storage:</strong> Synology NAS, QNAP, and Thecus PBS cannot initiate outbound internet connections. VLAN 10 and Proxmox nodes are the only sources permitted to reach NFS/SMB ports.</li>
+          <li><strong>VLAN 8 / VLAN 5 — Guest &amp; IoT:</strong> Hard RFC1918 block — these VLANs get internet access and nothing else. Guest uses OPNsense captive portal. IoT devices cannot reach any infrastructure VLAN.</li>
+          <li><strong>Wazuh log collection:</strong> Every VLAN has per-interface rules allowing outbound to Wazuh (VLAN 3) on ports 1514, 1515, and 514. Security monitoring without general cross-VLAN access.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section three-column">
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Addressing</span>
+        <h2>Structured IP Scheme</h2>
+        <p>Every VLAN follows <code>10.226.X.0/24</code> where X is the VLAN ID. Within each subnet: <code>.1</code> is the OPNsense gateway, <code>.2–.49</code> are static infrastructure IPs, <code>.50–.99</code> are reserved for services, and <code>.100–.200</code> is the DHCP pool. Predictable and easy to firewall-rule by subnet.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Enforcement</span>
+        <h2>OPNsense Firewall Policy</h2>
+        <p>OPNsense applies rules per VLAN interface. Default-deny means any unlisted traffic is silently dropped. Each new service requires a conscious decision: which VLAN source, which destination IP and port, and why. No implicit trust between any two VLANs — not even adjacent ones.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Public Ingress</span>
+        <h2>DMZ-Only Internet Exposure</h2>
+        <p>All public-facing services reach the internet exclusively through Cloudflare Tunnel in VLAN 7. No management ports, no Proxmox UI, no direct SSH — none of it is reachable from the WAN. The only path from the internet into the lab is cloudflared → NPMplus → approved backend IP.</p>
+      </article>
+    </section>
+
+    <section class="section card">
+      <h2>VLAN Map</h2>
+      <p class="table-note">All 10 production VLANs with subnet, primary hosts, and security posture.</p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>VLAN</th>
+              <th>Name</th>
+              <th>Subnet</th>
+              <th>Primary Hosts</th>
+              <th>Security Posture</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>Management</td>
+              <td>10.226.10.0/24</td>
+              <td>Admin PC, OPNsense, Proxmox nodes, switches</td>
+              <td>Full access — initiates to all VLANs</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Game Servers</td>
+              <td>10.226.2.0/24</td>
+              <td>Pelican Panel, Wings, Docker, MC server</td>
+              <td>Internet yes · Internal blocked</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>DMZ</td>
+              <td>10.226.7.0/24</td>
+              <td>cloudflared, NPMplus</td>
+              <td>cloudflared → NPMplus only · no management access</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Services</td>
+              <td>10.226.6.0/24</td>
+              <td>Authentik SSO, Jellyfin, Headscale, AI inference</td>
+              <td>Internal services · SSO-gated via Authentik</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Servers</td>
+              <td>10.226.3.0/24</td>
+              <td>Wazuh SIEM, Windows Server 2025</td>
+              <td>All VLANs push logs in · VLAN 3 cannot reach others</td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>Storage</td>
+              <td>10.226.20.0/24</td>
+              <td>Synology NAS, QNAP, Thecus PBS</td>
+              <td>No internet initiation · VLAN 10 + Proxmox only</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>IoT</td>
+              <td>10.226.5.0/24</td>
+              <td>Smart home devices, cameras</td>
+              <td>Internet only · RFC1918 blocked</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Testing</td>
+              <td>10.226.4.0/24</td>
+              <td>Lab VMs, Kali, sandboxed containers</td>
+              <td>Isolated · no production VLAN access</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Guest</td>
+              <td>10.226.8.0/24</td>
+              <td>Visitor WiFi</td>
+              <td>Captive portal · Internet only · RFC1918 blocked</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>OOB Mgmt</td>
+              <td>10.226.9.0/24</td>
+              <td>IPMI, iDRAC, IMM2 cards</td>
+              <td>VLAN 10 access only · no internet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section card callout">
+      <h2>What This Shows Employers</h2>
+      <p>
+        This project demonstrates full-cycle network architecture work — not just plugging in a switch,
+        but designing a security model, implementing it across hardware and software layers, recovering
+        from failures mid-migration, and validating every traffic path against an explicit policy.
+        The result is a production network where every device is isolated to exactly the access it needs,
+        public services are completely separated from management, and every cross-VLAN flow is documented
+        as a deliberate firewall rule. That's the kind of thinking that applies directly to enterprise
+        network administration, NOC work, and security operations.
+      </p>
+      <div style="margin-top: 1.25rem;">
+        <a href="writeup-vlan-migration.html" class="button">Read Full Writeup &rarr;</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Related Projects</h2>
+          <p>Infrastructure this segmentation design connects and protects.</p>
+        </div>
+      </div>
+
+      <div class="project-grid">
+        <a href="opnsense.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span class="project-type">Firewall</span>
+          </div>
+          <h3>OPNsense Edge Firewall</h3>
+          <p>The OPNsense gateway enforcing default-deny rules across all 10 VLANs with Suricata IDS and AdGuard DNS.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="switching.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="4" rx="1"/><rect x="2" y="14" width="20" height="4" rx="1"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="6" y1="16" x2="6" y2="16"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="10" y1="16" x2="10" y2="16"/></svg>
+            </span>
+            <span class="project-type">Switching</span>
+          </div>
+          <h3>Gigabit Switching &amp; PoE+</h3>
+          <p>Cisco SG300-20 core + Netgear GS728TP access — the hardware layer carrying all 10 VLAN trunks.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="proxmox.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </span>
+            <span class="project-type">Infrastructure</span>
+          </div>
+          <h3>Proxmox Cluster</h3>
+          <p>The 3-node cluster whose corosync quorum was recovered during the VLAN 10 switch cutover.</p>
+          <span class="card-link">View project &rarr;</span>
+        </a>
+
+        <a href="writeup-vlan-migration.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </span>
+            <span class="project-type">Writeup</span>
+          </div>
+          <h3>Migration Writeup</h3>
+          <p>The full story — switch swap, quorum failure, 30+ services migrated, every blocker hit and resolved.</p>
+          <span class="card-link">Read writeup &rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/nazz-d" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="../index.html#projects">&larr; Back to projects</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Enterprise VLAN Segmentation project by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>
