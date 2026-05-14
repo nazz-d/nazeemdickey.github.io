@@ -72,7 +72,7 @@
           <li><strong>Gigabit Upgrade:</strong> Replaced legacy Cisco 3750V2 switches (100 Mbps) with a full Gigabit fabric, restoring 1 Gbps line-rate performance between OPNsense, Proxmox, and storage.</li>
           <li><strong>Core/Access Hierarchy:</strong> Configured a Cisco SG300-20 as the L3 Core switch and a Netgear GS728TP as the high-density PoE+ Access switch.</li>
           <li><strong>PoE+ Integration:</strong> Leveraged the Netgear's 802.3at support to power the Ubiquiti Access Point and PoE-ready lab devices via a single data cable.</li>
-          <li><strong>VLAN 50 DMZ:</strong> Maintained sophisticated isolation for public-facing services (Cloudflare Tunnel) using 802.1Q tagging across the multi-vendor switching fabric.</li>
+          <li><strong>10-VLAN Production Fabric:</strong> Carries the full 10-VLAN segmentation design (VLANs 2–10, 20) — including VLAN 7 DMZ isolation for Cloudflare Tunnel — using 802.1Q tagging across the multi-vendor switching fabric.</li>
           <li><strong>Secure Management:</strong> Hardened both switches by disabling Telnet/HTTP, configuring SSH access, and enforcing named local administrator accounts.</li>
         </ul>
       </div>
@@ -103,8 +103,8 @@
 
       <article class="detail-card glass-panel">
         <span class="mini-label">Isolation</span>
-        <h2>VLAN 50 DMZ Continuity</h2>
-        <p>Despite the hardware change, the security architecture remains: VLAN 50 (Public_DMZ) is tagged across both switches. This ensures that the Cloudflare Tunnel container remains logically isolated from the private LAN (VLAN 1) at the hardware level, regardless of the physical port it occupies.</p>
+        <h2>VLAN 7 DMZ Continuity</h2>
+        <p>Despite the hardware change, the security architecture remains: VLAN 7 (DMZ) is tagged across both switches. This ensures that the Cloudflare Tunnel container remains logically isolated from all other VLANs at the hardware level — regardless of the physical port it occupies.</p>
       </article>
     </section>
 
@@ -129,35 +129,35 @@
               <td>gi1</td>
               <td>Proxmox Cluster</td>
               <td>Trunk</td>
-              <td>1, 2-10, 20, 50</td>
+              <td>2-10, 20</td>
             </tr>
             <tr>
               <td>Cisco SG300</td>
               <td>gi19</td>
               <td>OPNsense LAN</td>
               <td>Trunk</td>
-              <td>1, 2-10, 20, 50</td>
+              <td>2-10, 20</td>
             </tr>
             <tr>
               <td>Cisco SG300</td>
               <td>gi20</td>
               <td>Netgear g23 (Uplink)</td>
               <td>Trunk</td>
-              <td>1, 2-10, 20</td>
+              <td>2-10, 20</td>
             </tr>
             <tr>
               <td>Netgear</td>
               <td>g23</td>
               <td>Cisco gi20 (Downlink)</td>
               <td>Trunk</td>
-              <td>1, 2-10, 20</td>
+              <td>2-10, 20</td>
             </tr>
             <tr>
               <td>Netgear</td>
               <td>g19-21</td>
               <td>Access / Client Ports</td>
               <td>Access</td>
-              <td>1 (Native)</td>
+              <td>10 (Native, Mgmt)</td>
             </tr>
           </tbody>
         </table>

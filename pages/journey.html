@@ -352,6 +352,24 @@
         <div class="journey-entry milestone">
           <div class="journey-dot"><div class="journey-dot-inner"></div></div>
           <div class="journey-body">
+            <span class="journey-date">May 2026 — Network Architecture</span>
+            <h3>Enterprise VLAN Segmentation — Flat to 10-VLAN Production</h3>
+            <p>Redesigned the entire lab from a single flat 192.168.1.0/24 network to a fully segmented 10-VLAN production design on 10.226.X.0/24. Replaced legacy switches mid-migration, recovered Proxmox corosync quorum, migrated 30+ services to correct VLANs, rewrote 25 DNS overrides, updated 18 NPMplus backends, and deployed 80+ OPNsense default-deny firewall rules. The biggest infrastructure project to date.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
+            <span class="journey-date">May 2026 — Security Engineering</span>
+            <h3>OPNsense OIDC Bug Fix &amp; DNS Migration</h3>
+            <p>Discovered a PHP SimpleXML iterator bug in the open-source os-oidc-devel plugin that silently hid the Authentik SSO login button. Applied a rootless fix via FreeBSD package tooling and the configd socket — without touching the live config. Simultaneously migrated all OPNsense service configs from hardcoded IPs to DNS names for resilience.</p>
+          </div>
+        </div>
+
+        <div class="journey-entry milestone">
+          <div class="journey-dot"><div class="journey-dot-inner"></div></div>
+          <div class="journey-body">
             <span class="journey-date">Now — What's Next</span>
             <h3>CCNA &amp; PenTest+ in Progress — SkillsUSA Nationals Ahead</h3>
             <p>Actively studying CCNA (targeting June–July 2026) and PenTest+. Competing at SkillsUSA NLSC in Atlanta, GA. Open to junior networking, SOC, NOC, MSP, and IT support roles.</p>

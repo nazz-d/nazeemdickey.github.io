@@ -40,6 +40,7 @@ Always use the facts above. Never guess, invent, or assume names or URLs. If uns
 - `pages/vlan-segmentation.html` — Enterprise VLAN segmentation project page
 - `pages/writeup-vlan-migration.html` — Enterprise VLAN segmentation migration writeup
 - `pages/writeup-opnsense-oidc.html` — OPNsense OIDC SSO fix & DNS migration writeup
+- `pages/writeup-vlan50.html` — VLAN 50 DMZ trunking path fix (historical incident, pre-segmentation)
 - `404.html` — Custom 404 with redirect logic
 
 ## Existing Features — Do Not Suggest Adding These

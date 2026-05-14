@@ -98,7 +98,7 @@
       <article class="detail-card glass-panel">
         <span class="mini-label">Public Ingress</span>
         <h2>Cloudflare Tunnel in DMZ</h2>
-        <p>The Cloudflare Tunnel connector LXC lives in VLAN 50, separated from the LAN. Public requests hit Cloudflare's edge, traverse the tunnel to the DMZ host, then reach internal services through the reverse proxy — no direct WAN port forwards needed.</p>
+        <p>The Cloudflare Tunnel connector LXC lives in VLAN 7 (DMZ), separated from the LAN. Public requests hit Cloudflare's edge, traverse the tunnel to the DMZ host, then reach internal services through the reverse proxy — no direct WAN port forwards needed.</p>
       </article>
 
       <article class="detail-card glass-panel">
@@ -138,7 +138,7 @@
             <span class="project-type">Switching</span>
           </div>
           <h3>Gigabit Switching &amp; PoE+ Deployment</h3>
-          <p>DMZ VLAN 50 trunk continuity is what makes Cloudflare Tunnel placement work securely.</p>
+          <p>VLAN 7 DMZ trunk continuity across the SG300/GS728TP fabric is what makes Cloudflare Tunnel placement work securely.</p>
           <span class="card-link">View project -&gt;</span>
         </a>
 
