@@ -384,9 +384,10 @@ print(\"Done:\", p.redirect_uris)
         <li>Full OIDC SSO working — Authentik authenticates and redirects back to OPNsense dashboard</li>
       </ul>
       <p>
-        The PHP bug in <code>os-oidc-devel</code> is a clean fix with a clear reproducer
-        (configure LDAP + OIDC, OIDC button disappears). It has since been corrected in the
-        upstream repo at
+        The iterator bug was present in <code>os-oidc-devel</code> v0.2.0 — the release available
+        at the time. I found and patched it independently; a separate contributor submitted the same
+        fix upstream nine days after the release. The bug is corrected in current versions of the
+        plugin at
         <a href="https://github.com/Lachee/opnsense-oidc" target="_blank" rel="noopener noreferrer">github.com/Lachee/opnsense-oidc</a>.
       </p>
 
