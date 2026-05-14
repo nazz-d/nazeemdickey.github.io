@@ -111,12 +111,16 @@
 
       <p>The key security decisions built into the design:</p>
       <ul>
-        <li><strong>VLAN 10 (Management)</strong> — admin PC, OPNsense, Proxmox nodes, switches. The only VLAN allowed to initiate connections to everything else. No service VLANs can reach VLAN 10 unless explicitly allowed.</li>
-        <li><strong>VLAN 7 (DMZ)</strong> — cloudflared and NPMplus only. cloudflared talks to NPMplus. NPMplus only reaches approved backend IPs and ports. Nothing in the DMZ can initiate to management.</li>
         <li><strong>VLAN 2 (Game Servers)</strong> — internet yes, internal blocked. Pelican Panel needed to reach Pelican Wings on the same VLAN, but nothing in VLAN 2 should reach storage, SIEM, or Proxmox.</li>
-        <li><strong>VLAN 20 (Storage)</strong> — no internet initiation. VLAN 10 and Proxmox nodes reach storage ports; storage devices get DNS and NTP but can't initiate back into the lab.</li>
         <li><strong>VLAN 3 (Servers)</strong> — Wazuh receives syslog and agent traffic from all other VLANs. Every VLAN has rules allowing outbound to the Wazuh manager IP on ports 1514/1515/514. VLAN 3 itself can't reach other VLANs beyond what's needed.</li>
+        <li><strong>VLAN 4 (Testing)</strong> — fully isolated sandbox. Lab VMs and Kali instances get internet access but are hard-blocked from all production VLANs.</li>
+        <li><strong>VLAN 5 (IoT)</strong> — internet only, RFC1918 blocked. Smart home devices and cameras cannot reach any infrastructure VLAN under any circumstance.</li>
+        <li><strong>VLAN 6 (Services)</strong> — internal services gated by Authentik SSO. Jellyfin, Headscale, and AI inference run here. NPMplus in VLAN 7 is the only external entry point.</li>
+        <li><strong>VLAN 7 (DMZ)</strong> — cloudflared and NPMplus only. cloudflared talks to NPMplus. NPMplus only reaches approved backend IPs and ports. Nothing in the DMZ can initiate to management.</li>
         <li><strong>VLAN 8 (Guest)</strong> — internet only, hard block on all RFC1918 destinations, captive portal via OPNsense.</li>
+        <li><strong>VLAN 9 (OOB Mgmt)</strong> — IPMI, iDRAC, and IMM2 cards. Reachable from VLAN 10 only. No internet access, no lateral movement possible.</li>
+        <li><strong>VLAN 10 (Management)</strong> — admin PC, OPNsense, Proxmox nodes, switches. The only VLAN allowed to initiate connections to everything else. No service VLANs can reach VLAN 10 unless explicitly allowed.</li>
+        <li><strong>VLAN 20 (Storage)</strong> — no internet initiation. VLAN 10 and Proxmox nodes reach storage ports; storage devices get DNS and NTP but can't initiate back into the lab.</li>
       </ul>
 
       <hr class="section-divider">
@@ -158,8 +162,8 @@ copy running-config startup-config</code></pre>
       <h3>Proxmox quorum failure</h3>
       <p>
         The bigger problem: Proxmox corosync had already been configured to use the VLAN 10 addresses
-        (<code>10.226.10.2/3/4</code> for firstmoon/secondmoon/thirdmoon) but VLAN 10 wasn't tagged
-        on the SG300 ports facing secondmoon and thirdmoon — only gi1 (firstmoon) had it. Corosync
+        (<code>10.226.10.2/3/4</code> for the three Proxmox nodes) but VLAN 10 wasn't tagged
+        on the SG300 ports facing nodes 2 and 3 — only gi1 (node 1) had it. Corosync
         uses multicast on a shared VLAN to maintain quorum. Without VLAN 10 reachability, the cluster
         showed 1/3 nodes and all cluster operations were blocked.
       </p>
@@ -170,7 +174,7 @@ copy running-config startup-config</code></pre>
       <pre><code>! Confirm ports via LLDP
 show lldp neighbors detail
 
-! gi1 = firstmoon, gi2 = secondmoon, gi3 = thirdmoon
+! gi1 = pve-node-1, gi2 = pve-node-2, gi3 = pve-node-3
 interface range gi1-3
  switchport trunk allowed vlan add 10
 interface gi19
@@ -217,14 +221,14 @@ pvecm status
 # Each subdomain (auth, jellyfin, status, opnsense, etc.) gets its new IP
 
 curl -sk -u "$KEY:$SECRET" -X POST \
-  https://10.226.10.1:8443/api/unbound/settings/addHostOverride \
+  https://[opnsense-mgmt-ip]/api/unbound/settings/addHostOverride \
   -H "Content-Type: application/json" \
   -d '{"host":{"enabled":"1","hostname":"auth","domain":"masternazz.com",
        "rr":"A","server":"10.226.6.50","description":"Authentik SSO"}}'
 
 # Repeat for all 25 subdomains, then apply:
 curl -sk -u "$KEY:$SECRET" -X POST \
-  https://10.226.10.1:8443/api/unbound/service/reconfigure</code></pre>
+  https://[opnsense-mgmt-ip]/api/unbound/service/reconfigure</code></pre>
 
       <h3>Services that needed special handling</h3>
       <p>
@@ -235,8 +239,7 @@ curl -sk -u "$KEY:$SECRET" -X POST \
         <strong>Authentik (VLAN 6, .50):</strong> OPNsense had Authentik configured as both an LDAP
         auth server and an OIDC provider. Both configs had hardcoded IPs. Updated via the
         <code>diag_backup.php</code> config restore mechanism (since direct writes to
-        <code>/conf/config.xml</code> require root access that the <code>aiassistant</code>
-        account doesn't have).
+        <code>/conf/config.xml</code> require root access that the API account doesn't have).
       </p>
       <p>
         <strong>Jellyfin media stack (VLAN 6, .55):</strong> The NFS mount from Synology was still
@@ -245,9 +248,9 @@ curl -sk -u "$KEY:$SECRET" -X POST \
         then picked up the correct path.
       </p>
       <p>
-        <strong>Proxmox Backup Server — hiddenmoon (VLAN 20, .10):</strong> The Thecus NAS running
-        PBS needed its network interface reconfigured from <code>192.168.1.15/24</code> to
-        <code>10.226.20.10/24</code>, the SG300 port (<code>gi4</code>) set to access VLAN 20,
+        <strong>Proxmox Backup Server (VLAN 20, .10):</strong> The Thecus NAS running
+        PBS needed its network interface reconfigured from <code>192.168.1.xxx/24</code> to
+        <code>10.226.20.10/24</code>, the SG300 port set to access VLAN 20,
         and the PBS storage target in Proxmox updated to the new IP.
       </p>
       <p>
@@ -269,8 +272,8 @@ curl -sk -u "$KEY:$SECRET" -X POST \
         Every VLAN needed a minimal set of rules:
       </p>
       <ul>
-        <li>Allow DNS to the gateway (AdGuard Home on <code>10.226.10.1:3001</code>)</li>
-        <li>Allow Wazuh agent/syslog traffic to <code>10.226.3.50</code></li>
+        <li>Allow DNS to the OPNsense gateway (AdGuard Home on the management interface)</li>
+        <li>Allow Wazuh agent/syslog traffic to the Wazuh manager IP in VLAN 3</li>
         <li>Allow outbound internet where appropriate</li>
         <li>Block RFC1918 destinations for untrusted VLANs (game, guest, IoT, testing)</li>
         <li>Explicit allow rules for specific service-to-service paths</li>
@@ -281,16 +284,16 @@ curl -sk -u "$KEY:$SECRET" -X POST \
       </p>
       <pre><code>! OPNsense firewall rules — VLAN 7 DMZ egress
 # NPMplus -> VLAN 6 internal services (all backends)
-pass  interface=opt8  src=10.226.7.51  dst=10.226.6.0/24  [NPMplus -> VLAN6]
+pass  interface=VLAN7  src=10.226.7.51  dst=10.226.6.0/24  [NPMplus -> VLAN6]
 
 # NPMplus -> VLAN 2 game server backends
-pass  interface=opt8  src=10.226.7.51  dst=10.226.2.0/24  [NPMplus -> VLAN2]
+pass  interface=VLAN7  src=10.226.7.51  dst=10.226.2.0/24  [NPMplus -> VLAN2]
 
 # NPMplus -> VLAN 10 management backends (Proxmox, OPNsense)
-pass  interface=opt8  src=10.226.7.51  dst=10.226.10.0/24 [NPMplus -> VLAN10]
+pass  interface=VLAN7  src=10.226.7.51  dst=10.226.10.0/24 [NPMplus -> VLAN10]
 
 # cloudflared can ONLY talk to NPMplus — nothing else in DMZ
-pass  interface=opt8  src=10.226.7.50  dst=10.226.7.51    [cloudflared -> NPMplus]</code></pre>
+pass  interface=VLAN7  src=10.226.7.50  dst=10.226.7.51    [cloudflared -> NPMplus]</code></pre>
       <p>
         The VLAN 7 implicit deny catches anything NPMplus tries to reach that wasn't explicitly
         whitelisted. If a new backend service is added, it needs a matching firewall rule before
@@ -304,8 +307,8 @@ pass  interface=opt8  src=10.226.7.50  dst=10.226.7.51    [cloudflared -> NPMplu
       <h3>Proxmox routing conflict</h3>
       <p>
         After VLAN 10 was configured, some connections to legacy <code>192.168.1.x</code> devices
-        (Cisco switch, AP) started failing from Proxmox. Root cause: a stale manual IP
-        <code>192.168.1.254/24</code> had been added to <code>vmbr0.10</code> (the VLAN 10 bridge
+        (Cisco switch, AP) started failing from Proxmox. Root cause: a stale manual IP in the
+        <code>192.168.1.0/24</code> range had been added to <code>vmbr0.10</code> (the VLAN 10 bridge
         interface) during earlier testing. This caused Proxmox to route all traffic destined for
         <code>192.168.1.0/24</code> out the VLAN 10 interface instead of the native bridge,
         where the physical legacy devices actually were.
