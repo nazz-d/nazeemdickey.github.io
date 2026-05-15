@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Hosted Email on Residential Internet | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Technical writeup: Deploying a self-hosted mailcow email stack behind a residential ISP that blocks port 25 — bypassing the restriction with a Cloudflare Email Worker using the TCP sockets API, no VPS required.">
+  <link rel="canonical" href="https://masternazz.com/pages/writeup-mailcow-email.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Self-Hosted Email on Residential Internet | Nazeem Massoom Dickey">
+  <meta property="og:description" content="ISP blocks port 25. No VPS. Built a Cloudflare Email Worker using the TCP sockets API as an SMTP bridge — email lands directly in a self-hosted mailcow inbox.">
+  <meta property="og:url" content="https://masternazz.com/pages/writeup-mailcow-email.html">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f9ff" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="../index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="writeups.html" aria-current="page">Writeups</a>
+      <a href="#contact">Contact</a>
+      <button class="search-trigger" aria-label="Search pages (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search <kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Writeup | Email &amp; Infrastructure</p>
+      <h1>Self-Hosted Email on Residential Internet</h1>
+      <p class="lead">
+        The ISP blocks port 25 inbound. The obvious workarounds either cost money or don't
+        deliver raw SMTP to a custom port. Ended up writing a Cloudflare Email Worker using
+        the TCP sockets API as a zero-cost SMTP bridge — no VPS, no third-party relay, email
+        lands directly in a self-hosted mailcow inbox.
+      </p>
+      <div class="chip-row">
+        <span class="chip">mailcow</span>
+        <span class="chip">Cloudflare Workers</span>
+        <span class="chip">SMTP</span>
+        <span class="chip">Docker</span>
+        <span class="chip">OPNsense NAT</span>
+        <span class="chip">SPF / DKIM / DMARC</span>
+        <span class="chip">SMTP2GO</span>
+        <span class="chip">DNS</span>
+      </div>
+    </section>
+
+    <section class="section card writeup-body">
+
+      <div class="card star-callout">
+        <h3>STAR Breakdown</h3>
+        <ul class="list-clean">
+          <li><strong>Situation:</strong> Running mailcow-dockerized on a residential ISP connection that hard-blocks port 25 inbound — standard policy across most residential providers with no exceptions. A self-hosted email stack is useless if it can't receive mail.</li>
+          <li><strong>Task:</strong> Get inbound email delivering directly into mailcow's SOGo webmail interface for <code>admin@masternazz.com</code>, with working outbound relay — using only free infrastructure already in the stack.</li>
+          <li><strong>Action:</strong> Evaluated 8+ options including paid relays, webhook services, and Cloudflare Tunnel TCP (blocked on port 25). Landed on Cloudflare Email Workers with the <code>cloudflare:sockets</code> TCP API — wrote a Worker that receives email on Cloudflare's MX servers and opens a raw SMTP connection to home on a non-standard port. Fixed OPNsense NAT destination aliasing bug that blocked all inbound. Configured SMTP2GO for outbound relay, set up full SPF/DKIM/DMARC authentication, and resolved SOGo sending config.</li>
+          <li><strong>Result:</strong> End-to-end email working: inbound via Cloudflare Worker → mailcow:10026 → dovecot inbox, outbound via SMTP2GO with <code>dkim=pass</code>, <code>spf=pass</code>, <code>dmarc=pass</code> — zero cost beyond existing infrastructure.</li>
+        </ul>
+      </div>
+
+      <h2>The Constraint</h2>
+      <p>
+        Residential ISPs block port 25 inbound. Not throttled — blocked. No exceptions. This is
+        standard practice across most residential providers to prevent residential IPs from being
+        used as spam sources. For self-hosted
+        email it means you can run the full stack — postfix, dovecot, rspamd, SOGo — but no external
+        mail server in the world will be able to deliver to you directly.
+      </p>
+      <p>
+        The naive fix is rent a $4/month VPS with port 25 open and use it as a relay. That works but
+        introduces a dependency and recurring cost. The interesting constraint: can it be solved for
+        free using infrastructure that's already running?
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Options Evaluated</h2>
+      <p>
+        Before building anything, every realistic option was mapped out:
+      </p>
+      <ul>
+        <li><strong>SMTP2GO inbound routing</strong> — free plan doesn't include inbound. Paid tier only.</li>
+        <li><strong>Cloudflare Email Routing forward rules</strong> — can only forward to email addresses, not to a raw SMTP host:port.</li>
+        <li><strong>Cloudflare Tunnel TCP</strong> — tunnels support arbitrary TCP, but Cloudflare blocks outbound port 25 on their network to prevent abuse. The tunnel registers fine, but mail never flows.</li>
+        <li><strong>Mailgun / Resend inbound</strong> — free tiers exist, but both deliver via HTTP webhook, not raw SMTP relay. Would require a separate listener to consume the webhook and re-inject into mailcow.</li>
+        <li><strong>ImprovMX / Forward Email</strong> — free tiers only forward to email addresses. Custom SMTP relay is paid.</li>
+        <li><strong>Dynu Email Store/Forward</strong> — $9.99/year, supports custom ports natively. Viable if free wasn't an option.</li>
+        <li><strong>Hetzner VPS</strong> — ~€3.29/month. Clean and simple but recurring cost.</li>
+        <li><strong>Cloudflare Email Workers + TCP socket API</strong> — Cloudflare Workers can open outbound TCP connections to arbitrary hosts and ports using the <code>cloudflare:sockets</code> <code>connect()</code> API. Port 25 outbound is blocked, but port 10026 is not.</li>
+      </ul>
+      <p>
+        The last option is the only free path that delivers raw SMTP to a custom port. Cloudflare
+        handles port 25 reception on their global network, and the Worker opens a TCP socket to home
+        on port 10026 — a non-standard port the ISP doesn't block.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The Architecture</h2>
+
+      <h3>Inbound path</h3>
+      <pre><code>Sender
+  → Cloudflare MX (route1/2/3.mx.cloudflare.net) — receives on port 25
+  → Cloudflare Email Routing triggers Worker
+  → Worker opens TCP socket to mail.masternazz.com:10026
+  → Worker performs full SMTP handshake (EHLO / MAIL FROM / RCPT TO / DATA)
+  → mailcow postfix receives on port 10026 (plain SMTP, no proxy protocol)
+  → postfix delivers via LMTP to dovecot
+  → Email lands in SOGo inbox</code></pre>
+
+      <h3>Outbound path</h3>
+      <pre><code>SOGo webmail
+  → postfix:587 (authenticated submission)
+  → SMTP2GO relay at mail.smtp2go.com:2525
+  → Delivered to recipient</code></pre>
+
+      <p>
+        Port 2525 is used for SMTP2GO because port 587 egress is also commonly filtered on residential
+        connections. Port 2525 is SMTP2GO's standard alternative submission port and is unrestricted.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>The NAT Bug That Blocked Everything</h2>
+      <p>
+        Before the Worker could be tested, inbound ports weren't responding at all. Nmap against the
+        public IP showed every port as <code>closed</code>. The OPNsense NAT rules existed — they
+        were just silently not matching.
+      </p>
+      <p>
+        The root cause: OPNsense's destination NAT rules were configured with
+        <code>destination = wanip</code>. The <code>wanip</code> alias in pf resolves to OPNsense's
+        WAN interface IP — the address assigned by the modem on its LAN side, not the public IP.
+        Traffic arriving from the internet carries the public IP as the destination — pf checks it
+        against the modem-side WAN IP and the rule doesn't match.
+      </p>
+      <p>
+        The modem is in DMZ mode, so all traffic passes through. The fix: change the destination in
+        every NAT rule from <code>wanip</code> to <code>""</code> (any). After the change, nmap
+        immediately showed ports 25, 587, 993, and 10026 all as <code>open</code>.
+      </p>
+      <pre><code># OPNsense d_nat MVC API — correct destination for NAT behind CGNAT/DMZ
+# destination.network must be "" (any), NOT "wanip"
+# wanip = modem-side LAN IP (e.g. 10.0.0.x), NOT the public IP
+# Traffic from internet arrives destined for the public IP — wanip never matches
+
+POST /api/firewall/d_nat/addRule
+{
+  "rule": {
+    "interface": "wan",
+    "protocol": "tcp",
+    "destination": { "network": "", "port": "10026" },
+    "target": "[mailcow-internal-ip]",
+    "local-port": "10026"
+  }
+}</code></pre>
+
+      <hr class="section-divider">
+
+      <h2>Port 10026 — Why a New Port</h2>
+      <p>
+        mailcow's postfix already listens on port 10025, but that port uses the HAProxy protocol
+        (<code>postscreen_upstream_proxy_protocol=haproxy</code>). A Cloudflare Worker speaking
+        plain SMTP to a HAProxy-protocol listener gets rejected immediately because the connection
+        doesn't start with a HAProxy header.
+      </p>
+      <p>
+        The fix is a new listener in <code>master.cf</code> for plain SMTP on port 10026, with
+        rspamd/milter disabled (the Worker is relaying already-scanned mail from Cloudflare's
+        infrastructure) and a permissive recipient restriction that accepts mail for local domains:
+      </p>
+      <pre><code># /opt/mailcow-dockerized/data/conf/postfix/master.cf
+10026      inet  n       -       n       -       -       smtpd
+  -o smtpd_sasl_auth_enable=no
+  -o smtpd_client_restrictions=permit_mynetworks,permit_inet_interfaces,reject_unauth_pipelining
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject_unauth_destination
+  -o smtpd_relay_restrictions=permit_mynetworks,reject_unauth_destination
+  -o smtpd_milters=
+  -o non_smtpd_milters=
+  -o syslog_name=postfix/smtp2go</code></pre>
+      <p>
+        The port is exposed via <code>docker-compose.override.yml</code> so Docker publishes it
+        without touching the main compose file:
+      </p>
+      <pre><code># /opt/mailcow-dockerized/docker-compose.override.yml
+version: '2.1'
+services:
+  postfix-mailcow:
+    ports:
+      - "10026:10026"</code></pre>
+
+      <hr class="section-divider">
+
+      <h2>The Cloudflare Email Worker</h2>
+      <p>
+        The Worker is the core of the solution. Cloudflare Email Routing has supported routing to
+        Workers since 2023 — instead of forwarding to an email address, the email is handed to a
+        Worker script as a <code>message</code> event. The Worker receives the raw RFC 5322 message
+        and can do anything with it.
+      </p>
+      <p>
+        The <code>cloudflare:sockets</code> module provides a <code>connect()</code> function that
+        opens a TCP socket to any host and port. Port 25 outbound is blocked by Cloudflare (anti-spam
+        policy), but 10026 is unrestricted. The Worker opens the socket, reads the SMTP banner,
+        and implements a minimal SMTP client:
+      </p>
+      <pre><code>import { connect } from "cloudflare:sockets";
+
+export default {
+  async email(message, env, ctx) {
+    const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
+    await relayToMailcow(message.from, message.to, rawEmail);
+  },
+};
+
+async function relayToMailcow(from, to, rawEmail) {
+  const socket = connect({ hostname: "mail.masternazz.com", port: 10026 });
+  const writer = socket.writable.getWriter();
+  const reader = socket.readable.getReader();
+  // ... SMTP handshake: read banner, EHLO, MAIL FROM, RCPT TO, DATA, body, QUIT
+}</code></pre>
+      <p>
+        One implementation detail worth noting: the TCP socket reader returns arbitrary chunks,
+        not lines. A naive line-by-line reader that waits for <code>\n</code> will stall waiting
+        for bytes that already arrived in a previous chunk. The correct approach is to buffer
+        incoming data and scan for complete SMTP response lines (3-digit code + space = final
+        line of a response) across chunk boundaries.
+      </p>
+      <p>
+        The SMTP DATA body also requires dot-stuffing — any line starting with <code>.</code>
+        must be escaped as <code>..</code> per RFC 5321, otherwise the server interprets the
+        first <code>.</code> as the end-of-data marker.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Outbound: SMTP2GO Relay</h2>
+      <p>
+        For outbound, mailcow's postfix is configured with an SMTP relay pointing to
+        SMTP2GO. The relay credentials are stored in mailcow's MySQL <code>relayhosts</code> table.
+        SMTP2GO's free tier allows 1,000 emails/month on port 2525 with TLS — enough for personal use.
+      </p>
+      <p>
+        Before SMTP2GO will accept outbound mail from a domain, it requires sender domain verification.
+        Three CNAME records are added to Cloudflare DNS:
+      </p>
+      <ul>
+        <li><code>em1130939.masternazz.com</code> → <code>return.smtp2go.net</code> (bounce handling)</li>
+        <li><code>s1130939._domainkey.masternazz.com</code> → <code>dkim.smtp2go.net</code> (SMTP2GO DKIM)</li>
+        <li><code>link.masternazz.com</code> → <code>track.smtp2go.net</code> (tracking domain)</li>
+      </ul>
+      <p>
+        mailcow generates its own DKIM key pair via its API and signs all outgoing mail with
+        selector <code>dkim</code>. Outgoing emails end up with three DKIM signatures: one from
+        mailcow (<code>d=masternazz.com s=dkim</code>), one from SMTP2GO
+        (<code>d=masternazz.com s=s1130939</code>), and one from SMTP2GO's own infrastructure
+        (<code>d=smtpservice.net</code>). Gmail validates all three as <code>dkim=pass</code>.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Authentication Results</h2>
+      <p>
+        The authentication header on a delivered email confirms everything is working:
+      </p>
+      <pre><code>Authentication-Results: mx.google.com;
+  dkim=pass header.i=@smtpservice.net header.s=a1-4;
+  dkim=pass header.i=@masternazz.com header.s=s1130939;
+  dkim=pass header.i=@masternazz.com header.s=dkim;
+  spf=pass smtp.mailfrom="bounce...@em1130939.masternazz.com";
+  dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=masternazz.com</code></pre>
+      <p>
+        Three DKIM passes, SPF pass, DMARC pass. The only remaining reputation issue is the domain
+        being new — Gmail applies spam classification to new sending domains regardless of
+        authentication, which resolves over a few weeks of legitimate sending history.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>SOGo Sending Config</h2>
+      <p>
+        Two non-obvious issues caused the SOGo send button to stay greyed out after the stack
+        was otherwise working:
+      </p>
+      <p>
+        <strong>Missing SOGoSMTPServer.</strong> SOGo's config file had
+        <code>SOGoMailingMechanism = smtp</code> and <code>SOGoSMTPAuthenticationType = plain</code>
+        but no <code>SOGoSMTPServer</code> directive. Without it, SOGo doesn't know where to hand
+        off outbound mail. Added: <code>SOGoSMTPServer = "smtp://postfix:587"</code> — postfix
+        is the internal Docker hostname, port 587 is submission.
+      </p>
+      <p>
+        <strong>Missing MailIdentities.</strong> SOGo requires at least one sending identity
+        (display name + email address) in the user profile before the compose UI unlocks the
+        send button. The identity is stored as JSON in the <code>sogo_user_profile</code> MySQL
+        table under the key <code>MailIdentities</code>. Added via direct database update since
+        there's no API endpoint for this.
+      </p>
+
+      <hr class="section-divider">
+
+      <h2>Key Takeaways</h2>
+      <p>
+        <strong>Evaluate the constraint, not the standard solution.</strong> The standard answer
+        to "ISP blocks port 25" is "rent a VPS." That's correct and simple — but mapping out all
+        alternatives first revealed a free path using infrastructure already running. The CF Workers
+        TCP socket API is not well-known as an SMTP relay mechanism; it's documented for database
+        connections. Recognizing it as general-purpose TCP was the insight that unlocked this.
+      </p>
+      <p>
+        <strong>NAT destination aliasing is a silent failure mode.</strong> OPNsense's
+        <code>wanip</code> alias resolves correctly for most use cases — when the router's WAN
+        interface IS the public IP. Behind a modem doing NAT (even in DMZ mode), the WAN interface
+        IP and the public IP are different. The NAT rule exists, no error is thrown, traffic just
+        never matches. This is the kind of bug that's hard to find without understanding exactly
+        what <code>wanip</code> resolves to in pf at runtime.
+      </p>
+      <p>
+        <strong>Read the SMTP spec for TCP socket SMTP clients.</strong> Implementing SMTP over
+        raw TCP means handling multi-line responses, dot-stuffing, and chunk-boundary buffering
+        correctly. Each one is a silent failure — the server either drops the connection or
+        misinterprets the DATA body without a useful error message.
+      </p>
+      <p>
+        <strong>docker-compose.override.yml is the right way to extend mailcow.</strong> The
+        main <code>docker-compose.yml</code> is managed by mailcow's update script and will be
+        overwritten on upgrade. Putting custom port mappings in <code>docker-compose.override.yml</code>
+        means they survive updates automatically.
+      </p>
+
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Related Pages</h2>
+        </div>
+      </div>
+      <div class="project-grid">
+        <a href="remote-access.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span class="project-type">Remote Access</span>
+          </div>
+          <h3>Zero Trust &amp; Remote Access</h3>
+          <p>Cloudflare Tunnel, Headscale, and Authentik SSO — the same Cloudflare infrastructure that handles email routing also powers all external access.</p>
+          <span class="card-link">View project -&gt;</span>
+        </a>
+
+        <a href="opnsense.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <span class="project-type">Firewall</span>
+          </div>
+          <h3>OPNsense Gateway</h3>
+          <p>The OPNsense firewall where the NAT destination aliasing bug lived — and where the port 10026 forward was added to make inbound email work.</p>
+          <span class="card-link">View project -&gt;</span>
+        </a>
+
+        <a href="writeup-vlan-migration.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="4" rx="1"/><rect x="2" y="10" width="9" height="4" rx="1"/><rect x="13" y="10" width="9" height="4" rx="1"/><rect x="2" y="17" width="5" height="4" rx="1"/><rect x="9" y="17" width="5" height="4" rx="1"/><rect x="16" y="17" width="6" height="4" rx="1"/></svg>
+            </span>
+            <span class="project-type">Networking</span>
+          </div>
+          <h3>VLAN Segmentation Migration</h3>
+          <p>The VLAN migration that built the network segmentation mailcow lives inside — VLAN 6 services network, OPNsense firewall enforcement, and the Proxmox cluster underneath.</p>
+          <span class="card-link">View writeup -&gt;</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/masternazz" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="writeups.html">&larr; Back to writeups</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Email Infrastructure Writeup by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>
