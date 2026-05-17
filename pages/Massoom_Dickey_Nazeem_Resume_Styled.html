@@ -36,15 +36,14 @@
       --line:    rgba(147, 51, 234, 0.28);
     }
 
-    html {
+    html, body {
+      margin: 0;
+      padding: 0;
       background: var(--bg);
     }
 
     body {
       width: 8.5in;
-      max-width: 8.5in;
-      min-height: 11in;
-      margin: 0 auto;
       font-family: 'Segoe UI', system-ui, sans-serif;
       font-size: 10.4pt;
       color: var(--text);
@@ -53,6 +52,7 @@
       print-color-adjust: exact;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* ── HEADER ── */
@@ -373,6 +373,10 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+    }
+
+    .proj-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
     }
 
     .proj-card {
