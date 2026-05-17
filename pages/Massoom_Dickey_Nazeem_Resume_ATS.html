@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=730">
   <title>Nazeem Massoom Dickey — Resume (ATS)</title>
   <meta name="description" content="ATS-friendly resume for Nazeem Massoom Dickey, IT and cybersecurity candidate.">
   <link rel="canonical" href="https://masternazz.com/pages/Massoom_Dickey_Nazeem_Resume_ATS.html">
@@ -26,13 +26,19 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html {
+      background: #fff;
+    }
+
     body {
       width: 7.6in;
+      max-width: 7.6in;
+      margin: 0 auto;
       font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: #111;
       background: #fff;
-      line-height: 1.38;
+      line-height: 1.32;
     }
 
     /* ── NAME BLOCK ── */
@@ -84,7 +90,7 @@
     }
 
     /* ── SECTION ── */
-    .section { margin-bottom: 22px; }
+    .section { margin-bottom: 10px; }
 
     .section-title {
       font-size: 8pt;
@@ -131,7 +137,7 @@
     }
 
     /* ── EXPERIENCE ── */
-    .exp-item { margin-bottom: 5px; }
+    .exp-item { margin-bottom: 3px; }
 
     .exp-header {
       display: flex;
@@ -171,7 +177,7 @@
     }
 
     /* ── PROJECTS ── */
-    .proj-item { margin-bottom: 5px; }
+    .proj-item { margin-bottom: 3px; }
 
     .proj-header {
       display: flex;
@@ -374,6 +380,10 @@
         Migrated from legacy FastEthernet to a full Gigabit backbone using Cisco SG300 and Netgear GS728TP. Configured L3 switching, PoE+ for wireless infrastructure, and maintained secure VLAN 50 DMZ isolation.
       </div>
     </div>
+
+    <div class="proj-item">
+      <div class="proj-header">
+        <span class="proj-name">Zero-Trust Remote Access</span>
         <span class="proj-tech">Headscale · Tailscale · Cloudflare Tunnel · DMZ</span>
       </div>
       <div class="proj-desc">
@@ -397,7 +407,7 @@
         <span class="proj-tech">Python · Discord API · RCON · Docker · Proxmox LXC · systemd</span>
       </div>
       <div class="proj-desc">
-        Deployed Pelican Panel game server infrastructure across dedicated Proxmox LXCs with Docker-isolated containers. Built a Python Discord bot from scratch implementing the Minecraft RCON binary wire protocol for live game state queries (players, time of day, difficulty). Pulled container CPU, memory, disk, and uptime metrics via SSH-chained Docker API calls. Deployed as a systemd service on a dedicated LXC.
+        Pelican Panel + Docker game server on Proxmox LXC. Built a Python Discord bot from scratch implementing the RCON binary wire protocol for live game queries; pulled CPU/memory/disk/uptime metrics via SSH-chained Docker API calls. Deployed as a systemd service.
       </div>
     </div>
   </div>
