@@ -1,4 +1,4 @@
-const email = "NazeemDickey@gmail.com";
+const email = "nazeemdickey@masternazz.com";
 
 (() => {
   try {

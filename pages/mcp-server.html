@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homelab MCP Server — AI Infrastructure Control | Nazeem Massoom Dickey</title>
+  <meta name="description" content="Custom Model Context Protocol server on a Proxmox LXC exposing 55 homelab tools to any AI assistant — OPNsense, Proxmox, AdGuard, NPMplus, Mailcow, Wazuh, and more. Node.js, stdio transport over SSH.">
+  <link rel="canonical" href="https://masternazz.com/pages/mcp-server.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Homelab MCP Server — AI Infrastructure Control | Nazeem Massoom Dickey">
+  <meta property="og:description" content="55-tool MCP server giving any AI assistant direct API control over the homelab. OPNsense, Proxmox, AdGuard, NPMplus, Mailcow, Wazuh — callable from Claude Code, Gemini CLI, VS Code, Cursor.">
+  <meta property="og:url" content="https://masternazz.com/pages/mcp-server.html">
+  <meta property="og:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Homelab MCP Server | Nazeem Massoom Dickey">
+  <meta name="twitter:description" content="55-tool MCP server on a Proxmox LXC — full homelab API access for any MCP-compatible AI assistant.">
+  <meta name="twitter:image" content="https://masternazz.com/assets/diagrams/network-diagram.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta name="theme-color" content="#030208" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f9ff" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="../index.html" class="brand" aria-label="Nazeem Massoom Dickey home">ND</a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#skills">Skills</a>
+      <a href="journey.html">Timeline</a>
+      <a href="certifications.html">Certs</a>
+      <a href="resume.html">Resume</a>
+      <a href="status.html">Live Status</a>
+      <a href="writeups.html">Writeups</a>
+      <a href="#contact">Contact</a>
+      <button class="search-trigger" aria-label="Search pages (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search <kbd>Ctrl K</kbd>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <section class="page-hero">
+      <p class="eyebrow">Project | AI Automation &amp; Infrastructure</p>
+      <h1>Homelab MCP Server</h1>
+      <p class="lead">
+        Built a custom Model Context Protocol server running on a dedicated Proxmox LXC
+        that gives any MCP-compatible AI assistant direct API control over the entire homelab.
+        55 callable tools across 7 integrations — manage infrastructure, troubleshoot networks,
+        and operate services without ever leaving the AI chat interface.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Node.js</span>
+        <span class="chip">MCP SDK</span>
+        <span class="chip">OPNsense API</span>
+        <span class="chip">Proxmox</span>
+        <span class="chip">Wazuh</span>
+        <span class="chip">Claude Code</span>
+        <span class="chip">Gemini CLI</span>
+        <span class="chip">stdio / SSH</span>
+      </div>
+    </section>
+
+    <section class="section two-column">
+      <div class="card">
+        <h2>What It Does</h2>
+        <ul class="list-clean">
+          <li>Runs on a dedicated Debian 12 LXC (64 MB RAM idle) connected to the management VLAN — reachable by any AI client over SSH.</li>
+          <li>Exposes 55 structured tools across AdGuard, Proxmox, OPNsense, NPMplus, Mailcow, Wazuh, Uptime Kuma, Authentik, Headscale, Jellyfin, and Home Assistant.</li>
+          <li>Any MCP-compatible client — Claude Code, Gemini CLI, VS Code Copilot, Cursor — connects via stdio transport over SSH and calls tools natively.</li>
+          <li>Every tool is a typed, validated function. The AI reasons about what to call, calls it, and gets a structured result back — no copy-pasting, no manual API calls.</li>
+          <li>Credentials stay on the server in a local <code>.env</code> file — never passed over the MCP connection itself.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Architecture</h2>
+        <ul class="list-clean">
+          <li><strong>Transport:</strong> stdio over SSH — the AI client SSHes into the LXC and pipes MCP protocol through the connection. No exposed HTTP port, no public auth surface.</li>
+          <li><strong>Runtime:</strong> Node.js 20 LTS, <code>@modelcontextprotocol/sdk</code> for the server framework, <code>zod</code> for input validation, <code>node-fetch</code> for API calls.</li>
+          <li><strong>Structure:</strong> <code>index.js</code> loads <code>.env</code>, imports all tool modules, registers each tool with the MCP server, starts stdio transport.</li>
+          <li><strong>Each module</strong> handles its own auth (Basic, Bearer, cookie, API key) and exposes named handler functions — <code>adguard.js</code>, <code>opnsense.js</code>, <code>proxmox.js</code>, <code>npmplus.js</code>, <code>mailcow.js</code>, <code>monitoring.js</code>, <code>services.js</code>.</li>
+          <li><strong>Proxmox access:</strong> SSH into firstmoon and use <code>pct exec</code> — no Proxmox API token needed for LXC command execution.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>55 Tools — Full Coverage</h2>
+          <p>Every major homelab service is callable from the AI chat interface.</p>
+        </div>
+      </div>
+
+      <div class="skill-grid four">
+        <div class="skill-box glass-panel">
+          <h3>AdGuard Home</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>List / add / delete DNS rewrites</li>
+            <li>Get / replace filtering rules</li>
+            <li>Recent DNS query log</li>
+            <li>Status and stats</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Proxmox</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>List all LXCs + status</li>
+            <li>Execute command in any LXC</li>
+            <li>Start / stop / container status</li>
+            <li>All 3 cluster nodes</li>
+            <li>Node CPU / RAM / uptime</li>
+            <li>Create LXC, trigger backup</li>
+            <li>List PBS backups</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>OPNsense</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>Raw API passthrough</li>
+            <li>DHCP leases (dnsmasq)</li>
+            <li>Firmware version / update info</li>
+            <li>Restart any service</li>
+            <li>List aliases + firewall rules</li>
+            <li>Add DHCP reservation</li>
+            <li>Interface list + ARP table</li>
+            <li>Add Unbound DNS override</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>NPMplus</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>List all 28 proxy hosts</li>
+            <li>Add / delete / update proxy host</li>
+            <li>Enable / disable proxy host</li>
+            <li>List + renew SSL certs</li>
+            <li>Find host by domain</li>
+            <li>Access / error logs</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Mailcow</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>List mailboxes</li>
+            <li>Add / delete mailbox</li>
+            <li>List + add aliases</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Monitoring</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>Uptime Kuma — all monitor statuses</li>
+            <li>Wazuh — recent security alerts</li>
+            <li>Wazuh — agent connection status</li>
+            <li>Proxmox backup job results</li>
+          </ul>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Services</h3>
+          <ul class="list-clean" style="font-size:0.85rem;margin-top:0.5rem;">
+            <li>Authentik users + applications</li>
+            <li>Headscale node list</li>
+            <li>Jellyfin status + recent media</li>
+            <li>Home Assistant entity states</li>
+            <li>Home Assistant service calls</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section three-column">
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Transport</span>
+        <h2>stdio over SSH</h2>
+        <p>The MCP server runs over stdio transport — the AI client SSHes into the LXC and pipes the MCP protocol through the connection. No HTTP port exposed to the network, no additional authentication surface. The SSH key is the only credential needed to connect.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Multi-client</span>
+        <h2>Works with Any MCP Client</h2>
+        <p>The same server config works with Claude Code, Gemini CLI, VS Code Copilot, and Cursor. Each client SSHes in and speaks the MCP protocol — the server doesn't care which client it's talking to. Add the server once, use it from any tool.</p>
+      </article>
+
+      <article class="detail-card glass-panel">
+        <span class="mini-label">Integration</span>
+        <h2>Auth Per Service</h2>
+        <p>Each tool module handles its own authentication independently — AdGuard uses Basic auth, OPNsense uses API key/secret, NPMplus uses a session cookie, Mailcow uses an API key header, Proxmox goes over SSH. Credentials are loaded from a local <code>.env</code> at startup and never touch the MCP connection.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Real Infrastructure Tasks Completed With It</h2>
+          <p>Things the AI called tools to fix directly — no terminal, no manual API calls.</p>
+        </div>
+      </div>
+      <div class="skill-grid four">
+        <div class="skill-box glass-panel">
+          <h3>NIC Swap Recovery</h3>
+          <p>Hardware swap broke all 11 VLANs (driver rename em0 → igc0). Used OPNsense tools to migrate VLAN parents and fix all 11 scrambled DHCP ranges end-to-end without manual API calls.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Proxy Host Audit</h3>
+          <p>Listed all 28 NPMplus hosts, tested every backend, diagnosed two failures (wrong path, firewall block), and fixed both — completely through tool calls in a single session.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Firewall Debugging</h3>
+          <p>Diagnosed a 502 on webmail by listing firewall rules, finding the RFC1918 block firing before the pass rule, and adding a correctly-sequenced pass rule via the OPNsense API.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>DNS + Service Ops</h3>
+          <p>Add DNS rewrites, check DHCP leases, restart services, query Wazuh alerts, check Uptime Kuma monitor status — all directly from the AI chat without opening a terminal.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>How It All Connects</h2>
+      <div class="flow-diagram" style="font-family:monospace;font-size:0.85rem;line-height:2;color:var(--text-secondary);overflow-x:auto;">
+        <pre style="margin:0;background:none;padding:0;">
+AI Client (Claude Code / Gemini CLI / VS Code / Cursor)
+    │  SSH connection → MCP LXC
+    │  stdio transport (MCP protocol)
+    ▼
+MCP Server (Node.js, LXC on Management VLAN)
+    ├─ adguard.js    → HTTP Basic auth  → AdGuard Home
+    ├─ proxmox.js    → SSH + pct exec   → Proxmox firstmoon
+    ├─ opnsense.js   → HTTPS API key    → OPNsense
+    ├─ npmplus.js    → HTTPS cookie     → NPMplus
+    ├─ mailcow.js    → HTTPS API key    → Mailcow
+    ├─ monitoring.js → HTTP / HTTPS     → Uptime Kuma, Wazuh
+    └─ services.js   → HTTPS tokens     → Authentik, Jellyfin, HA, Headscale
+        </pre>
+      </div>
+    </section>
+
+    <section class="section card callout">
+      <h2>What This Shows Employers</h2>
+      <p>
+        This isn't a demo project — it's running infrastructure I depend on for homelab management. I
+        identified a real workflow problem (manual API calls across 7 different services), designed a
+        solution using an emerging protocol (MCP), implemented it in Node.js with proper auth handling
+        for each service's auth model, deployed it on dedicated LXC infrastructure, and use it daily.
+        The engineering problems it surfaces — cookie auth vs Bearer, GET body rejection, firewall rule
+        ordering — are exactly the kind of integration friction that shows up in real IT environments.
+      </p>
+    </section>
+
+    <section id="contact" class="section card callout">
+      <div class="section-header">
+        <div>
+          <h2>Get In Touch</h2>
+          <p>Open to Junior Network Administrator, SOC Analyst, NOC, MSP, Help Desk, IT Support, and Cybersecurity Internship opportunities.</p>
+        </div>
+      </div>
+      <div class="contact-actions callout-actions">
+        <a href="mailto:nazeemdickey@masternazz.com" class="button">Email Me</a>
+        <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
+        <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/masternazz" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
+        Email: nazeemdickey@masternazz.com | Boynton Beach, FL
+      </p>
+    </section>
+
+    <div class="back-link">
+      <a href="../index.html">&larr; Back to homepage</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Homelab MCP Server by Nazeem Massoom Dickey.</p>
+  </footer>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

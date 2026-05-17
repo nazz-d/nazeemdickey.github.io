@@ -68,6 +68,29 @@
     <section class="section">
       <div class="section-header">
         <div>
+          <h2>Built: Self-Hosted MCP Server</h2>
+          <p>The most direct application of AI agent research — a production MCP server running on the homelab.</p>
+        </div>
+      </div>
+      <div class="project-grid">
+        <a href="writeup-mcp-server.html" class="project-card glass-panel">
+          <div class="project-top">
+            <span class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            </span>
+            <span class="project-type">Production Infrastructure</span>
+          </div>
+          <h3>Homelab MCP Server — 55 Tools</h3>
+          <p>Custom Node.js MCP server on a Proxmox LXC. 55 callable tools: OPNsense (DHCP, firewall, DNS, ARP), Proxmox (exec, start/stop, create LXC, backups), AdGuard, NPMplus (proxy hosts, certs), Mailcow, Wazuh (SIEM alerts, agent status), Uptime Kuma, Jellyfin, Home Assistant, Authentik, Headscale. Any MCP-compatible AI connects over SSH and gets full homelab API access.</p>
+          <div class="chip-row"><span class="chip">MCP</span><span class="chip">Node.js</span><span class="chip">55 tools</span><span class="chip">stdio</span></div>
+          <span class="card-link">Read writeup -&gt;</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
           <h2>Tools Under Research</h2>
           <p>Official CLI frameworks from the three major AI providers.</p>
         </div>
@@ -78,23 +101,23 @@
             <span class="project-type">Anthropic</span>
           </div>
           <h3>Claude Code</h3>
-          <p>Exploring the <code>claude</code> CLI for terminal-based engineering, file editing, and custom skill creation in IT workflows.</p>
-          <div class="chip-row"><span class="chip">CLI</span><span class="chip">Agentic</span><span class="chip">Automation</span></div>
+          <p>Using the <code>claude</code> CLI for terminal-based engineering, file editing, custom skills, and MCP server development. Primary tool for homelab automation and infrastructure management.</p>
+          <div class="chip-row"><span class="chip">CLI</span><span class="chip">Agentic</span><span class="chip">MCP</span></div>
         </div>
         <div class="project-card glass-panel">
           <div class="project-top">
             <span class="project-type">Google</span>
           </div>
           <h3>Gemini CLI</h3>
-          <p>Researching the <code>gemini</code> CLI for codebase investigation, multi-turn task orchestration, and SDK integration.</p>
-          <div class="chip-row"><span class="chip">CLI</span><span class="chip">Multi-turn</span><span class="chip">SDK</span></div>
+          <p>Researching the <code>gemini</code> CLI for codebase investigation, multi-turn task orchestration, and MCP server integration as a second AI client.</p>
+          <div class="chip-row"><span class="chip">CLI</span><span class="chip">Multi-turn</span><span class="chip">MCP</span></div>
         </div>
         <div class="project-card glass-panel">
           <div class="project-top">
             <span class="project-type">OpenAI</span>
           </div>
           <h3>OpenAI Codex</h3>
-          <p>Testing Codex for GitHub Actions automation and specialized plugin development for IDE companions.</p>
+          <p>Testing Codex for GitHub Actions automation and IDE companion workflows.</p>
           <div class="chip-row"><span class="chip">Codex</span><span class="chip">GitHub Actions</span><span class="chip">IDE</span></div>
         </div>
       </div>
@@ -104,21 +127,37 @@
       <div class="section-header">
         <div>
           <h2>Practical Applications</h2>
-          <p>Real tasks completed with agentic tools in my homelab and portfolio.</p>
+          <p>Real tasks completed with agentic tools — no terminal switching, no manual API calls.</p>
         </div>
       </div>
       <div class="skill-grid four">
         <div class="skill-box glass-panel">
-          <h3>Documentation Audits</h3>
-          <p>Using agents to crawl homelab docs and surface stale IP addresses or missing device descriptions.</p>
+          <h3>Network Recovery</h3>
+          <p>After a NIC swap broke all 11 VLANs, used AI + MCP tools to diagnose the interface driver change, migrate VLAN parents via OPNsense API, and fix all scrambled DHCP ranges — entirely through tool calls.</p>
         </div>
         <div class="skill-box glass-panel">
-          <h3>Diagram Precision</h3>
-          <p>Leveraging AI to fix z-order overlaps and alignment in SVG architecture diagrams.</p>
+          <h3>Proxy Host Audit</h3>
+          <p>Called <code>npmplus_list_proxyhosts</code>, tested all 28 backends, diagnosed a 404 (wrong path) and 502 (firewall block), and fixed both — without leaving the chat window.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Firewall Debugging</h3>
+          <p>Diagnosed a webmail 502 by listing firewall rules, identifying a RFC1918 block hitting before the pass rule, and re-adding the pass rule with the correct sequence number via API.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Documentation Audits</h3>
+          <p>Using agents to crawl homelab docs, surface stale IPs, and audit all 28 proxy hosts for reachability. Finds what manual review misses.</p>
         </div>
         <div class="skill-box glass-panel">
           <h3>Resume Export</h3>
           <p>Custom Playwright scripts with AI assistance to measure and export single-page PDFs for ATS and styled resumes.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Diagram Precision</h3>
+          <p>Leveraging AI to fix z-order overlaps, straighten arrows, and align elements in SVG architecture diagrams across 21 files.</p>
+        </div>
+        <div class="skill-box glass-panel">
+          <h3>Service Ops via Chat</h3>
+          <p>Add DNS rewrites, check DHCP leases, query Wazuh alerts, restart services, check Uptime Kuma — all through AI tool calls without opening a terminal.</p>
         </div>
         <div class="skill-box glass-panel">
           <h3>Governance — AB-900</h3>
@@ -192,13 +231,13 @@
         </div>
       </div>
       <div class="contact-actions callout-actions">
-        <a href="mailto:NazeemDickey@gmail.com" class="button">Email Me</a>
+        <a href="mailto:nazeemdickey@masternazz.com" class="button">Email Me</a>
         <button type="button" class="button secondary" onclick="copyEmail()">Copy Email</button>
         <a href="https://www.linkedin.com/in/nazeemdickey/" class="button secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/masternazz" class="button secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
       <p class="contact-line callout-contact-line" id="emailText" aria-live="polite">
-        Email: NazeemDickey@gmail.com | Boynton Beach, FL
+        Email: nazeemdickey@masternazz.com | Boynton Beach, FL
       </p>
     </section>
 
